@@ -1,0 +1,100 @@
+
+html {
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  margin:0;
+  padding:0;
+	background-color:white;
+}
+
+body {
+  font-family:"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:1.5em;
+  line-height:1.846;
+  color:#555;
+  margin:70px 0 0 0;
+  background-color:white;
+  padding:0;
+}
+
+input,button,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit;margin-bottom:2px;}
+a{color:#333;text-decoration:underline;font-weight:700;}
+a:hover, a:focus{color:#666;text-decoration:none}
+a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
+
+.container-fluid {
+  margin:0 auto 0 auto;
+  padding-left:15px;
+  padding-right:15px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family:"Times New Roman";
+  font-weight:bold;
+}
+
+.form-control {
+    font-family: "Times New Roman";
+}
+
+.navbar-brand {
+    height: 40px;
+    font-size: 30px;
+}
+
+
+.panel {
+  border-top-width: 5px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-color: #0e8293;
+  background-color: #eaeaea;
+  /*height: 220px;*/
+  border-radius: 0px;
+}
+
+.btn {
+    color: white;
+    font-family: "Times New Roman";
+    font-size: 20px;
+    border-radius: 0px;
+    border-width: 0px;
+}
+
+.btn-default {
+    background-color: grey;
+
+}
+
+.btn-default:hover {
+    background-color: #FFC805;
+}
+
+.btn-default:active {
+    background-color: white;
+}
+
+.btn-primary {
+    background-color: #0e8293;
+}
+
+.btn-primary:hover {
+    background-color: #FFC805;
+    color: black;
+
+}
+
+.status {
+    background-color: #f0f0f0;
+    /* height: 40px; */
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-style: solid;
+    border-color: #eaeaea;
+
+}

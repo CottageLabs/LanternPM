@@ -11,6 +11,10 @@ Put static files in the static directory.
 
 When happy, run node build.js
 
+(To get it to work you will have to install node on your system, and it requires fs, crypto, uglify-js, uglifycss, handlebars, and marked. 
+Installing node is just a one-liner usually, and then installing the packages with npm is very straighforward too, just google it. For 
+easiest approach install globally with sudo.)
+
 This generates a serve folder full of complete static html pages that you can use and view as normal.
 
 DO NOT PUT ANYTHING IMPORTANT IN THE SERVE FOLDER, IT WILL GET OVEWRITTEN EVERY TIME.

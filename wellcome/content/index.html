@@ -1,0 +1,48 @@
+
+<div class="container-fluid uploader" style="max-width:1200px;margin-top:100px;margin-bottom:200px;">
+	<div class="row">
+    <div class="col-md-offset-3 col-md-6" style="padding:0px 20px 0px 0px;">
+    	<h1 style="text-align:center;">Upload a CSV</h1>
+    	<p>You can export a CSV from Excel, then upload it here.  See the <a href="/docs">documentation</a> for more details.</p>
+			<form class="contact-form">
+				<div class="well" style="border-top:5px solid #0e8293;">
+					<input type="file" name="upload" id="upload" class="form-control" style="height:45px;">
+					<input class="form-control" id="email" name="email" placeholder="Email (required)" type="email" value="" style="height:45px;">
+				</div>
+        <input type="submit" class="submit form-control" id="lanternmulti" name="submit" value="Submit" style="background-color:grey;color:white;font-size:1.4em;height:50px;">
+        <input type="submit" class="submit form-control disabled" id="submitting" name="submitting" value="Submitting, please wait" style="display:none;background-color:grey;color:white;font-size:1.4em;height:50px;">
+      	<div id="errormsg" style="display:none;" class="alert alert-warning"></div>
+			</form>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" id="poller" style="max-width:1200px;margin-top:100px;margin-bottom:200px;display:none;">
+	<div class="row">
+    <div class="col-md-offset-3 col-md-6" id="pollinfo" style="padding:0px 20px 0px 0px;">
+		</div>
+	</div>
+</div>
+
+<div style="width:100%;border-top:1px solid #000000"></div>
+
+<div class="container-fluid" style="max-width:1200px;">
+	<div class="row">
+		<div class="col-md-12" style="padding-bottom:100px">
+			<p class="pull-right">&copy; Cottage Labs 2016</p>
+		</div>
+	</div>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+
+  clogin.init({
+		apikey:'c378dd3059d64aec51c9b31536c3f4',
+		api:'https://dev.api.cottagelabs.com/accounts',
+		afterLogin:lantern.startup
+	});
+	
+});
+
+</script>

@@ -1,0 +1,1 @@
+../../lantern/static/lantern.js

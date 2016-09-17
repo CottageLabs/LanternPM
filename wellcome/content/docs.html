@@ -1,0 +1,262 @@
+
+<div id="simple-documentation">
+    <div class="container">
+        <div class="content">
+            
+            <h2>How does it work?</h2>
+            
+<p>This tool allows you to upload a CSV containing a list of identifiers and other metadata for the purposes of checking whether the articles listed meet the compliance criteria for the Wellcome Trust.</p>
+
+<p>Simply export a CSV from your favourite spreadsheet program (e.g. Excel), and upload it. We will then go off and inspect all the identifiers and gather together your compliance information. You will be able to monitor the progress from your upload page, and download the results at any point during the run, or at the end when it is finished. We will also email you the completed spreadsheet when it is done.</p>
+
+<p>Please note results will be cached for <strong>one day</strong>. For example, if the licence information for an article you have run through this tool changes in Europe PMC or on the publisher's website, it would take up to 24 hours before running the same article would show you the new licence.</p>
+
+<p>Below are some detailed documentation on the input spreadsheet format and the format in which you will receive the results.</p>
+
+        </div>
+    </div>
+</div>
+
+<div id="input-documentation">
+    <div class="container">
+        <div class="content">
+            
+            <h2><a name="input"></a>Input Spreadsheet Format</h2>
+			
+			<p>Spreadsheets should be uploaded according to the Wellcome Trust Master Spreadsheet Format.  This means that
+any of the following column headers may be present:</p>
+
+<ul>
+    <li>University</li>
+    <li>PMCID</li>
+    <li>PMID</li>
+    <li>DOI</li>
+    <li>Publisher</li>
+    <li>Journal title</li>
+    <li>Article title</li>
+    <li>Publication Date</li>
+    <li>Title of paper (shortened)</li>
+    <li>Author(s)</li>
+    <li>Grant References</li>
+    <li>Total cost of Article Processing Charge (APC), in £</li>
+    <li>Amount of APC charged to Wellcome OA grant, in £ (see comment)</li>
+    <li>VAT charged</li>
+    <li>COST (£)</li>
+    <li>Wellcome grant</li>
+    <li>Licence info</li>
+    <li>Notes</li>
+</ul>
+
+In order for a successful processing of your records to take place, AT LEAST one of the following needs to be present:
+
+<ul>
+    <li>PMCID</li>
+    <li>PMID</li>
+    <li>DOI</li>
+    <li>Article title</li>
+</ul>
+
+<p>You may omit any number of columns from the full list, provided that one of the above is present.</p>
+
+<p>Any column that is present that does not correspond <strong>exactly</strong> to one of the above headers will be ignored.</p>
+
+<p>The system will ignore any blank rows in the input sheet.  This is usually the right thing to do - ignoring excess blank lines
+at the end of the file which may get exported from your spreadsheet software.  But, it will also ignore blank lines anywhere in the
+input, so it is strongly recommended you avoid having any.</p>
+
+<p><strong>NOTE</strong> - The application works best with CSVs which are UTF-8 encoded.  Non-UTF-8 encoded sheets (such as those
+exported by Excel by default) should still work, though you may notice character encoding issues in the results.</p>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="advanced-documentation">
+    <div class="container">
+        <div class="content">
+            
+            <h2><a name="advanced"></a>Output Spreadsheet Format</h2>
+            
+<p>When you download your processed spreadsheet, it will reflect back at you any columns that you uploaded which are part of the
+    Wellcome Trust Master Spreadsheet Format, and add a number of other compliance analysis columns.
+    Those additional columns can be interpreted as described below.</p>
+
+<p>Note that if you provide any of the columns below yourself, any data that you provide will be overwritten. The only exception is the Article title column - if you supply a title for an article, <em>your title</em> will be used in EPMC and other lookups. Therefore it is not overwritten, so you can clearly see what title was used in gathering compliance information in all the other columns.</p>
+            
+<table class="fields">
+    <thead>
+        <tr>
+            <td width="30%"><strong class="step">Field</strong></td>
+            <td width="70%"><strong class="step">Description</strong></td>
+        </tr>
+    </thead>
+    <tbody>
+		<tr>
+            <td><strong>PMCID</strong></td>
+            <td>The <a href="http://europepmc.org">EuropePMC</a> identifier for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you. If we find a different PMCID to the one you have provided, we will overwrite data in this column. In virtually all cases this means the PMCID you provided was incorrect, since a different one was found via our lookups, and articles should really ever have only one PMCID.</td>
+        </tr>
+		<tr>
+            <td><strong>PMID</strong></td>
+            <td>The <a href="http://www.ncbi.nlm.nih.gov/pubmed">PubMed</a> identifier for the article.  You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you. If we find a different PMID to the one you have provided, we will overwrite data in this column. In virtually all cases this means the PMID you provided was incorrect, since a different one was found via our lookups, and articles should really ever have only one PMID.</td>
+        </tr>
+		<tr>
+            <td><strong>DOI</strong></td>
+            <td>The DOI for the article.  You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you. If we find a different DOI to the one you have provided, we will overwrite data in this column. In virtually all cases this means the DOI you provided was incorrect, since a different one was found via our lookups, and articles should really ever have only one DOI.</td>
+        </tr>
+		<tr>
+            <td><strong>Publisher</strong></td>
+            <td>The Publisher of the Journal in which the article was published. First we will attempt to get this information from Crossref, if the article has a DOI that you have uploaded or that we have found. If you have uploaded (or we have discovered) an ISSN, and we could not determine the publisher from Crossref, then we will try to get it from DOAJ Journal metadata. If it's not there, we'll finally try Sherpa Romeo Journal policy metadata before giving up.</td>
+        </tr>
+		<tr>
+            <td><strong>Journal title</strong></td>
+            <td>The name of the Journal in which the article was published.</td>
+        </tr>
+		<tr>
+            <td><strong>ISSN</strong></td>
+            <td>The ISSN(s) of the Journal in which the article was published; if more than one ISSN is found (e.g. the Print ISSN, Electronic ISSN or Linking ISSN) then they will be presented as a comma-separated list.</td>
+        </tr>
+		<tr>
+            <td><strong>Article title</strong></td>
+            <td>The title of the article. If you upload an article title we will not override it with titles we may discover in Crossref or CORE (in that order of preference).</td>
+        </tr>
+		<tr>
+            <td><strong>Publication Date</strong></td>
+            <td>The date the publisher made the article available (either in print or electronically).  The date may contain both the year and month, or only the year, depending on what data is available.  If no publication date can be found this column will contain the text "Unavailable".</td>
+        </tr>
+		<tr>
+            <td><strong>Electronic Publication Date</strong></td>
+            <td>The date the publisher made the article available online.  The date will be in the form YYYY-MM-DD (e.g. 2011-03-21).  If no electronic publication date can be found this column will contain the text "Unavailable".</td>
+        </tr>
+		<tr>
+            <td><strong>Author(s)</strong></td>
+            <td>List of the article's authors. First, we look for this information in Europe Pubmed Central. Then we check CrossRef. Finally we check CORE.</td>
+        </tr>
+        <tr>
+            <td><strong>Fulltext in EPMC?</strong></td>
+            <td>Does the fulltext of the article appear in some form in <a href="http://europepmc.org">Europe PMC</a>?  This is equivalent to the Europe PMC metadata record asserting <strong>inEPMC: Y</strong> .</td>
+        </tr>
+        <tr>
+            <td><strong>XML Fulltext?</strong></td>
+            <td>Is the XML version of the fulltext of the article freely available in <a href="http://europepmc.org">Europe PMC</a>? This will be a subset of those articles where the fulltext appears in some form. All articles in the <a href="http://europepmc.org/downloads/openaccess">Open Access subset</a> SHOULD have this content available. We check by attempting to fetch <a href="http://www.ebi.ac.uk/europepmc/webservices/rest/INSERT_PMCID_HERE/fullTextXML">http://www.ebi.ac.uk/europepmc/webservices/rest/INSERT_PMCID_HERE/fullTextXML</a> .</td>
+        </tr>
+        <tr>
+            <td><strong>Author Manuscript?</strong></td>
+            <td>Is the copy of the paper in <a href="http://europepmc.org">Europe PMC</a> the Accepted Authors Manuscript (AAM)?  If the XML fulltext is present in Europe PMC then this information will be lifted from there, otherwise we page-scrape the Europe PMC web page for the article to detect whether it is the author manuscript.</td>
+        </tr>
+		<tr>
+            <td><strong>Ahead of Print?</strong></td>
+            <td>Some journals release articles “ahead of print” before assigning them to an issue and depositing them in Europe PMC. If the full text of an article is not in Europe PMC this field will tell you whether the article has only been published ahead of print (TRUE), or whether it has been assigned to an issue (FALSE). If the full text is in Europe PMC this will be "not applicable". If we are unable to determine the status of the article this will be "unknown". We determine Ahead of Print? information by looking at Pubmed metadata (so the article must have a PMID that you supply to us or that we discover via other identifiers you have supplied). Currently we follow <a href="http://www.ncbi.nlm.nih.gov/pubmed/INSERT_PMID_HERE?report=xml">http://www.ncbi.nlm.nih.gov/pubmed/INSERT_PMID_HERE?report=xml</a> and we look for a "PublicationStatus" element with a value "aheadofprint".</td>
+        </tr>
+        <tr>
+            <td><strong>Open Access?</strong></td>
+            <td>Is the article in the <a href="http://europepmc.org">Europe PMC</a> Open Access subset?  This is equivalent to the Europe PMC metadata record asserting <strong>isOpenAccess: Y</strong> .</td>
+        </tr>
+		<tr>
+            <td><strong>Journal Type</strong></td>
+            <td>
+                <p>Whether this is a hybrid or pure Open Access journal.  Determined by whether the journal is present in the <a href="http://doaj.org">DOAJ</a>.</p>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>Correct Article Confidence</strong></td>
+            <td>
+                <p>What level of confidence does the system have that it has successfully identified and analysed the correct article?</p>
+                <p>Since there are different ways we might identify the article, we may not always be 100% certain that we have found the correct one.  Values in this column are:</p>
+                <ol>
+                    <li><strong>1</strong> - we are certain this is the right article for the identifiers provided.  This is because we found an exact match to the PMCID, PMID or DOI</li>
+                    <li><strong>0.9</strong> - we are almost certain this is the right article, as we identified it by exact title match, and there was only one result</li>
+                    <li><strong>0.7</strong> - we are pretty sure this is the right article, as we identified it with a title keyword search, and there was only one result</li>
+                </ol>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>Standard Compliance?</strong></td>
+            <td>
+                <p>Does the result of the analysis live up to the requirements of Wellcome's Standard Compliance criteria?</p>
+
+<p>These criteria are:</p>
+
+<ul>
+<li>IF full-text is in Europe PMC AND it is an author manuscript THEN compliance = TRUE</li>
+<li>IF full-text is in Europe PMC AND the licence in Europe PMC is CC BY or CC0 THEN compliance = TRUE</li>
+</ul>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>Deluxe Compliance?</strong></td>
+            <td>
+                <p>Does the result of the analysis live up to the requirements of Wellcome's Deluxe Compliance criteria?</p>
+
+<p>These criteria are:</p>
+
+<ul>
+<li>IF full-text is in Europe PMC AND it is an author manuscript THEN compliance = TRUE</li>
+<li>IF full-text is in Europe PMC AND the licence in Europe PMC is CC BY or CC0 AND the article is in the open access subset THEN compliance = TRUE</li>
+</ul>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>Publisher Licence</strong></td>
+            <td>
+                <p>What licence, if any, were we able to detect for the article from the publisher's web page.  This will be "not applicable" if the licence was found elsewhere, or "unknown" if the licence could not be detected on the publisher's site.  Otherwise it will contain the name of the licence found.</p>
+            </td>
+        </tr>        
+		<tr>
+            <td><strong>EPMC Licence</strong></td>
+            <td>
+                <p>What licence, if any, were we able to detect for the article in Europe PMC.  If this field shows "unknown" you should also check the Publisher Licence column for information.</p>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>EPMC Licence Source</strong></td>
+            <td>
+                <p>Where in Europe PMC did we find the licence information contained in the <strong>EPMC Licence</strong> column?</p>
+                <ol>
+                    <li><strong>epmc_xml_permissions</strong> - Detected in the Europe PMC Fulltext XML under the permissions section</li>
+                    <li><strong>epmc_xml_outside_permissions</strong> - Detected elsewhere in the Europe PMC Fulltext XML</li>
+                    <li><strong>epmc_html</strong> - Detected on the Europe PMC web page (via page scraping)</li>
+                    <li><strong>unknown</strong> - We were unable to determine a licence for this article</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Grant {X}</strong></td>
+            <td>
+                <p>Grant Number associated with this article.</p>
+				<p>This is a repeated column, where {X} is a number used to identify the column, and to associate it with the related "Agency {X}" and "PI {X}" columns.</p>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>Agency {X}</strong></td>
+            <td>
+                <p>Agency responsible for funding this article</p>
+				<p>This is a repeated column, where {X} is a number used to identify the column, and to associate it with the related "Grant {X}" and "PI {X}" columns.</p>
+            </td>
+        </tr>
+		<tr>
+            <td><strong>PI {X}</strong></td>
+            <td>
+                <p>The Principal Investigator of the grant associated with this article</p>
+				<p>This is a repeated column, where {X} is a number used to identify the column, and to associate it with the related "Grant {X}" and "Agency {X}" columns.</p>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Compliance Processing Output</strong></td>
+            <td>
+                <p>This field contains detailed logging and provenance information for the processing run, allowing you to understand on a case-by-case basis how the decisions and analysis were made.</p>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+jQuery(document).ready(function() {
+});
+</script>

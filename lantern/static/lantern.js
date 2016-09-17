@@ -1,4 +1,3 @@
-	
 	var lantern = {
 		apibaseurl: 'https://dev.api.cottagelabs.com',
 		file: undefined,
@@ -210,7 +209,6 @@
 	lantern.startup = function() {
 	  $('input[type=file]').on('change', lantern.prep);
 	  $('#lanternmulti').bind('click',lantern.submit);
-		document.title = 'CL Lantern';
 		$('#footer').hide();
 		if (window.location.hash && window.location.hash.replace('#','').length === 17) { // our job IDs are 17 digits long
 			setTimeout(function() {$('.uploader').hide();},200);
