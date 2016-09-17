@@ -1,0 +1,475 @@
+<style>
+
+body {
+	margin-top: 0px;
+}
+
+a {
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #555;
+	text-decoration: none;
+}
+
+.step {
+	font-size: 130%;
+}
+
+.examplecsv {
+	background: #ffffff;
+	border: 1px solid #000000;
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.examplecsv thead {
+	font-weight: bold;
+}
+
+.examplecsv td {
+	border: 1px solid #000000;
+	padding: 10px;
+}
+
+.endpoints tr {
+	border-bottom: 1px solid #000000;
+}
+
+.endpoints td {
+	vertical-align: top;
+	padding: 10px;
+}
+
+#topstrap {
+	background: #252e2b;
+}
+
+#topstrap h1 {
+	color: #ffffff;
+	font-family:Raleway;
+    font-weight:bold;
+}
+
+#topstrap a {
+	color: #ffffff;
+	text-decoration:none;
+}
+
+#topstrap a:hover {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+pre {
+	padding: 20px;
+	background: #eeeeee;
+}
+
+</style>
+
+<div id="topstrap">
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1><a href="/">LANTERN</a></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="simple-documentation">
+    <div class="container">
+        <div class="content">
+			<h2>Lantern API</h2>
+			
+			<p>The Lantern API gives you the ability to create new requests for compliance information, and to query those requests to monitor their progress, and to query your account for information about all your requests.</p>
+
+			<p>The <strong>base url</strong> for the API is: <a href="https://api.lantern.cottagelabs.com">https://api.lantern.cottagelabs.com</a></p>
+			
+			<p>In order to use the Lantern API you'll need your API Key, which you can get from your <a href="#">User Profile</a> page.</p>
+
+			<p>The following table summarises the API endpoints available to you:</p>
+
+			<table class="endpoints">
+				<thead>
+					<tr>
+						<td>Endpoint</td>
+						<td>Method</td>
+						<td>Summary</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>/</td>
+						<td>GET</td>
+						<td>Confirms that the service is present</td>
+					</tr>
+					<tr>
+						<td>/</td>
+						<td>POST</td>
+						<td>Allows you to create a new job by sending a suitable JSON document</td>
+					</tr>
+					<tr>
+						<td>/:job</td>
+						<td>GET</td>
+						<td>Show the current job, containing all the identifier information provided when it was created</td>
+					</tr>
+					<tr>
+						<td>/:job/original</td>
+						<td>GET</td>
+						<td>Get the original data uploaded for the requested :job as a CSV text string</td>
+					</tr>
+					<tr>
+						<td>/:job/progress</td>
+						<td>GET</td>
+						<td>Information about the progress of the :job</td>
+					</tr>
+					<tr>
+						<td>/:job/todo</td>
+						<td>GET</td>
+						<td>Information about the items in the request which are still pending</td>
+					</tr>
+					<tr>
+						<td>/:job/results</td>
+						<td>GET</td>
+						<td>Returns the processed records, as JSON or CSV (specify ?format=csv)</td>
+					</tr>
+					<tr>
+						<td>/jobs/:email</td>
+						<td>GET</td>
+						<td>Information for all jobs under the specified account address</td>
+					</tr>
+					<tr>
+						<td>/quota/:email</td>
+						<td>GET</td>
+						<td>Information about the quota for the specified account address</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<h3>Creating a new Job</h3>
+
+			<p>To create a new job, simply POST the JSON of your request to the root of the api:</p>
+
+<pre>
+POST /?apikey=[api key]
+Content-Type: application/json; charset=UTF-8
+
+[Job request body]
+</pre>
+
+The job request is of the form:
+
+<pre>
+{
+	email: "[your email address]",
+	filename: "[the name you want to give the data you upload]",
+	list : [
+		{
+			"Article title" : "[title of the article]",
+			"DOI" : "[article DOI]",
+			"PMCID" : "[Europe PMC identifier for the article (starting with 'PMC')]",
+			"PMID" : "[PubMed identifier for the article]"
+		}
+	]
+}
+</pre>
+
+<p>In order for a requested in the list to be valid, it must contain at least one of the 4 identifiers, and it is strongly recommended that you do not submit requests only for titles.</p>
+
+<p>You may supply a maximum of 3000 identifiers per job (for Premium Account holders only).</p>
+
+<p>In response you will receive something of the following form:</p>
+
+<pre>
+{
+	'status': 'success', 
+	'data': {
+		'max': 3000, 
+		'job': '[your job id - you will need this in other API requests]', 
+		'length': 20,
+		'quota': {
+			'count': 20,
+			'available': 99980, 
+			'premium': False, 
+			'additional': 0, 
+			'admin': False, 
+			'max': 100000, 
+			'display': False, 
+			'until': False, 
+			'allowed': True, 
+			'email': 'lantern@oneoverzero.com'
+		}
+	}
+}
+</pre>
+
+<h3>Get information about a current job</h3>
+
+<p>This allows you to retrieve the list of identifiers associated with a given Job.</p>
+
+<pre>
+GET /:job?apikey=[api key]
+</pre>
+
+<p>This will return something of the following form:</p>
+
+<pre>
+{
+	'status': 'success', 
+	'data': {
+		'list': [
+			{
+				'process': '[per-identifier process id]',
+				'PMID': '[pubmed id]',
+				'DOI': '[doi]',
+				'pmcid': '[EuropePMC id]',
+				'title': '[Article title]'
+			},
+			... all identifiers in this job ...
+		]
+	}
+}
+</pre>
+
+<h3>Get a CSV text-string of the current job</h3>
+
+<p>This allows you to download a CSV equivalent of the job, suitable for opening directy in Excel.</p>
+
+<pre>
+GET /:job/original?apikey=[api key]
+</pre>
+
+<p>You will get back a CSV with the headers:</p>
+
+<ul>
+	<li>DOI</li>
+	<li>PMID</li>
+	<li>PMCID</li>
+	<li>Article title</li>
+</ul>
+
+<h3>Get a progress report of the current job</h3>
+
+<p>This allows you to track the ongoing progress of your job</p>
+
+<pre>
+GET /:job/progress?apikey=[api key]
+</pre>
+
+<p>You will get back a JSON document of the following structure:</p>
+
+<pre>
+{
+	'status': u'success',
+	'data': {
+		'progress': 0, 
+		'_id': '[your job id]',
+		'email': u'[your account email address]'
+	}
+}
+</pre>
+
+<p>The progress gives you a floating point number between 0 and 100, which is the % complete of the job.</p>
+
+<h3>Get a list of identifiers which still remain to be processed</h3>
+
+<p>This will give you back a subset of the identifiers in your original job that still remain to be processed.</p>
+
+<pre>
+GET /:job/todo?apikey=[api key]
+</pre>
+
+<p>You will get back a JSON document of the following structure:</p>
+
+<pre>
+{
+	'status': u'success',
+	'data': [
+		{
+			'process': 'hf7XTb4t3FiFDMoiH',
+			'PMID': '',
+			'DOI': '',
+			'pmcid':'4160115',
+			'title': u'Addressing the appropriateness of elective colon resection for diverticulitis'
+		},
+		... all unprocessed identifiers in this job ...
+	]
+}
+</pre>
+
+<h3>Get a list of the processed records and their results</h3>
+
+<p>When you are ready to download your full results (when the progress endpoint indicates 100%), or your partial results (at any time during the job processing run), you can request them from this endpoint</p>
+
+<pre>
+GET /:job/results?apikey=[api key]&format=[json|csv]
+</pre>
+
+
+<p>If you request format=json (the default, if you omit it) you will get back a JSON document of the following structure:</p>
+
+<pre>
+{
+	status: "success",
+	data: [
+		{
+			_id: "hf7XTb4t3FiFDMoiH",
+			pmcid: "PMC4160115",
+			pmid: "25115429",
+			doi: "10.1097/sla.0000000000000894",
+			title: "Addressing the appropriateness of elective colon resection for diverticulitis",
+			journal: {
+				in_doaj: false,
+				title: "Annals of surgery",
+				issn: "0003-4932",
+				eissn: "1528-1140",
+				dateOfPublication: "2014 Sep"
+			},
+			publisher: "Ovid Technologies (Wolters Kluwer Health)",
+			confidence: 1,
+			in_epmc: true,
+			is_aam: true,
+			is_oa: false,
+			aheadofprint: null,
+			has_fulltext_xml: false,
+			licence: "non-standard-licence",
+			epmc_licence: "non-standard-licence",
+			licence_source: "epmc_html",
+			epmc_licence_source: "epmc_html",
+			romeo_colour: "yellow",
+			embargo: {
+				preprint: false,
+				postprint: false,
+				pdf: false
+			},
+			archiving: {
+				preprint: false,
+				postprint: false,
+				pdf: false
+			},
+			author: [
+				{
+					fullName: "Simianu VV",
+					firstName: "Vlad V",
+					lastName: "Simianu",
+					initials: "VV",
+					affiliation: "Department of Surgery, University of Washington",
+					authorId: {
+						type: "ORCID",
+						value: "0000-0001-9535-022X"
+					}
+				}
+			],
+			repositories: [
+				"Aberdeen University Research Archive"
+			],
+			grants: [
+				{
+					grantId: "MR/K026992/1",
+					agency: "Medical Research Council",
+					orderIn: 0,
+					PI: "Professor Ian Deary"
+				}
+			],
+			provenance: [
+				"Added PMCID from EUPMC",
+				"Added PMID from EUPMC",
+				"Added DOI from EUPMC",
+				"Confirmed is in EUPMC",
+				"Added journal title from EUPMC",
+				"Added eissn from EUPMC",
+				"Added issn from EUPMC",
+				"Added grants data from EUPMC",
+				"Added date of publication from EUPMC",
+				"Added EPMC licence from epmc_html. ",
+				"Added author list from EUPMC",
+				"Checked author manuscript status in EUPMC, returned Y_IN_EPMC_SPLASHPAGE",
+				"Added publisher name from Crossref",
+				"Could not find DOI in CORE",
+				"Could not find journal in DOAJ",
+				"Added embargo and archiving data from Sherpa Romeo",
+				"Unable to retrieve licence data via article publisher splash page lookup (used to be OAG)."
+			],
+			publisher_licence_check_ran: true,
+			publisher_licence: "unknown",
+			createdAt: 1470153620775,
+			PMID: "",
+			DOI: "",
+			process: "hf7XTb4t3FiFDMoiH"
+		}
+</pre>
+
+<p>If you request format=csv you will get back a CSV which will be formatted as per the <a href="/docs">user documentation</a>.
+
+
+<h3>List your current and previous jobs</h3>
+
+<p>If you want to see a history of the jobs you've created in the system, you can use the following:</p>
+
+<pre>
+GET /jobs/:email?apikey=[api key]
+</pre>
+
+<p>(don't forget to URL encode your email address)</p>
+
+<p>You'll get a response of the following form:</p>
+
+<pre>
+{
+	'status': 'success',
+	'data': {
+		'total': 14, 
+		'jobs': [
+			{
+				'processes': 20, 
+				'refresh': 1, 
+				'done': True, 
+				'_id': '[job id]', 
+				'email': '[your email]',
+				'createdAt': 1469803001259
+			},
+			... all your jobs ...
+		]
+	}
+}
+</pre>
+
+<h3>Check your account quota</h3>
+
+<p>All accounts have quotas depending on their priviledge level.  You can use this endpoint to check you total monthly quota, and how much of it you've currently used</p>
+
+<pre>
+GET /quota/:email?apikey=[api key]
+</pre>
+
+<p>You'll get a response of the following form:</p>
+
+<pre>
+{
+	'status': 'success',
+	'data': {
+		'count': 280,
+		'available': 4720,
+		'premium': True,
+		'additional': 0,
+		'admin': False,
+		'max': 5000,
+		'display': False,
+		'until': False,
+		'allowed': True,
+		'email': '[your email]'
+	}
+}
+</pre>
+
+<p>This example shows a Premium Account (with a maximum allowance of 5000 identifiers per month) which has run 280 identifiers this month, leaving 4720 remaining.</p>
+
+
+		</div>
+	</div>
+</div>

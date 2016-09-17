@@ -1,0 +1,126 @@
+
+html {
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  margin:0;
+  padding:0;
+}
+
+body {
+  font-family:"Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:1.5em;
+  line-height:1.846;
+  color:#555;
+  margin:70px 0 0 0;
+  background-color:#333;
+  padding:0;
+}
+
+input,button,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit;margin-bottom:2px;}
+a{color:#ffffff;text-decoration:underline;font-weight:700;}
+a:hover, a:focus{color:#ffffff;text-decoration:none}
+a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
+
+.container-fluid {
+  margin:0 auto 0 auto;
+  padding-left:15px;
+  padding-right:15px;
+}
+
+p {
+  color:white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family:Raleway;
+  font-weight:bold;
+}
+
+h1 a {
+  color: #555;
+  text-decoration: none;
+}
+
+h1 a:hover {
+  color: #555;
+  text-decoration: none;
+}
+
+h2 {
+	color: #999;
+}
+
+li {
+	color:white;
+}
+	
+
+.contact-form {
+  margin-bottom: 0;	
+}
+
+.contact-form p {
+  margin-bottom: 1px;	
+}
+
+.contact-form input,
+.contact-form textarea {
+    border: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+    border-radius: 0;
+
+    -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  background: #555;
+    color: #c9d2d4;
+    font-size: 100%;
+    height: auto;
+    padding: 5px;
+  margin: 0 0 4px 0;
+
+    resize: none;
+}
+
+.contact-form input {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.contact-form textarea {
+  width: 100%;
+  resize: vertical;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.contact-form .submit {
+  background: #555;
+  color: #c9d2d4;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+
+  -webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+  -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+  -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+  transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+
+.contact-form .submit:hover {
+    background: #999;
+    color: #333;
+}
+	
+.btn {
+  text-decoration: none;
+}

@@ -1,0 +1,132 @@
+
+<div class="container-fluid" style="max-width:1000px;margin-top:100px;">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="well" style="background-color:#c9d2d4;min-height:240px;">
+				<h1 style="font-size:90px;text-align:center;"><a href="/">LANTERN</a></h1>
+				<p style="text-align:center;font-size:25px;color:#555;">SHINING A LIGHT ON OPEN ACCESS</p>
+      </div>
+    </div>
+    <div class="col-md-6 notcloggedin">
+      <div class="well" id="cloginArea" style="background-color:#c9d2d4;min-height:240px;">
+        <div id="cloginEmailArea">
+					<p style="margin-bottom:20px;">
+						Sign up, it's free! Just enter your email address and we'll send you a login code.
+					</p>
+          <input type="text" class="form-control" id="cloginEmail" placeholder="Enter your email address">
+          <button id="cloginSubmit" type="submit" class="btn btn-block" style="border:1px solid white;margin-top:5px;">Sign up / Login</button>
+        </div>
+        <div id="cloginTokenArea" style="display:none;">
+          <input type="text" class="form-control" id="cloginToken" placeholder="Check your email - click the link in the email, or enter your login code here">
+          <button id="cloginSubmitToken" type="submit" class="btn btn-block" style="border:1px solid white;margin-top:5px;">Login</button>
+        </div>
+        <div id="cloginMessages" style="margin-top:5px;"></div>
+      </div>
+    </div>
+    <div class="col-md-6 cloggedin uploader">
+			<div class="well" style="background-color:#c9d2d4;min-height:240px;">
+				<p style="color:#333;">Provide one identifier, or upload a CSV file:</p>
+				<form class="contact-form">
+					<input id="ident" name="ident" type="text" value="" placeholder="DOI, PMID, or PMCID">
+					<input type="file" name="upload" id="upload" class="form-control" style="padding-bottom:10px;">
+					<div class="well" style="display:none;" id="review">
+					</div>
+					<input type="submit" class="submit" id="lanternmulti" name="submit" value="Submit" style="margin-bottom:-5px;">
+					<input type="submit" class="submit form-control disabled" id="submitting" name="submitting" value="Submitting, please wait" style="display:none;background-color:grey;color:white;font-size:1.4em;height:50px;">
+					<div id="errormsg" style="display:none;" class="alert alert-warning"></div>
+				</form>
+			</div>
+    </div>
+		<div class="col-md-6" id="poller" style="display:none;">
+			<div class="well" id="pollinfo" style="background-color:#c9d2d4;min-height:240px;">
+				
+			</div>
+		</div>
+  </div>
+</div>
+
+<div class="container-fluid notcloggedin" style="max-width:1000px;margin-top:50px;">
+  <div class="row">
+    <div class="col-md-6">
+      <p style="text-align:justify;">
+        Lantern gives you a quick way to gather all your Open Access compliance measures to help you meet institutional, funder and government mandates.
+      </p>
+      <p style="text-align:justify;">
+				It's free to sign up, and you can check up to 100 articles per month at no cost. Premium accounts are available if you need more.
+      </p>
+      <p style="text-align:justify;">
+				Lantern is a service provided by <a href="http://cottagelabs.com">Cottage Labs</a>, 
+				and is part of the <a href="http://harvest.cottagelabs.com">Harvest collaboration</a>.
+      </p>
+		</div>
+    <div class="col-md-6">
+			<p style="text-align:justify;">
+				You can search for one article by DOI, PubMed ID, or PubMedCentral ID, or upload a list in a CSV file.
+			</p>
+			<p style="text-align:justify;">
+        For each article you ask us about we can find information like the publisher's re-use licence, whether it is in a repository (and which ones), its status in <a href="http://europepmc.org">EuropePMC</a>, embargo and self-archiving policies, as well as grant and P.I. information.
+      </p>
+			<p style="text-align:justify;">
+        Read our <a href="/docs">documentation</a> and <a href="/terms">terms</a> for more details.
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid cloggedin uploader" style="max-width:1000px;margin-top:20px;">
+  <div class="row">
+    <div class="col-md-12 cloggedin" id="howto">
+			<p style="text-align:justify;">
+				To process one article, enter the DOI, PubMed ID, or PubMedCentral ID (prefixed with PMC) in the field above, 
+				or choose a file to upload. The format must be CSV, which can be exported by your spreadsheet software.
+        Read our <a href="/docs">documentation</a> and <a href="/terms">terms</a> for more details.
+			</p>
+		</div>
+  </div>
+</div>
+
+<div class="container-fluid cloggedin" style="max-width:1000px;margin-top:20px;">
+	<div class="row">
+		<div id="previousjobs" class="col-md-6">
+			
+		</div>
+		<div class="col-md-6">
+			<div id="quotainfo">
+				
+			</div>
+			<p><button id="cloginLogout" class="btn" style="margin-top:5px;">Logout</button></p>
+		</div>
+	</div>
+</div>
+
+<div id="premium" class="container-fluid" style="max-width:1000px;margin-top:50px;margin-bottom:100px;display:none;">
+	<div class="row">
+		<div class="col-md-12">
+			<a name="premium"></a>
+			<h2>Get a Premium Account</h2>
+			<p>Lantern Premium Accounts give you the capacity you require to fully embed Lantern into your organisation's workflows. By upgrading you will get:</p>
+
+			<ul>
+				<li>Ability to run 5000 identifiers per month through the system (if you require more, ask us) via the UI or API</li>
+				<li>Office-hours email support</li>
+				<li>Access to our one-off backlog processing service, in case you want to run several years worth of identifiers in one go (additional costs apply, depending on scale of backlog)</li>
+			</ul>
+
+			<p>If you want to upgrade to a Premium Account, or just want more details, use the button below to contact us, and we'll get back to you with the pricing and next steps.</p>
+
+			<a class="btn btn-default btn-block btn-lg" href="mailto:lantern@cottagelabs.com">Contact us to discuss upgrading to Lantern Premium</a>
+		</div>
+	</div>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+
+  clogin.init({
+		api:'https://dev.api.cottagelabs.com/accounts',
+		afterLogin:lantern.startup
+	});
+	
+});
+
+</script>
