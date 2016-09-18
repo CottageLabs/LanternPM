@@ -96,3 +96,32 @@ pre {
     vertical-align: top;
     padding: 10px;
 }
+
+.step {
+    font-size: 130%;
+}
+
+.examplecsv {
+    background: #ffffff;
+    border: 1px solid #000000;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.examplecsv thead {
+    font-weight: bold;
+}
+
+.examplecsv td {
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+.fields tr {
+    border-bottom: 1px solid #000000;
+}
+
+.fields td {
+    vertical-align: top;
+    padding: 10px;
+}
