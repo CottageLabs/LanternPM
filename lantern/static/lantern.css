@@ -149,3 +149,23 @@ li {
 #footer p {
     color: #aaa;
 }
+
+.nav-lantern {
+    border-bottom: 0px;
+}
+
+.nav-lantern>li>a {
+    border: 0px;
+}
+
+.nav-lantern>li>a:hover, .nav-lantern>li>a:focus {
+    text-decoration: none;
+    background-color:#c9d2d4;
+    color:#555 !important;
+}
+
+.nav-lantern>li.active>a, .nav-lantern>li.active>a:hover, .nav-lantern>li.active>a:focus {
+    border: 0px;
+    background-color:#c9d2d4;
+    color:#555 !important;
+}
