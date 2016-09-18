@@ -1,5 +1,5 @@
 	var lantern = {
-		apibaseurl: 'https://dev.api.cottagelabs.com',
+		apibaseurl: 'https://api.cottagelabs.com',
 		file: undefined,
 		filename: '',
 		results: [],
