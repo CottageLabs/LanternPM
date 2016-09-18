@@ -209,7 +209,6 @@
 	lantern.startup = function() {
 	  $('input[type=file]').on('change', lantern.prep);
 	  $('#lanternmulti').bind('click',lantern.submit);
-		$('#footer').hide();
 		if (window.location.hash && window.location.hash.replace('#','').length === 17) { // our job IDs are 17 digits long
 			setTimeout(function() {$('.uploader').hide();},200);
 			$('#poller').show();
