@@ -124,3 +124,28 @@ li {
 .btn {
   text-decoration: none;
 }
+
+#footer {
+  margin-top:50px;
+  min-height:200px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color:#252e2b;
+  color:#aaa;
+}
+
+#footer a {
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#footer p {
+    color: #aaa;
+}
