@@ -83,3 +83,16 @@ pre {
     padding: 20px;
     background: #eeeeee;
 }
+
+.summarytable {
+    margin-bottom: 30px;
+}
+
+.summarytable tr {
+    border-bottom: 1px solid #000000;
+}
+
+.summarytable td, .summarytable th {
+    vertical-align: top;
+    padding: 10px;
+}
