@@ -140,8 +140,8 @@
 		status += '</p>';
 		if (data.data && data.data.new === true) status += '<p>Your job is new, and is still being loaded into the system. For large jobs this may take a couple of minutes.</p>';
 		status += '<p>Your job is ' + pc + '% complete.</p>';
-		status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv" class="btn btn-default btn-block">Download your results</a></p>';
-		status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original" style="font-weight:normal;">or download your original spreadsheet</a></p>';
+		status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '" class="btn btn-default btn-block">Download your results</a></p>';
+		status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '" style="font-weight:normal;">or download your original spreadsheet</a></p>';
 		if (data.data.progress !== 100) setTimeout(lantern.poll,10000);
 		$('#pollinfo').html(status);
 	}
