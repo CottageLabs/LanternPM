@@ -54,43 +54,44 @@
 					<td>Confirms that the service is present</td>
 				</tr>
 				<tr>
-					<td>/</td>
+					<td><a href="#createjob">/</a></td>
 					<td>POST</td>
 					<td>Allows you to create a new job by sending a suitable JSON document</td>
 				</tr>
 				<tr>
-					<td>/:job</td>
+					<td><a href="#currentjob">/:job</a></td>
 					<td>GET</td>
 					<td>Show the current job, containing all the identifier information provided when it was created</td>
 				</tr>
 				<tr>
-					<td>/:job/progress</td>
+					<td><a href="#progress">/:job/progress</a></td>
 					<td>GET</td>
 					<td>Information about the progress of the :job</td>
 				</tr>
 				<tr>
-					<td>/:job/todo</td>
+					<td><a href="#todo">/:job/todo</a></td>
 					<td>GET</td>
 					<td>Information about the items in the request which are still pending</td>
 				</tr>
 				<tr>
-					<td>/:job/results</td>
+					<td><a href="#results">/:job/results</a></td>
 					<td>GET</td>
 					<td>Returns the processed records, as JSON or CSV (specify ?format=csv)</td>
 				</tr>
 				<tr>
-					<td>/jobs/:email</td>
+					<td><a href="#joblist">/jobs/:email</a></td>
 					<td>GET</td>
 					<td>Information for all jobs under the specified account address</td>
 				</tr>
 				<tr>
-					<td>/quota/:email</td>
+					<td><a href="#quota">/quota/:email</a></td>
 					<td>GET</td>
 					<td>Information about the quota for the specified account address</td>
 				</tr>
 				</tbody>
 			</table>
 
+            <a name="createjob"></a>
 			<h3>Creating a new Job</h3>
 
 			<p>To create a new job, simply POST the JSON of your request to the root of the api:</p>
@@ -152,6 +153,7 @@ Content-Type: application/json; charset=UTF-8
 			<p>The response always contains information about your account quota for reference if you are going to make onward requests.  See the section <a href="#quota">Check your account quota</a> for details on the
 				meaning of the values.</p>
 
+            <a name="currentjob"></a>
 			<h3>Get information about a current job</h3>
 
 			<p>This allows you to retrieve the list of identifiers associated with a given Job.</p>
@@ -182,6 +184,7 @@ GET /:job?apikey=&lt;api key&gt;
 
 			<p>The "per-identifier process id" is not actionable, it is informational only.</p>
 
+            <a name="progress"></a>
 			<h3>Get a progress report of the current job</h3>
 
 			<p>This allows you to track the ongoing progress of your job</p>
@@ -205,6 +208,8 @@ GET /:job/progress?apikey=&lt;api key&gt;
 
 			<p>The progress gives you a floating point number between 0 and 100, which is the % completeness of the job.</p>
 
+
+            <a name="todo"></a>
 			<h3>Get a list of identifiers which still remain to be processed</h3>
 
 			<p>This will give you back a subset of the identifiers in your original job that still remain to be processed.</p>
@@ -231,6 +236,7 @@ GET /:job/todo?apikey=&lt;api key&gt;
 }
 </pre>
 
+            <a name="results"></a>
 			<h3>Get a list of the processed records and their results</h3>
 
 			<p>When you are ready to download your full results (when the progress endpoint indicates 100%), or your partial results (at any time during the job processing run), you can request them from this endpoint</p>
@@ -336,9 +342,9 @@ GET /:job/results?apikey=&lt;api key&gt;&format=&lt;json|csv&gt;
         }
 </pre>
 
-			<p>If you request format=csv you will get back a CSV which will be formatted as per the <a href="/docs">user documentation</a>.
+			<p>If you request format=csv you will get back a CSV which will be formatted as per the <a href="/docs">user documentation</a>.</p>
 
-
+            <a name="joblist"></a>
 			<h3>List your current and previous jobs</h3>
 
 			<p>If you want to see a history of the jobs you've created in the system, you can use the following:</p>
