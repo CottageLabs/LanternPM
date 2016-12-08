@@ -11,6 +11,7 @@
 		poll: undefined,
 		hash: undefined
 	};
+	if (window.location.host.indexOf('test.cottagelabs.com') !== -1) lantern.apibaseurl = 'https://dev.api.cottagelabs.com';
 
   lantern.review = function() {
 		//console.log(results);
