@@ -39,7 +39,18 @@ jQuery(document).ready(function() {
   clogin.init({
 		apikey:'9ac16e25330b8bae36e9bf30ae160b'
 	});
-	lantern.startup();	
+	lantern.startup();
+	$('#lanternmulti').unbind('click');
+	var checksubmit = function(e) {
+		if ($('#email').length && $('#email').val() && $('#email').val().length > 0) {
+			lantern.submit(e);
+		} else {
+			e.preventDefault();
+			$('#errormsg').html("You must provide an email address so we can contact you about your job progress.").show();
+		}
+	}
+  $('#lanternmulti').bind('click',checksubmit);
+
 });
 
 </script>
