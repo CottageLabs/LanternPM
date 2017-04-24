@@ -6,7 +6,11 @@ server {
 server {
   listen 443 ssl;
   server_name lantern.cottagelabs.com;
-  include includes/cl-wildcard-ssl.conf;
+
+  ssl on;
+  ssl_certificate /etc/letsencrypt/live/lantern.cottagelabs.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/lantern.cottagelabs.com/privkey.pem;
+
   root /home/cloo/live/LanternPM/lantern;
 
   location /content {
@@ -31,7 +35,11 @@ server {
 server {
   listen 443 ssl;
   server_name compliance.cottagelabs.com;
-  include includes/cl-wildcard-ssl.conf;
+
+  ssl on;
+  ssl_certificate /etc/letsencrypt/live/compliance.cottagelabs.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/compliance.cottagelabs.com/privkey.pem;
+
   root /home/cloo/live/LanternPM/wellcome;
 
   location /content {
@@ -62,6 +70,29 @@ server {
     try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
   }
   
+  location /static {
+    try_files $uri /serve/$uri =404;
+    expires 30d;
+  }
+}
+
+server {
+  listen 443;
+  server_name lantern.test.cottagelabs.com;
+  root /home/cloo/dev/LanternPM/lantern;
+
+  ssl on;
+  ssl_certificate /etc/letsencrypt/live/lantern.test.cottagelabs.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/lantern.test.cottagelabs.com/privkey.pem;
+
+  location /content {
+    try_files $uri $uri.html $uri.md $uri/index $uri/index.html $uri/index.md /404 =404;
+  }
+
+  location / {
+    try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
+  }
+
   location /static {
     try_files $uri /serve/$uri =404;
     expires 30d;

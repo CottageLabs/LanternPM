@@ -10,24 +10,18 @@ body {
   font-size:1.5em;
   line-height:1.846;
   color:#555;
-  margin:70px 0 0 0;
-  background-color:#333;
+  margin:90px 0 0 0;
   padding:0;
 }
 
 input,button,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit;margin-bottom:2px;}
-a{color:#ffffff;text-decoration:underline;font-weight:700;}
-a:hover, a:focus{color:#ffffff;text-decoration:none}
+a:hover, a:focus{text-decoration:underline;text-decoration:none}
 a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
 
 .container-fluid {
   margin:0 auto 0 auto;
   padding-left:15px;
   padding-right:15px;
-}
-
-p {
-  color:white;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,10 +43,6 @@ h2 {
 	color: #999;
 }
 
-li {
-	color:white;
-}
-	
 
 .contact-form {
   margin-bottom: 0;	

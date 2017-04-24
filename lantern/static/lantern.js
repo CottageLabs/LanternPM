@@ -130,6 +130,7 @@
 		$('#errormsg').html('<p style="color:black;">Sorry, there has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact us@cottagelabs.com attaching a copy of your file and with the following error information:<br>' + JSON.stringify(data) + '</p>').show();
   }
 
+	var _download_fields = {};
 	lantern.polling = function(data) {
 		//console.log('poll returned');
 		$('.uploader').hide();
@@ -141,10 +142,16 @@
 		status += '</p>';
 		if (data.data && data.data.new === true) status += '<p>Your job is new, and is still being loaded into the system. For large jobs this may take a couple of minutes.</p>';
 		status += '<p>Your job is ' + pc + '% complete.</p>';
-		status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '" class="btn btn-default btn-block">Download your results</a></p>';
+		status += '<p><a id="downloadresults" href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '" class="btn btn-default btn-block">Download your results</a></p>';
 		status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '" style="font-weight:normal;">or download your original spreadsheet</a></p>';
 		if (data.data.progress !== 100) setTimeout(lantern.poll,10000);
+		var download = function(e) {
+			var hr = $(this).attr('href') ;
+			for ( var d in _download_fields ) hr += '&' + d + '=' + _download_fields[d];
+			$(this).attr('href',hr);
+		}
 		$('#pollinfo').html(status);
+		$('#downloadresults').bind('click',download);
 	}
 	
 	lantern.poll = function(hash) {
@@ -206,10 +213,47 @@
 			});
 		}
   }
+	
+	lantern.fields = function() {
+		var fields = ['PMCID', 'PMID', 'DOI', 'Publisher', 'Journal title', 'ISSN', 'Article title', 'Publication Date', 'Electronic Publication Date', 'Author(s)', 'In CORE?', 'Repositories', 'Repository URLs', 'Repository fulltext URLs', 'Repository OAI IDs', 'Fulltext in EPMC?', 'XML Fulltext?', 'Author Manuscript?', 'Ahead of Print?', 'Open Access?', 'Licence', 'Licence source', 'Journal Type', 'Correct Article Confidence', 'Preprint Embargo', 'Preprint Self-archiving Policy', 'Postprint Embargo', 'Postprint Self-archiving Policy', 'Publishers Copy Embargo', 'Publishers Copy Self-archiving Policy', 'Compliance Processing Output', 'Provenance', 'Grants'];
+		var opts = '<p style="color:white;"><br><br>';
+		opts += window.location.hash && window.location.hash.replace('#','').length === 17 ? 'Fields to include in this download:' : 'Preferred download fields:';
+		for ( var f in fields ) {
+			var fld = fields[f];
+			opts += '<br><input class="dl_opts" type="checkbox" name="' + fld + '" checked="checked"> ' + fld;
+		}
+		opts += '</p>';
+		$('#options').html(opts);
+		try{
+			for ( var c in clogin.user.account.service.lantern.profile.fields) {
+				if (clogin.user.account.service.lantern.profile.fields[c] === false) $('[name="'+c+'"]').removeAttr('checked');
+			}
+		} catch(err) {}
+		var dls = function(e) {
+			var which = $(this).attr('name');
+			var checked = $(this).is(':checked');
+			if (window.location.hash && window.location.hash.replace('#','').length === 17) {
+				_download_fields[which] = checked ? 'true' : 'false';
+				console.log(_download_fields)
+			} else {
+				var fld = {};
+				fld[which] = checked;
+				$.ajax({
+					url: lantern.apibaseurl + '/service/lantern/fields/' + clogin.user.email + '?apikey='+clogin.apikey,
+					method: 'POST',
+					data: JSON.stringify(fld),
+					dataType: 'JSON',
+					contentType: "application/json; charset=utf-8"
+				});
+			}
+		}
+		$('.dl_opts').bind('change',dls);
+	}
   
 	lantern.startup = function() {
 	  $('input[type=file]').on('change', lantern.prep);
 	  $('#lanternmulti').bind('click',lantern.submit);
+		lantern.fields();
 		if (window.location.hash && window.location.hash.replace('#','').length === 17) { // our job IDs are 17 digits long
 			setTimeout(function() {$('.uploader').hide();},200);
 			$('#poller').show();
@@ -226,7 +270,7 @@
 							var info = '<p>Your jobs:</p>';
 							for ( var j in data.data.jobs ) {
 								var job = data.data.jobs[j];
-								info += '<a class="btn btn-default btn-block" target="_blank" href="//lantern.cottagelabs.com/#' + job._id + '">';
+								info += '<a class="btn btn-default btn-block" target="_blank" href="/#' + job._id + '">';
 								info += job.name && job.name.length > 0 ? job.name : '#' + job._id;
 								var date = new Date(job.createdAt).toUTCString();
 								info += ' on ' + date.substring(0,date.length-7);
