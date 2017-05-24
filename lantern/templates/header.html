@@ -1,0 +1,41 @@
+<div class="navbar navbar-fixed-top" style="background-color:white;">
+	<div class="container-fluid" style="max-width:1000px;">
+		<div class="row">
+			<div class="col-md-6">
+				<h3 id="header" style="display:none;">
+					<a style="color:#555;" href="/">LANTERN</a>
+					<br><small>by <a href="https://cottagelabs.com">Cottage Labs</a></small>
+				</h3>
+			</div>
+			<div class="col-md-6">
+				<div>
+					<p style="text-align:right;margin-top:15px;" id="tagline">
+						Shining a light on open access<br>
+						<span class="notcloggedin"><a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a></span>
+					</p>
+					<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-10px;">
+						<span id="creditscore">No credit</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Account <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="/settings#credit">Add credit</a></li>
+						<li><a href="/history">Report history</a></li>
+						<li><a href="/settings">Settings</a></li>
+						<li><a id="cloginLogout" href="#">Logout</a></li>
+					</ul>
+				</div>
+				<div id="cloginArea" style="display:none;margin-top:10px;">
+					<div id="cloginEmailArea" class="input-group">
+						<input type="text" id="cloginEmail" class="form-control" placeholder="Enter your email address">
+						<div class="input-group-btn">
+							<a id="cloginSubmit" class="btn btn-primary" href="#">Login / sign up</a>
+						</div>
+					</div>
+					<div id="cloginTokenArea" style="display:none;">
+						<input type="text" class="form-control" id="cloginToken" placeholder="Check your email, enter your login code - or just click the link in the email">
+					</div>
+					<div id="cloginMessages" style="margin-top:5px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
