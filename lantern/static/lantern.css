@@ -159,3 +159,47 @@ h2 {
     background-color:#c9d2d4;
     color:#555 !important;
 }
+
+.documentation {
+
+}
+
+.documentation > .header-primary {
+  text-align: center;
+}
+
+.documentation > .section-odd {
+
+}
+
+.documentation > .section-even {
+
+}
+
+.documentation > h4 {
+
+}
+
+.documentation > h5 {
+
+}
+
+.documentation > p {
+
+}
+
+.documentation > .expander {
+
+}
+
+.documentation > .header-expansion {
+
+}
+
+.documentation > .examplecsv {
+
+}
+
+.documentation > .infotable {
+
+}
