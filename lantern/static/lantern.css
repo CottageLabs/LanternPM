@@ -201,20 +201,25 @@ h2 {
 }
 
 .documentation .section-even a {
-  color: #c9f299;
+  color: #477890;
 }
 
 .documentation .section-even a:hover {
-  color: #c9f299;
+  color: #477890;
   text-decoration: underline;
 }
 
+.documentation .section-expansion {
+  border-bottom: 1px dashed #cccccc;
+}
+
 .documentation h4 {
-  font-size: 2.3em;
+  font-size: 2em;
+  margin-bottom: 40px;
 }
 
 .documentation h5 {
-  font-size: 1.8em;
+  font-size: 1.6em;
 }
 
 .documentation p {
@@ -235,9 +240,24 @@ h2 {
 }
 
 .documentation .examplecsv {
+  background: #ffffff;
+  border: 1px solid #000000;
+  width: 100%;
+  margin-bottom: 30px;
+}
 
+.documentation .examplecsv td {
+  border: 1px solid #000000;
 }
 
 .documentation .infotable {
 
+}
+
+.documentation .header-expansion a {
+  padding-right: 10px;
+}
+
+.documentation .header-expansion .container-expander-link {
+  text-align: right;
 }
