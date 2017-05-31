@@ -161,15 +161,26 @@ h2 {
 }
 
 .documentation {
-
+  background-color: #fcfcfc;
 }
 
 .documentation .header-primary {
   text-align: center;
+  padding-bottom: 40px;
+  background-color: #477890;
+  color: #fcfcfc;
+}
+
+.documentation .header-primary h3 {
+  font-size: 3em;
 }
 
 .documentation .section-odd {
-
+  background-color: #477890;
+  color: #fcfcfc;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
 }
 
 .documentation .section-even {
