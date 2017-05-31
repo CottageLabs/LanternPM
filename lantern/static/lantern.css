@@ -192,12 +192,18 @@ h2 {
   text-decoration: underline;
 }
 
+.documentation .infotable {
+  margin-bottom: 40px;
+}
+
 .documentation .section-odd .infotable tr {
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid #fcfcfc;
 }
 
 .documentation .section-odd .infotable td {
-  
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
 
 .documentation .section-even {
@@ -215,6 +221,16 @@ h2 {
 .documentation .section-even a:hover {
   color: #477890;
   text-decoration: underline;
+}
+
+.documentation .section-even .infotable tr {
+  border-bottom: 1px solid #393e41;
+}
+
+.documentation .section-even .infotable td {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }
 
 .documentation .section-expansion {
