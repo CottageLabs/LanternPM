@@ -44,85 +44,112 @@
 
                 <h4>There are several ways you can use Lantern</h4>
 
-                <div class="header-expansion">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h5>By entering identifiers into our web form</h5>
+                <div class="section-expansion">
+                    <div class="header-expansion">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h5>By entering identifiers into our web form</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="expander" data-expand="web_form" data-state="closed">Tell me more <i class="glyphicon glyphicon-chevron-down"></i></a>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <a href="#" class="expander" data-expand="web_form" data-state="closed">Tell me more <i class="glyphicon glyphicon-chevron-down"></i></a>
-                        </div>
+                    </div>
+
+                    <div id="web_form" style="display:none">
+                        <p>If you have a small number of identifiers to check, you can just type or paste them into the web form on the front page of the site.</p>
+
+                        <p>Once you've submitted the form, we'll start working on the
+                            report straight away.  We'll take you to the report page on our site, and you can watch the progress live, and we'll also send you an email with a link to the page.</p>
+
+                        <p>When it's finished
+                            we'll send you another email.  If you've only uploaded a few identifiers, it won't take very long!</p>
+
                     </div>
                 </div>
 
-                <div id="web_form" style="display:none">
-                    <p>If you have a small number of identifiers to check, you can just type or paste them into the web form on the front page of the site.</p>
+                <div class="section-expansion">
+                    <div class="header-expansion">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h5>By Uploading a Spreadsheet</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="expander" data-expand="csv_upload" data-state="closed">Tell me more <i class="glyphicon glyphicon-chevron-down"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-                    <p>Once you've submitted the form, we'll start working on the
-                        report straight away.  We'll take you to the report page on our site, and you can watch the progress live, and we'll also send you an email with a link to the page.</p>
+                    <div id="csv_upload">
+                        <p>If you want to upload spreadsheets from your computer, you can use our file upload option on the front page (when you are logged in).</p>
 
-                    <p>When it's finished
-                        we'll send you another email.  If you've only uploaded a few identifiers, it won't take very long!</p>
+                        <p>Just export a CSV from your favourite spreadsheet program, such as Excel, and then upload it to be processed.</p>
 
+                        <p>The content of your CSVs will need to look something like this, with up to 3 columns, one for each identifier type we accept:</p>
+
+                        <table class="examplecsv">
+                            <tr>
+                                <th>DOI</th>
+                                <th>PMID</th>
+                                <th>PMCID</th>
+                            </tr>
+                            <tr>
+                                <td>10.abc/123</td>
+                                <td>78543277</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>10.jkl/8999/1</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>78024443</td>
+                                <td>PMC75220165</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                            </tr>
+                        </table>
+
+                        <p>Once you've uploaded it, you'll get an email with a link for you to check our process with. Then when we're done
+                            (which could take a few hours if you've given us a lot of rows) we'll email you with a link to download the results.</p>
+
+                        <p>Full details of the content of the results can be found in our <a href="#">documentation</a>.</p>
+                    </div>
                 </div>
 
+                <div class="section-expansion">
+                    <div class="header-expansion">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h5>Via our API</h5>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="expander" data-expand="api" data-state="closed">Tell me more <i class="glyphicon glyphicon-chevron-down"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-                <h5>By Uploading a Spreadsheet</h5>
+                    <div id="api">
 
-                <p>If you want to upload spreadsheets from your computer, you can use our file upload option on the front page (when you are logged in).</p>
+                        <p>For organisations who want to see Lantern integrated into existing systems, such as your repository, CRIS or other publications or
+                            compliance management system, we offer a fully-featured API option. With it you are able to:</p>
 
-                <p>Just export a CSV from your favourite spreadsheet program, such as Excel, and then upload it to be processed.</p>
+                        <ul>
+                            <li>Send batches of article identifiers for processing</li>
+                            <li>Monitor existing jobs that you created</li>
+                            <li>Download partial or complete result sets</li>
+                            <li>Check information about your user account, such as your credit amount</li>
+                            <li>Get more granular access to the data that Lantern gathers than the spreadsheet upload does. Full information about it is available in our API documentation</li>
+                        </ul>
 
-                <p>The content of your CSVs will need to look something like this, with up to 3 columns, one for each identifier type we accept:</p>
-
-                <table class="examplecsv">
-                    <tr>
-                        <th>DOI</th>
-                        <th>PMID</th>
-                        <th>PMCID</th>
-                    </tr>
-                    <tr>
-                        <td>10.abc/123</td>
-                        <td>78543277</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>10.jkl/8999/1</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>78024443</td>
-                        <td>PMC75220165</td>
-                    </tr>
-                    <tr>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                    </tr>
-                </table>
-
-                <p>Once you've uploaded it, you'll get an email with a link for you to check our process with. Then when we're done
-                    (which could take a few hours if you've given us a lot of rows) we'll email you with a link to download the results.</p>
-
-                <p>Full details of the content of the results can be found in our <a href="#">documentation</a>.</p>
-
-
-                <h5>Via our API</h5>
-
-                <p>For organisations who want to see Lantern integrated into existing systems, such as your repository, CRIS or other publications or
-                    compliance management system, we offer a fully-featured API option. With it you are able to:</p>
-
-                <ul>
-                    <li>Send batches of article identifiers for processing</li>
-                    <li>Monitor existing jobs that you created</li>
-                    <li>Download partial or complete result sets</li>
-                    <li>Check information about your user account, such as your credit amount</li>
-                    <li>Get more granular access to the data that Lantern gathers than the spreadsheet upload does. Full information about it is available in our API documentation</li>
-                </ul>
-
-                <p>Access to the API is provided with our organisational account, which you can read more about <a href="#">here</a></p>
+                        <p>Access to the API is provided with our organisational account, which you can read more about <a href="#">here</a></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -183,20 +183,47 @@ h2 {
   font-size: 1.2em;
 }
 
-.documentation .section-even {
+.documentation .section-odd a {
+  color: #c9f299;
+}
 
+.documentation .section-odd a:hover {
+  color: #c9f299;
+  text-decoration: underline;
+}
+
+.documentation .section-even {
+  background-color: #fcfcfc;
+  color: #393e41;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
+}
+
+.documentation .section-even a {
+  color: #c9f299;
+}
+
+.documentation .section-even a:hover {
+  color: #c9f299;
+  text-decoration: underline;
 }
 
 .documentation h4 {
-
+  font-size: 2.3em;
 }
 
 .documentation h5 {
-
+  font-size: 1.8em;
 }
 
 .documentation p {
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
 
+.documentation li {
+  line-height: 1.4;
 }
 
 .documentation .expander {
