@@ -116,7 +116,7 @@ h2 {
 }
 
 #footer {
-  margin-top:50px;
+  /*margin-top:50px;*/
   min-height:200px;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -205,6 +205,7 @@ h2 {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  vertical-align: top;
 }
 
 .documentation .section-even {
@@ -232,6 +233,7 @@ h2 {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  vertical-align: top;
 }
 
 .documentation .section-expansion {
@@ -273,10 +275,7 @@ h2 {
 
 .documentation .examplecsv td {
   border: 1px solid #000000;
-}
-
-.documentation .examplecsv th {
-  border: 1px solid #000000;
+  padding: 5px 10px 5px 10px;
 }
 
 .documentation .header-expansion a {
@@ -290,7 +289,7 @@ h2 {
 .documentation .information-link {
   text-align: center;
   margin-top: 40px;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
   padding: 15px;
 }
 
@@ -301,4 +300,8 @@ h2 {
 
 .documentation .information-link p {
   margin-top: 20px;
+}
+
+.section-last {
+  margin-bottom: 0px;
 }
