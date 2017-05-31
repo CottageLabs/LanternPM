@@ -287,6 +287,18 @@ h2 {
   text-align: right;
 }
 
+.documentation .information-link {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 80px;
+  padding: 15px;
+}
+
 .documentation .information-link a {
   font-size: 1.5em;
+  line-height: 1;
+}
+
+.documentation .information-link p {
+  margin-top: 20px;
 }
