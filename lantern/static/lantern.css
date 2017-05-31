@@ -164,42 +164,42 @@ h2 {
 
 }
 
-.documentation > .header-primary {
+.documentation .header-primary {
   text-align: center;
 }
 
-.documentation > .section-odd {
+.documentation .section-odd {
 
 }
 
-.documentation > .section-even {
+.documentation .section-even {
 
 }
 
-.documentation > h4 {
+.documentation h4 {
 
 }
 
-.documentation > h5 {
+.documentation h5 {
 
 }
 
-.documentation > p {
+.documentation p {
 
 }
 
-.documentation > .expander {
+.documentation .expander {
 
 }
 
-.documentation > .header-expansion {
+.documentation .header-expansion {
 
 }
 
-.documentation > .examplecsv {
+.documentation .examplecsv {
 
 }
 
-.documentation > .infotable {
+.documentation .infotable {
 
 }
