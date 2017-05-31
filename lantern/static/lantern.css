@@ -192,6 +192,14 @@ h2 {
   text-decoration: underline;
 }
 
+.documentation .section-odd .infotable tr {
+  border-bottom: 1px solid #ffffff;
+}
+
+.documentation .section-odd .infotable td {
+  
+}
+
 .documentation .section-even {
   background-color: #fcfcfc;
   color: #393e41;
@@ -236,7 +244,7 @@ h2 {
 }
 
 .documentation .header-expansion {
-
+  margin-top: 30px;
 }
 
 .documentation .examplecsv {
@@ -250,9 +258,11 @@ h2 {
   border: 1px solid #000000;
 }
 
-.documentation .infotable {
-
+.documentation .examplecsv th {
+  border: 1px solid #000000;
 }
+
+
 
 .documentation .header-expansion a {
   padding-right: 10px;
