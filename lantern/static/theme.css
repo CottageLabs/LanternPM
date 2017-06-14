@@ -85,7 +85,8 @@
     background-color: #477890;
     color: #fcfcfc; }
     .casestudy .header-primary h3 {
-      font-size: 3em; }
+      font-size: 3em;
+      margin-bottom: 40px; }
   .casestudy .intro {
     font-size: 1.4em;
     margin-bottom: 40px; }
@@ -103,7 +104,7 @@
   .casestudy h4 {
     margin-top: 40px;
     font-size: 2em;
-    margin-bottom: 30px; }
+    margin-bottom: 10px; }
   .casestudy p {
     line-height: 1.4;
     margin-bottom: 15px; }
@@ -144,16 +145,17 @@
     .documentation .examplecsv td {
       border: 1px solid #000000;
       padding: 5px 10px 5px 10px; }
-  .documentation .information-link {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    padding: 15px; }
-    .documentation .information-link a {
-      font-size: 1.5em;
-      line-height: 1; }
-    .documentation .information-link p {
-      margin-top: 20px; }
+
+.information-link {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 15px; }
+  .information-link a {
+    font-size: 1.5em;
+    line-height: 1; }
+  .information-link p {
+    margin-top: 20px; }
 
 .section-last {
   margin-bottom: 0px; }
