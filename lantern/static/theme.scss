@@ -22,18 +22,18 @@ $topStrapBackground: #ffffff;
   background-color: $background;
   color: $textColour;
   padding-top: 30px;
-  padding-bottom: 30px;
-  font-size: 1.2em;
-  margin-bottom: 200px;
+  padding-bottom: 200px;
+  // font-size: 1.2em;
 
+  /*
   a {
     color: $altBackground;
 
     &:hover {
       color: $altBackground;
-      text-decoration: underline;
+      text-decoration: none;
     }
-  }
+  }*/
 }
 
 .section-odd {

@@ -8,14 +8,16 @@
   background-color: #fcfcfc;
   color: #393e41;
   padding-top: 30px;
-  padding-bottom: 30px;
-  font-size: 1.2em;
-  margin-bottom: 200px; }
-  .application-panel a {
-    color: #477890; }
-    .application-panel a:hover {
-      color: #477890;
-      text-decoration: underline; }
+  padding-bottom: 200px;
+  /*
+  a {
+    color: $altBackground;
+
+    &:hover {
+      color: $altBackground;
+      text-decoration: none;
+    }
+  }*/ }
 
 .section-odd {
   background-color: #477890;
