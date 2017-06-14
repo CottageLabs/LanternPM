@@ -8,6 +8,91 @@ $divider: #cccccc;
 $csvBackground: #ffffff;
 $csvBorder: #000000;
 
+$shadow: 0px 2px 8px 1px #cccccc;
+$topStrapBackground: #ffffff;
+
+.topstrap {
+  background-color: $topStrapBackground;
+  box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+}
+
+.application-panel {
+  background-color: $background;
+  color: $textColour;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
+  margin-bottom: 200px;
+
+  a {
+    color: $altBackground;
+
+    &:hover {
+      color: $altBackground;
+      text-decoration: underline;
+    }
+  }
+}
+
+.section-odd {
+  background-color: $altBackground;
+  color: $background;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
+
+  a {
+    color: $altLinkColour;
+
+    &:hover {
+      color: $altLinkColour;
+      text-decoration: underline;
+    }
+  }
+
+  .infotable {
+    tr {
+      border-bottom: 1px solid $background;
+    }
+  }
+}
+
+.section-even {
+  background-color: $background;
+  color: $textColour;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
+
+  a {
+    color: $altBackground;
+
+    &:hover {
+      color: $altBackground;
+      text-decoration: underline;
+    }
+  }
+
+  .infotable {
+    tr {
+      border-bottom: 1px solid $textColour;
+    }
+  }
+}
+
+.infotable {
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  td {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    vertical-align: top;
+  }
+}
 
 .documentation {
   background-color: $background;
@@ -21,73 +106,6 @@ $csvBorder: #000000;
     h3 {
       font-size: 3em;
     }
-  }
-
-  .section-odd {
-    background-color: $altBackground;
-    color: $background;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-size: 1.2em;
-
-    a {
-      color: $altLinkColour;
-
-      &:hover {
-        color: $altLinkColour;
-        text-decoration: underline;
-      }
-    }
-
-    .infotable {
-
-      tr {
-        border-bottom: 1px solid $background;
-      }
-
-      td {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        vertical-align: top;
-      }
-    }
-  }
-
-  .section-even {
-    background-color: $background;
-    color: $textColour;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-size: 1.2em;
-
-    a {
-      color: $altBackground;
-
-      &:hover {
-        color: $altBackground;
-        text-decoration: underline;
-      }
-    }
-
-    .infotable {
-
-      tr {
-        border-bottom: 1px solid $textColour;
-      }
-
-      td {
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        vertical-align: top;
-      }
-    }
-  }
-
-  .infotable {
-    margin-top: 40px;
-    margin-bottom: 40px;
   }
 
   .section-expansion {

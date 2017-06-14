@@ -1,3 +1,59 @@
+.topstrap {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px 1px #cccccc;
+  -moz-box-shadow: 0px 2px 8px 1px #cccccc;
+  -webkit-box-shadow: 0px 2px 8px 1px #cccccc; }
+
+.application-panel {
+  background-color: #fcfcfc;
+  color: #393e41;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em;
+  margin-bottom: 200px; }
+  .application-panel a {
+    color: #477890; }
+    .application-panel a:hover {
+      color: #477890;
+      text-decoration: underline; }
+
+.section-odd {
+  background-color: #477890;
+  color: #fcfcfc;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em; }
+  .section-odd a {
+    color: #c9f299; }
+    .section-odd a:hover {
+      color: #c9f299;
+      text-decoration: underline; }
+  .section-odd .infotable tr {
+    border-bottom: 1px solid #fcfcfc; }
+
+.section-even {
+  background-color: #fcfcfc;
+  color: #393e41;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  font-size: 1.2em; }
+  .section-even a {
+    color: #477890; }
+    .section-even a:hover {
+      color: #477890;
+      text-decoration: underline; }
+  .section-even .infotable tr {
+    border-bottom: 1px solid #393e41; }
+
+.infotable {
+  margin-top: 40px;
+  margin-bottom: 40px; }
+  .infotable td {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    vertical-align: top; }
+
 .documentation {
   background-color: #fcfcfc; }
   .documentation .header-primary {
@@ -7,45 +63,6 @@
     color: #fcfcfc; }
     .documentation .header-primary h3 {
       font-size: 3em; }
-  .documentation .section-odd {
-    background-color: #477890;
-    color: #fcfcfc;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-size: 1.2em; }
-    .documentation .section-odd a {
-      color: #c9f299; }
-      .documentation .section-odd a:hover {
-        color: #c9f299;
-        text-decoration: underline; }
-    .documentation .section-odd .infotable tr {
-      border-bottom: 1px solid #fcfcfc; }
-    .documentation .section-odd .infotable td {
-      padding-left: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      vertical-align: top; }
-  .documentation .section-even {
-    background-color: #fcfcfc;
-    color: #393e41;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-size: 1.2em; }
-    .documentation .section-even a {
-      color: #477890; }
-      .documentation .section-even a:hover {
-        color: #477890;
-        text-decoration: underline; }
-    .documentation .section-even .infotable tr {
-      border-bottom: 1px solid #393e41; }
-    .documentation .section-even .infotable td {
-      padding-left: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      vertical-align: top; }
-  .documentation .infotable {
-    margin-top: 40px;
-    margin-bottom: 40px; }
   .documentation .section-expansion {
     border-bottom: 1px dashed #cccccc; }
   .documentation h4 {
