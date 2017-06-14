@@ -59,13 +59,14 @@ $topStrapBackground: #ffffff;
   }
 
   .pullout-quote {
-    float: left;
+    float: right;
     width: 40%;
     border-top: 10px solid $background;
     border-bottom: 10px solid $background;
     padding: 20px;
     margin: 20px;
     color: $background;
+    font-size: 1.5em;
   }
 }
 
@@ -92,13 +93,14 @@ $topStrapBackground: #ffffff;
   }
 
   .pullout-quote {
-    float: left;
+    float: right;
     width: 40%;
     border-top: 10px solid $altBackground;
     border-bottom: 10px solid $altBackground;
     padding: 20px;
     margin: 20px;
     color: $altBackground;
+    font-size: 1.5em;
   }
 }
 
@@ -117,6 +119,11 @@ $topStrapBackground: #ffffff;
 .casestudy {
   background-color: $background;
 
+  .client-logo {
+    min-width: 200px;
+    width: 20%;
+  }
+
   .header-primary {
     text-align: center;
     padding-bottom: 40px;
@@ -130,20 +137,22 @@ $topStrapBackground: #ffffff;
 
   .intro {
     font-size: 1.4em;
+    margin-bottom: 40px;
   }
 
   .summary {
     border-left: 1px solid $background;
     border-right: 1px solid $background;
+    text-align: center;
 
     strong {
-      text-align: center;
       font-size: 1.3em;
     }
   }
 
   .inline-quote {
     font-style: italic;
+    margin-bottom: 0px;
   }
 
   .quote-attribution {

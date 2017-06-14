@@ -33,13 +33,14 @@
   .section-odd .infotable tr {
     border-bottom: 1px solid #fcfcfc; }
   .section-odd .pullout-quote {
-    float: left;
+    float: right;
     width: 40%;
     border-top: 10px solid #fcfcfc;
     border-bottom: 10px solid #fcfcfc;
     padding: 20px;
     margin: 20px;
-    color: #fcfcfc; }
+    color: #fcfcfc;
+    font-size: 1.5em; }
 
 .section-even {
   background-color: #fcfcfc;
@@ -55,13 +56,14 @@
   .section-even .infotable tr {
     border-bottom: 1px solid #393e41; }
   .section-even .pullout-quote {
-    float: left;
+    float: right;
     width: 40%;
     border-top: 10px solid #477890;
     border-bottom: 10px solid #477890;
     padding: 20px;
     margin: 20px;
-    color: #477890; }
+    color: #477890;
+    font-size: 1.5em; }
 
 .infotable {
   margin-top: 40px;
@@ -74,6 +76,9 @@
 
 .casestudy {
   background-color: #fcfcfc; }
+  .casestudy .client-logo {
+    min-width: 200px;
+    width: 20%; }
   .casestudy .header-primary {
     text-align: center;
     padding-bottom: 40px;
@@ -82,15 +87,17 @@
     .casestudy .header-primary h3 {
       font-size: 3em; }
   .casestudy .intro {
-    font-size: 1.4em; }
+    font-size: 1.4em;
+    margin-bottom: 40px; }
   .casestudy .summary {
     border-left: 1px solid #fcfcfc;
-    border-right: 1px solid #fcfcfc; }
+    border-right: 1px solid #fcfcfc;
+    text-align: center; }
     .casestudy .summary strong {
-      text-align: center;
       font-size: 1.3em; }
   .casestudy .inline-quote {
-    font-style: italic; }
+    font-style: italic;
+    margin-bottom: 0px; }
   .casestudy .quote-attribution {
     text-align: right; }
   .casestudy h4 {
