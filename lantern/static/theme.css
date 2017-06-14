@@ -49,8 +49,9 @@
   .documentation .section-expansion {
     border-bottom: 1px dashed #cccccc; }
   .documentation h4 {
+    margin-top: 40px;
     font-size: 2em;
-    margin-bottom: 40px; }
+    margin-bottom: 30px; }
   .documentation h5 {
     font-size: 1.6em; }
   .documentation p {
