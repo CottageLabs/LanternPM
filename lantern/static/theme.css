@@ -1,0 +1,87 @@
+.documentation {
+  background-color: #fcfcfc; }
+  .documentation .header-primary {
+    text-align: center;
+    padding-bottom: 40px;
+    background-color: #477890;
+    color: #fcfcfc; }
+    .documentation .header-primary h3 {
+      font-size: 3em; }
+  .documentation .section-odd {
+    background-color: #477890;
+    color: #fcfcfc;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 1.2em; }
+    .documentation .section-odd a {
+      color: #c9f299; }
+      .documentation .section-odd a:hover {
+        color: #c9f299;
+        text-decoration: underline; }
+    .documentation .section-odd .infotable tr {
+      border-bottom: 1px solid #fcfcfc; }
+    .documentation .section-odd .infotable td {
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      vertical-align: top; }
+  .documentation .section-even {
+    background-color: #fcfcfc;
+    color: #393e41;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 1.2em; }
+    .documentation .section-even a {
+      color: #477890; }
+      .documentation .section-even a:hover {
+        color: #477890;
+        text-decoration: underline; }
+    .documentation .section-even .infotable tr {
+      border-bottom: 1px solid #393e41; }
+    .documentation .section-even .infotable td {
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      vertical-align: top; }
+  .documentation .infotable {
+    margin-top: 40px;
+    margin-bottom: 40px; }
+  .documentation .section-expansion {
+    border-bottom: 1px dashed #cccccc; }
+  .documentation h4 {
+    font-size: 2em;
+    margin-bottom: 40px; }
+  .documentation h5 {
+    font-size: 1.6em; }
+  .documentation p {
+    line-height: 1.4;
+    margin-bottom: 15px; }
+  .documentation li {
+    line-height: 1.4; }
+  .documentation .header-expansion {
+    margin-top: 30px; }
+    .documentation .header-expansion a {
+      padding-right: 10px; }
+    .documentation .header-expansion .container-expander-link {
+      text-align: right; }
+  .documentation .examplecsv {
+    background: #ffffff;
+    border: 1px solid #000000;
+    width: 100%;
+    margin-bottom: 30px; }
+    .documentation .examplecsv td {
+      border: 1px solid #000000;
+      padding: 5px 10px 5px 10px; }
+  .documentation .information-link {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 15px; }
+    .documentation .information-link a {
+      font-size: 1.5em;
+      line-height: 1; }
+    .documentation .information-link p {
+      margin-top: 20px; }
+
+.section-last {
+  margin-bottom: 0px; }

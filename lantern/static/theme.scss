@@ -1,0 +1,158 @@
+$background: #fcfcfc;
+$textColour: #393e41;
+
+$altBackground: #477890;
+$altLinkColour: #c9f299;
+
+$divider: #cccccc;
+$csvBackground: #ffffff;
+$csvBorder: #000000;
+
+
+.documentation {
+  background-color: $background;
+
+  .header-primary {
+    text-align: center;
+    padding-bottom: 40px;
+    background-color: $altBackground;
+    color: $background;
+
+    h3 {
+      font-size: 3em;
+    }
+  }
+
+  .section-odd {
+    background-color: $altBackground;
+    color: $background;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 1.2em;
+
+    a {
+      color: $altLinkColour;
+
+      &:hover {
+        color: $altLinkColour;
+        text-decoration: underline;
+      }
+    }
+
+    .infotable {
+
+      tr {
+        border-bottom: 1px solid $background;
+      }
+
+      td {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        vertical-align: top;
+      }
+    }
+  }
+
+  .section-even {
+    background-color: $background;
+    color: $textColour;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 1.2em;
+
+    a {
+      color: $altBackground;
+
+      &:hover {
+        color: $altBackground;
+        text-decoration: underline;
+      }
+    }
+
+    .infotable {
+
+      tr {
+        border-bottom: 1px solid $textColour;
+      }
+
+      td {
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+        vertical-align: top;
+      }
+    }
+  }
+
+  .infotable {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .section-expansion {
+    border-bottom: 1px dashed $divider;
+  }
+
+  h4 {
+    font-size: 2em;
+    margin-bottom: 40px;
+  }
+
+  h5 {
+    font-size: 1.6em;
+  }
+
+  p {
+    line-height: 1.4;
+    margin-bottom: 15px;
+  }
+
+  li {
+    line-height: 1.4;
+  }
+
+  .header-expansion {
+    margin-top: 30px;
+
+    a {
+      padding-right: 10px;
+    }
+
+    .container-expander-link {
+      text-align: right;
+    }
+  }
+
+  .examplecsv {
+    background: $csvBackground;
+    border: 1px solid $csvBorder;
+    width: 100%;
+    margin-bottom: 30px;
+
+    td {
+      border: 1px solid $csvBorder;
+      padding: 5px 10px 5px 10px;
+    }
+  }
+
+  .information-link {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 15px;
+
+    a {
+      font-size: 1.5em;
+      line-height: 1;
+    }
+
+    p {
+      margin-top: 20px;
+    }
+  }
+}
+
+.section-last {
+  margin-bottom: 0px;
+}
