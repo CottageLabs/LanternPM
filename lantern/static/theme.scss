@@ -57,6 +57,16 @@ $topStrapBackground: #ffffff;
       border-bottom: 1px solid $background;
     }
   }
+
+  .pullout-quote {
+    float: left;
+    width: 40%;
+    border-top: 10px solid $background;
+    border-bottom: 10px solid $background;
+    padding: 20px;
+    margin: 20px;
+    color: $background;
+  }
 }
 
 .section-even {
@@ -80,6 +90,16 @@ $topStrapBackground: #ffffff;
       border-bottom: 1px solid $textColour;
     }
   }
+
+  .pullout-quote {
+    float: left;
+    width: 40%;
+    border-top: 10px solid $altBackground;
+    border-bottom: 10px solid $altBackground;
+    padding: 20px;
+    margin: 20px;
+    color: $altBackground;
+  }
 }
 
 .infotable {
@@ -91,6 +111,54 @@ $topStrapBackground: #ffffff;
     padding-right: 10px;
     padding-bottom: 10px;
     vertical-align: top;
+  }
+}
+
+.casestudy {
+  background-color: $background;
+
+  .header-primary {
+    text-align: center;
+    padding-bottom: 40px;
+    background-color: $altBackground;
+    color: $background;
+
+    h3 {
+      font-size: 3em;
+    }
+  }
+
+  .intro {
+    font-size: 1.4em;
+  }
+
+  .summary {
+    border-left: 1px solid $background;
+    border-right: 1px solid $background;
+
+    strong {
+      text-align: center;
+      font-size: 1.3em;
+    }
+  }
+
+  .inline-quote {
+    font-style: italic;
+  }
+
+  .quote-attribution {
+    text-align: right;
+  }
+
+  h4 {
+    margin-top: 40px;
+    font-size: 2em;
+    margin-bottom: 30px;
+  }
+
+  p {
+    line-height: 1.4;
+    margin-bottom: 15px;
   }
 }
 
