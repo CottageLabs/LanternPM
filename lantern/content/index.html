@@ -10,7 +10,7 @@
 				<div class="input-group">
 					<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
 					<div class="input-group-btn">
-						<a class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></a>
+						<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
 					</div>
 				</div>
 				<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
@@ -75,7 +75,7 @@
 	</div>
 </div>
 
-<div class="section-odd">
+<div class="section-odd" style="padding-bottom: 200px">
 	<div class="container-fluid" id="signupprompt" style="max-width:1000px;display:none;">
 		<div class="row notcloggedin">
 			<div class="col-md-8 col-md-offset-2" id="signup">
@@ -91,10 +91,10 @@
 					<li>...<a href="/about">find out more</a></li>
 				</ul>
 
-				<div class="input-group" style="margin-bottom:200px;">
+				<div class="input-group">
 					<input type="text" id="startlogin" class="form-control" placeholder="Enter your email address">
 					<div class="input-group-btn">
-						<a class="btn btn-primary" href="#" id="startsignup">Sign up</a>
+						<button class="btn btn-primary" href="#" id="startsignup">Sign up</button>
 					</div>
 				</div>
 
@@ -168,11 +168,11 @@
 
 	<div class="row" style="margin-top:50px;">
 		<div class="col-md-6" style="text-align:center;">
-			<a href="#" class="btn btn-primary btn-block">Download the report</a>
+			<button href="#" class="btn btn-primary btn-block">Download the report</button>
 			<a href="" id="customise">customise your download <span class="caret"></span></a>
 		</div>
 		<div class="col-md-6" style="text-align:center;">
-			<a href="#" class="btn btn-primary btn-block">Rerun the report</a>
+			<button href="#" class="btn btn-primary btn-block">Rerun the report</button>
 			<span style="color:#888;">creates a fresh report using the same identifiers</span>
 		</div>
 	</div>
