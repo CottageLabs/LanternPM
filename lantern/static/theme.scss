@@ -275,10 +275,15 @@ $topStrapBackground: #ffffff;
     font-size: 1.5em;
     background: $background;
     color: $altBackground;
+
+    &:hover {
+      background: #cccccc;
+      color: $altBackground;
+    }
   }
 
   .thanks {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
 }
