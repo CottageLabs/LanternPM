@@ -257,6 +257,10 @@ $topStrapBackground: #ffffff;
 .feedback-form {
   text-align: center;
 
+  .form-help {
+    font-size: 1em;
+  }
+
   input {
     width: 100%
   }

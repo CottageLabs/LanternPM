@@ -162,6 +162,8 @@
 
 .feedback-form {
   text-align: center; }
+  .feedback-form .form-help {
+    font-size: 1em; }
   .feedback-form input {
     width: 100%; }
   .feedback-form textarea {
