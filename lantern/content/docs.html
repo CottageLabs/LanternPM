@@ -1,119 +1,166 @@
+<div class="documentation">
 
-<div class="container">
-    <div class="content">
+    <div class="section-odd">
 
-        <h3>What does Lantern do?</h3>
+        <div class="container">
+            <div class="content">
 
-        <p>Lantern gives you the ability to pull together a full range of Open Access compliance measures used by funders and official agencies, making
-            checking your publications incredibly easy.</p>
+                <div class="row">
+                    <div class="col-md-12 header-primary">
+                        <h3>Lantern Documentation</h3>
+                    </div>
+                </div>
 
-        <p>Just upload a list of your identifiers - like DOIs - and we'll learn everything we can about them and send you the results.</p>
+                <p class="intro">Lantern gives you the ability to pull together a full range of Open Access compliance measures used by funders and official agencies, making
+                    checking your publications incredibly easy.</p>
 
-        <h3>Quickstart</h3>
+                <p>Just upload a list of your identifiers - like DOIs - and we'll learn everything we can about them and send you the results.</p>
+            </div>
+        </div>
+    </div>
 
-        <p><strong class="step">Step 1</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Make a list of your identifiers.  This can be as a comma-separated list, or as a CSV.</p>
+    <div class="section-even">
 
-            <p>As a list, this might just be: 10.1080/0005772x.1997.11099339, 10.2307/40132944, 10.1017/cbo9781139506427</p>
+        <div class="container">
+            <div class="content">
+                <h4>Quickstart</h4>
 
-            <p>As a CSV, you can start with your favourite spreadsheet program, and create a sheet like the example below.  As long as it has one or more of the headers "DOI", "PMID" or "PMICD" it will work:
+                <p><strong class="step">Step 1</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Make a list of your identifiers.  This can be as a comma-separated list, or as a CSV.</p>
 
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <table class="examplecsv">
+                <p>As a list, this might just be: 10.1080/0005772x.1997.11099339, 10.2307/40132944, 10.1017/cbo9781139506427</p>
+
+                <p>As a CSV, you can start with your favourite spreadsheet program, and create a sheet like the example below.  As long as it has one or more of the headers "DOI", "PMID" or "PMICD" it will work:
+
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <table class="examplecsv">
+                            <thead>
+                            <tr>
+                                <td>DOI</td>
+                                <td>PMID</td>
+                                <td>PMCID</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>10.abc/123</td>
+                                <td>78543277</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>10.jkl/8999/1</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>78024443</td>
+                                <td>PMC75220165</td>
+                            </tr>
+                            <tr>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <p>Once you've done that, export it as a CSV.  In Excel you can do this by choosing <strong>Save As</strong> and selecting <strong>CSV (Comma delimited)</strong> as the type.  For more information see <a href="https://support.office.com/en-us/article/Import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba#bmexport">Microsoft's support page</a>.</p>
+
+                <p><strong class="step">Step 2</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Copy your identifier list into the input box or use the "upload a file" link on our <a href="#">front page</a>.</p>
+
+                <p><strong class="step">Step 3</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Take a break, put your feet up and let us do all the work.  Depending on how many identifiers you've given us, it might take a little while to gather the results.  We'll email you when they're ready.</p>
+
+                <p><strong class="step">Step 4</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Go to your finished report page.  Here you can view a summary of the results, and download the full report as a CSV, which you can then open up in your spreadsheet package.  You can also share this page, so others can see your results too.</p>
+
+                <br>
+
+                <p>You'll have the following information available to you in the spreadsheet:</p>
+
+                <ul>
+                    <li>Some additional basic bibliographic information, such as Journal, Publisher, Title, and publication dates</li>
+                    <li>Whether the publication is in a repository (and which repositories)</li>
+                    <li>Whether the publication appears in EuropePMC, and some information about its status and version</li>
+                    <li>What re-use licence the publisher has applied</li>
+                    <li>Any embargo information about this publisher</li>
+                    <li>Any self-archiving policies for the pre-print, post-print or publisher's version</li>
+                    <li>Grant and PI information</li>
+                </ul>
+
+                <p>If you want the full details of what information we gather, check out the <a href="#output">output documentation</a>, below.</p>
+
+                <p>In order to get you this information, Lantern queries a lot of external data services, so you should check out our <a href="/sources">sources</a> page for more information on what we use and the re-use
+                    rights they may apply to the data</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section-odd">
+        <div class="container">
+            <div class="content">
+
+                <h4><a name="output"></a>Output Documentation</h4>
+
+                <p>When you download your report, there will be a lot of information in there; below you'll find details on what all of those fields mean.</p>
+
+                <table class="fields" id="doc-table">
                     <thead>
                     <tr>
-                        <td>DOI</td>
-                        <td>PMID</td>
-                        <td>PMCID</td>
+                        <td width="30%"><strong class="step">Field</strong></td>
+                        <td width="70%"><strong class="step">Description</strong></td>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>10.abc/123</td>
-                        <td>78543277</td>
                         <td>&nbsp;</td>
+                        <td>Loading documentation ...</td>
                     </tr>
-                    <tr>
-                        <td>10.jkl/8999/1</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>78024443</td>
-                        <td>PMC75220165</td>
-                    </tr>
-                    <tr>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                    </tr>
+
                     </tbody>
                 </table>
+
+
+                <h3>Have we missed anything?</h3>
+
+                <p>Is there some aspect of the documentation that is unclear, or any other questions you have?
+                    Don't hesitate to <a href="/feedback">get in touch</a> and we'll be happy to help you out.</p>
             </div>
-
-        </div>
-
-        <p>Once you've done that, export it as a CSV.  In Excel you can do this by choosing <strong>Save As</strong> and selecting <strong>CSV (Comma delimited)</strong> as the type.  For more information see <a href="https://support.office.com/en-us/article/Import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba#bmexport">Microsoft's support page</a>.</p>
-
-        <p><strong class="step">Step 2</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Copy your identifier list into the input box or use the "upload a file" link on our <a href="#">front page</a>.</p>
-
-        <p><strong class="step">Step 3</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Take a break, put your feet up and let us do all the work.  Depending on how many identifiers you've given us, it might take a little while to gather the results.  We'll email you when they're ready.</p>
-
-        <p><strong class="step">Step 5</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Go to your finished report page.  Here you can view a summary of the results, and download the full report as a CSV, which you can then open up in your spreadsheet package.  You can also share this page, so others can see your results too.</p>
-
-        <br>
-
-        <p>You'll have the following information available to you in the spreadsheet:</p>
-
-        <ul>
-            <li>Some additional basic bibliographic information, such as Journal, Publisher, Title, and publication dates</li>
-            <li>Whether the publication is in a repository (and which repositories)</li>
-            <li>Whether the publication appears in EuropePMC, and some information about its status and version</li>
-            <li>What re-use licence the publisher has applied</li>
-            <li>Any embargo information about this publisher</li>
-            <li>Any self-archiving policies for the pre-print, post-print or publisher's version</li>
-            <li>Grant and PI information</li>
-        </ul>
-
-        <p>If you want the full details of what information we gather, check out the <a href="#advanced">output documentation</a>, below.</p>
-
-        <p>In order to get you this information, Lantern queries a lot of external data services, so you should check out our <a href="/sources">sources</a> page for more information on what we use and the re-use
-            rights they may apply to the data</p>
-    </div>
-</div>
-
-
-
-<div id="advanced-documentation">
-    <div class="container">
-        <div class="content">
-
-            <h3><a name="advanced"></a>Output Documentation</h3>
-
-            <p>When you download your report, there will be a lot of information in there; below you'll find details on what all of those fields mean.</p>
-
-            <table class="fields">
-                <thead>
-                <tr>
-                    <td width="30%"><strong class="step">Field</strong></td>
-                    <td width="70%"><strong class="step">Description</strong></td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>TODO - populate from static/fields.json</td>
-                    <td>TODO - populate from static/fields.json</td>
-                </tr>
-
-                </tbody>
-            </table>
-
-
-            <h3>Have we missed anything?</h3>
-
-            <p>Is there some aspect of the documentation that is unclear, or any other questions you have?  Don't hesitate to <a href="mailto:lantern@cottagelabs.com">get in touch</a> and we'll be happy to help you out.</p>
         </div>
     </div>
 
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+
+    var document = function(data) {
+        // first turn the doc data around to be in the right shape
+        var documentation = {};
+        var keys = Object.keys(data);
+        for (var i = 0; i < keys.length; i++) {
+            var def = data[keys[i]];
+            documentation[def["short_name"]] = def["description"];
+        }
+
+        var sortKeys = Object.keys(documentation);
+        sortKeys.sort();
+
+        var table = "";
+        for (var i = 0; i < sortKeys.length; i++) {
+            table += '<tr><td>' + sortKeys[i] + '</td><td>' + documentation[sortKeys[i]] + '</td></tr>';
+        }
+        $("#doc-table tbody").html(table);
+    };
+
+    $.ajax({
+        method: "GET",
+        url: "/static/fields.json",
+        dataType: "application/json",
+        success:  document
+    });
+});
+</script>
