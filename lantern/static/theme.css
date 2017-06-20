@@ -44,8 +44,11 @@
   .section-odd .feature-box {
     border: 2px solid #fcfcfc;
     border-radius: 25px;
-    padding: 50px;
-    text-align: center; }
+    text-align: center;
+    margin: 40px;
+    height: 200px; }
+    .section-odd .feature-box h4 {
+      font-size: 1.5em; }
 
 .section-even {
   background-color: #fcfcfc;
