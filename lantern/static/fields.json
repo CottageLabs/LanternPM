@@ -1,187 +1,155 @@
 {
-  "fields" : [
-    {
-      "internal_id" : "pmcid",
+    "pmcid" : {
       "short_name" : "PMCID",
       "long_name" : "Europe PubMed Central ID",
       "description" : "The <a href=\"http://europepmc.org\">EuropePMC</a> identifier for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
     },
-    {
-      "internal_id" : "pmid",
+    "pmid" : {
       "short_name" : "PMID",
       "long_name" : "PubMed ID",
       "description" : "The <a href=\"http://www.ncbi.nlm.nih.gov/pubmed\">PubMed</a> identifier for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
     },
-    {
-      "internal_id" : "doi",
+    "doi" : {
       "short_name" : "DOI",
       "long_name" : "DOI",
       "description" : "The DOI for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
     },
-    {
-      "internal_id" : "publisher",
+    "publisher" : {
       "short_name" : "Publisher",
       "long_name" : "Journal Publisher",
       "description" : "The Publisher of the Journal in which the article was published."
     },
-    {
-      "internal_id" : "journal_title",
+    "journal_title" : {
       "short_name" : "Journal title",
       "long_name" : "Journal title",
       "description" : "The name of the Journal in which the article was published."
     },
-    {
-      "internal_id" : "issn",
+    "issn" : {
       "short_name" : "ISSN",
       "long_name" : "ISSN",
       "description" : "The ISSN(s) of the Journal in which the article was published; if more than one ISSN is found (e.g. the Print ISSN, Electronic ISSN or Linking ISSN) then they will be presented as a comma-separated list."
     },
-    {
-      "internal_id" : "publication_date",
+    "publication_date" : {
       "short_name" : "Publication Date",
       "long_name" : "Publication Date",
       "description" : "The date the publisher made the article available (either in print or electronically). The date may contain both the year and month, or only the year, depending on what data is available. If no publication date can be found this column will contain the text \"Unavailable\"."
     },
-    {
-      "internal_id" : "electronic_publication_date",
+    "electronic_publication_date" : {
       "short_name" : "Electronic Publication Date",
       "long_name" : "Electronic Publication Date",
       "description" : "The date the publisher made the article available online. The date will be in the form YYYY-MM-DD (e.g. 2011-03-21). If no electronic publication date can be found this column will contain the text \"Unavailable\"."
     },
-    {
-      "internal_id" : "title",
+    "title" : {
       "short_name" : "Article title",
       "long_name" : "Article title",
       "description" : "The title of the article."
     },
-    {
-      "internal_id" : "authors",
+    "authors" : {
       "short_name" : "Author(s)",
       "long_name" : "Author(s)",
       "description" : "List of the article's authors. First, we look for this information in Europe Pubmed Central. Then we check CrossRef. Finally we check CORE."
     },
-    {
-      "internal_id" : "in_core",
+    "in_core" : {
       "short_name" : "In CORE?",
       "long_name" : "Is the article in CORE?",
       "description" : "Whether the article appears in the CORE aggregation. Presence in CORE indicates that some version of the article is available Open Access in a repository or other open database."
     },
-    {
-      "internal_id" : "repositories",
+    "repositories" : {
       "short_name" : "Archived Repositories",
       "long_name" : "Which repositories does the article appear in",
       "description" : "A list of names of repositories in which a copy of some version of the article exists."
     },
-    {
-      "internal_id" : "in_epmc",
+    "in_epmc" : {
       "short_name" : "Fulltext in EPMC?",
       "long_name" : "Is the fulltext available in EuropePMC?",
       "description" : "Does the fulltext of the article appear in some form in <a href=\"http://europepmc.org/\">EPMC</a>? This is equivalent to the EPMC metadata record asserting inEPMC: Y"
     },
-    {
-      "internal_id" : "epmc_xml",
+    "epmc_xml" : {
       "short_name" : "XML Fulltext?",
       "long_name" : "Is the EuropePMC fulltext available as XML?",
       "description" : "Does the XML version of the fulltext of the article appear in <a href=\"http://europepmc.org/\">EPMC</a>? This will be a subset of those where the fulltext appears in some form (some are PDF only), and all OA-subset articles SHOULD have this content available."
     },
-    {
-      "internal_id" : "aam",
+    "aam" : {
       "short_name" : "AAM?",
       "long_name" : "Is the EuropePMC version the accepted author manuscript (AAM)?",
       "description" : "Is the copy of the paper in <a href=\"http://europepmc.org/\">EPMC</a> the Accepted Authors Manuscript (AAM)? If the XML fulltext is present in EPMC then this information will be lifted from there, otherwise we page-scrape the EPMC web page for the article to detect whether it is the author manuscript"
     },
-    {
-      "internal_id" : "ahead_of_print",
+    "ahead_of_print" : {
       "short_name" : "Ahead of Print?",
       "long_name" : "Was the article published electronically before print?",
       "description" : "Was the article published electronically before it was released in print. For journals which release both electronic and print versions, this will be either TRUE or FALSE. For journals which do not have print versions, this will be \"not applicable\". If we are unable to determine either the status of the journal or the status of the article this will be \"unknown\"."
     },
-    {
-      "internal_id" : "open_access",
+    "open_access" : {
       "short_name" : "Open Access",
       "long_name" : "Is the article in the EuropePMC open access subset?",
       "description" : "Is the article in the <a href=\"http://europepmc.org/\">EPMC</a> Open Access subset? This is equivalent to the EPMC metadata record asserting isOpenAccess: Y"
     },
-    {
-      "internal_id" : "licence",
+    "licence" : {
       "short_name" : "Licence",
       "long_name" : "What licence (if any) is the article published under?",
       "description" : "What licence, if any, were we able to detect for the article. Will be one of the Creative Commons licences (including CC0), or \"non-standard-licence\"."
     },
-    {
-      "internal_id" : "licence_source",
+    "licence_source" : {
       "short_name" : "Licence Source",
       "long_name" : "Which source did we use for the Licence information?",
       "description" : "Where did we find the licence information contained in the Licence column? <ol><li>epmc_rest_api - Detected via the EPMC REST API</li><li>epmc_xml_permissions - Detected in the EPMC Fulltext XML under the permissions section</li><li>epmc_xml - Detected elsewhere in the EPMC Fulltext XML</li><li>epmc - Detected on the EPMC web page (via page scraping)</li><li>publisher - Detected on the publisher's page for the article (via page scraping, or publisher API if one exists)</li><li>unknown - We were unable to determine a licence for this article</li></ol>"
     },
-    {
-      "internal_id" : "journal_type",
+    "journal_type" : {
       "short_name" : "Journal Type",
       "long_name" : "Is the article in a pure OA journal listed in DOAJ?",
       "description" : "Whether this is a hybrid or pure Open Access journal. Determined by whether the journal is present in the <a href=\"https://doaj.org\">DOAJ</a>"
     },
-    {
-      "internal_id" : "preprint_embargo",
+    "preprint_embargo" : {
       "short_name" : "Preprint Embargo",
       "long_name" : "What is the journal preprint embargo policy?",
       "description" : "The standard embargo period for preprints for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "preprint_self_archiving",
+    "preprint_self_archiving" : {
       "short_name" : "Preprint Self-Archiving Policy",
       "long_name" : "Does the journal allow preprint self-archiving?",
       "description" : "The standard self-archiving policy for preprints for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "postprint_embargo",
+    "postprint_embargo" : {
       "short_name" : "Postprint Embargo",
       "long_name" : "What is the journal postprint embargo policy?",
       "description" : "The standard embargo period for postprints for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "postprint_self_archiving",
+    "postprint_self_archiving" : {
       "short_name" : "Postprint Self-Archiving Policy",
       "long_name" : "Does the journal allow postprint self-archiving?",
       "description" : "The standard self-archiving policy for postprints for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "publisher_copy_embargo",
+    "publisher_copy_embargo" : {
       "short_name" : "Publisher's Copy Embargo",
       "long_name" : "What is the journal published copy embargo policy?",
       "description" : "The standard embargo period for publiser copies for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "publisher_copy_self_archiving",
+  "publisher_copy_self_archiving" : {
       "short_name" : "Publisher's Copy Self-Archiving Policy",
       "long_name" : "Does the journal allow published copy self-archiving?",
       "description" : "The standard self-archiving policy for publisher copies for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
     },
-    {
-      "internal_id" : "grant",
+    "grant" : {
       "short_name" : "Grant {X}",
       "long_name" : "Grant number associated with this article ({X})",
       "description" : "Grant Number associated with this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Agency {X}\" and \"PI {X}\" fields"
     },
-    {
-      "internal_id" : "agency",
+    "agency" : {
       "short_name" : "Agency {X}",
       "long_name" : "Agency responsible for funding this article ({X})",
       "description" : "Agency responsible for funding this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Grant {X}\" and \"PI {X}\" fields"
     },
-    {
-      "internal_id" : "pi",
+    "pi" : {
       "short_name" : "PI {X}",
       "long_name" : "Principal Investigator of the grant associated with this article",
       "description" : "The Principal Investigator of the grant associated with this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Grant {X}\" and \"Agency {X}\" fields"
     },
-    {
-      "internal_id" : "confidence",
+    "confidence" : {
       "short_name" : "Correct Article Confidence",
       "long_name" : "How sure are we that we have identified the correct article",
       "description" : "What level of confidence does the system have that it has successfully identified and analysed the correct article?  Since there are different ways we might identify the article, we may not always be 100% certain that we have found the correct one. "
     },
-    {
-      "internal_id" : "provenance",
+    "provenance" : {
       "short_name" : "Provenance",
       "long_name" : "What actions did we take on this identifier",
       "description" : "This field contains detailed logging and provenance information for the processing run, allowing you to understand on a case-by-case basis how the decisions and analysis were made"
