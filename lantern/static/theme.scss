@@ -68,6 +68,13 @@ $topStrapBackground: #ffffff;
     color: $background;
     font-size: 1.5em;
   }
+
+  .feature-box {
+    border: 2px solid $background;
+    border-radius: 25px;
+    padding: 50px;
+    text-align: center;
+  }
 }
 
 .section-even {

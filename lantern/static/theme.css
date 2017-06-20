@@ -41,6 +41,11 @@
     margin: 20px;
     color: #fcfcfc;
     font-size: 1.5em; }
+  .section-odd .feature-box {
+    border: 2px solid #fcfcfc;
+    border-radius: 25px;
+    padding: 50px;
+    text-align: center; }
 
 .section-even {
   background-color: #fcfcfc;
