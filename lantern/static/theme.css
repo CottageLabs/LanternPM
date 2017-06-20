@@ -46,8 +46,10 @@
     border-radius: 25px;
     text-align: center;
     margin: 20px;
-    padding: 10px;
+    margin-bottom: 40px;
+    padding: 15px;
     height: 250px;
+    background: #fcfcfc;
     color: #477890;
     box-shadow: inset 4px 3px 15px 0px; }
     .section-odd .feature-box h4 {
