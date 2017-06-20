@@ -1,213 +1,246 @@
-<div class="container">
-        <div class="content">
+<div class="documentation">
 
-    <h3>Lantern Data Sources</h3>
-    <p>When you supply us a list of article identifiers, each one is used to query multiple websites and data sources in order to locate
-        information relevant to the item's Open Access status; for example, the re-use licence, whether
-        it has been archived in an open repository, what embargo policies the journal has in place, etc.</p>
+    <div class="section-odd">
 
-    <p>Below you will find details of the services we consume, links to their terms of use, and a summary of our interpretation of those terms.</p>
+        <div class="container">
+            <div class="content">
 
-    <h4>The Sources</h4>
+                <div class="row">
+                    <div class="col-md-12 header-primary">
+                        <h3>Lantern Data Sources</h3>
+                    </div>
+                </div>
 
-    <table class="summarytable">
-        <thead>
-        <tr>
-            <th>Source</th>
-            <th>What you get from it</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><a href="https://core.ac.uk/">CORE</a></td>
-            <td>Core aggregates items from digital repositories all over the world, so here we can find out whether your items are archived somewhere.</td>
-        <tr>
-        <tr>
-            <td><a href="http://crossref.org/">CrossRef</a></td>
-            <td>CrossRef is a canonical source of bibliographic data, provided directly by publishers, and holds key metadata and in some cases rights
-                information.</td>
-        <tr>
-        <tr>
-            <td style="text-align: left">Direct from the publisher's website</td>
-            <td>Where information is not available in the usual databases, we go direct to the article on the publisher's website to extract as much information as possible.</td>
-        <tr>
-        <tr>
-            <td><a href="http://doaj.org">DOAJ</a></td>
-            <td>DOAJ is the premier registry of Pure OA journals in the world, so we can use it to learn about the journals in which your researchers are publishing.</td>
-        <tr>
-        <tr>
-            <td><a href="http://europepmc.org/">Europe PMC</a></td>
-            <td>EuropePMC aggregates open and closed access bibliographic metadata for the life-sciences, and holds full-texts for OA publications that we can
-                mine for useful information, especially re-use licences.</td>
-        <tr>
-        <tr>
-            <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
-            <td>Grist, operated by EuropePMC, aggregates information about grants, P.I.s and publications associated with life-sciences funders.</td>
-        <tr>
-        <tr>
-            <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
-            <td>Sherpa Romeo is a key resource for information on journal embargo and self-archiving policies.</td>
-        <tr>
-        </tbody>
-    </table>
+                <p class="intro">When you supply us a list of article identifiers, each one is used to query multiple websites and data sources in order to locate
+                    information relevant to the item's Open Access status; for example, the re-use licence, whether
+                    it has been archived in an open repository, what embargo policies the journal has in place, etc.</p>
 
-    <h4>Data Re-Use Conditions</h4>
-
-    <p>Each of our sources may stipulate re-use conditions for their data.  Below are the sources, a link to their
-        last known terms and conditions, and a summary of the terms at last review (provided for information only, and
-        should not be considered legal advice - refer to the 3rd party's terms of service for details):</p>
-
-    <p><strong>Sources' terms and conditions last checked on 24 May 2017</strong></p>
-
-    <table class="summarytable">
-        <thead>
-        <tr>
-            <th width="20%">Service</th>
-            <th width="20%">Terms URL</th>
-            <th width="60%">Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><a href="https://core.ac.uk/">CORE</a></td>
-            <td>No terms of service available</td>
-            <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation.  CORE do ask that if you use their data in
-            research to cite an appropriate publication, as described here: <a href="https://core.ac.uk/about/researchoutputs">https://core.ac.uk/about/researchoutputs</a></td>
-        <tr>
-        <tr>
-            <td><a href="http://europepmc.org/">Europe PMC</a></td>
-            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-            <td>EPMC places no additional restrictions on re-use of the data they hold.  They note that the data they distribute may be subject to rights applied by the owner/submitter (e.g. patent/copyright), and you have
-                a responsibility not to violate those rights.</td>
-        <tr>
-        <tr>
-            <td><a href="http://crossref.org/">CrossRef</a></td>
-            <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
-            <td>CrossRef does not claim ownership of any bibliographic records in their system, and permits you to cache and/or incorporate data and DOIs into your systems.</td>
-        <tr>
-        <tr>
-            <td><a href="http://doaj.org">DOAJ</a></td>
-            <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
-            <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
-        <tr>
-        <tr>
-            <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
-            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-            <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
-        <tr>
-        <tr>
-            <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
-            <td><a href="http://www.sherpa.ac.uk/romeoreuse.html">terms</a></td>
-            <td>Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License - if you re-publish data sourced from Sherpa Romeo you should attribute as specified on their terms of re-use page.</td>
-        <tr>
-        </tbody>
-    </table>
-
-
-    <h4>Previous Data Re-Use Conditions</h4>
-
-    <p>We periodically review the data re-use conditions of our data sources, and below you can see our summaries at the time.  Note that
-    for old reviews of their terms, links may no longer be valid, or the summary may not reflect what you find published
-    on the page.  This section is informational only, and if you have questions about any changes in terms and conditions
-    for these sources, you should contact them directly.</p>
-
-        <p><strong>Sources' terms and conditions checked on 18 September 2016</strong>&nbsp;
-            <a href="#" class="expander" data-expand="sept2016" data-state="closed">Show</a></p>
-
-            <div id="sept2016" style="display:none">
-        <table class="summarytable">
-            <thead>
-            <tr>
-                <th width="20%">Service</th>
-                <th width="20%">Terms URL</th>
-                <th width="60%">Summary</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><a href="https://core.ac.uk/">CORE</a></td>
-                <td>No terms of service available</td>
-                <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation</td>
-            <tr>
-            <tr>
-                <td><a href="http://europepmc.org/">Europe PMC</a></td>
-                <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-                <td>EPMC places no additional restrictions on re-use of the data they hold.  They note that the data they distribute may be subject to rights applied by the owner/submitter (e.g. patent/copyright), and you have
-                    a responsibility not to violate those rights.</td>
-            <tr>
-            <tr>
-                <td><a href="http://crossref.org/">CrossRef</a></td>
-                <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
-                <td>CrossRef places no restrictions on re-use of the data in this context</td>
-            <tr>
-            <tr>
-                <td><a href="http://doaj.org">DOAJ</a></td>
-                <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
-                <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
-            <tr>
-            <tr>
-                <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
-                <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-                <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
-            <tr>
-            <tr>
-                <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
-                <td><a href="http://www.sherpa.ac.uk/romeoreuse.html">terms</a></td>
-                <td>Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License - if you re-publish data sourced from Sherpa Romeo you should attribute as specified on their terms of re-use page.</td>
-            <tr>
-            </tbody>
-        </table>
+                <p>Below you will find details of the services we consume, links to their terms of use, and a summary of our interpretation of those terms.</p>
+            </div>
+        </div>
     </div>
 
-    <p><strong>Sources' terms and conditions checked on 11 May 2016</strong>&nbsp;
-        <a href="#" class="expander" data-expand="may2016" data-state="closed">Show</a>
-    </p>
+    <div class="section-even">
 
-    <div id="may2016" style="display:none">
-    <table class="summarytable">
-        <thead>
-        <tr>
-            <th width="20%">Service</th>
-            <th width="20%">Terms URL</th>
-            <th width="60%">Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><a href="https://core.ac.uk/">CORE</a></td>
-            <td>No terms of service available</td>
-            <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation</td>
-        <tr>
-        <tr>
-            <td><a href="http://europepmc.org/">Europe PMC</a></td>
-            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-            <td>EPMC places no restrictions on re-use of the data, though they note that the data they distribute may be subject to 3rd party rights (e.g. patent/copyright).</td>
-        <tr>
-        <tr>
-            <td><a href="http://crossref.org/">CrossRef</a></td>
-            <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
-            <td>CrossRef places no restrictions on re-use of the data in this context</td>
-        <tr>
-        <tr>
-            <td><a href="http://doaj.org">DOAJ</a></td>
-            <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
-            <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
-        <tr>
-        <tr>
-            <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
-            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
-            <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
-        <tr>
-        <tr>
-            <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
-            <td><a href="http://www.sherpa.ac.uk/romeo/faq.php?la=en&fIDnum=|&mode=simple#reuse">terms</a> provided via FAQ</td>
-            <td>CC BY-NC-SA</td>
-        <tr>
-        </tbody>
-    </table>
+        <div class="container">
+            <div class="content">
+
+                <h4>The Sources</h4>
+
+                <table class="summarytable">
+                    <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>What you get from it</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><a href="https://core.ac.uk/">CORE</a></td>
+                        <td>Core aggregates items from digital repositories all over the world, so here we can find out whether your items are archived somewhere.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://crossref.org/">CrossRef</a></td>
+                        <td>CrossRef is a canonical source of bibliographic data, provided directly by publishers, and holds key metadata and in some cases rights
+                            information.</td>
+                    <tr>
+                    <tr>
+                        <td style="text-align: left">Direct from the publisher's website</td>
+                        <td>Where information is not available in the usual databases, we go direct to the article on the publisher's website to extract as much information as possible.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://doaj.org">DOAJ</a></td>
+                        <td>DOAJ is the premier registry of Pure OA journals in the world, so we can use it to learn about the journals in which your researchers are publishing.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://europepmc.org/">Europe PMC</a></td>
+                        <td>EuropePMC aggregates open and closed access bibliographic metadata for the life-sciences, and holds full-texts for OA publications that we can
+                            mine for useful information, especially re-use licences.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
+                        <td>Grist, operated by EuropePMC, aggregates information about grants, P.I.s and publications associated with life-sciences funders.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
+                        <td>Sherpa Romeo is a key resource for information on journal embargo and self-archiving policies.</td>
+                    <tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-</div></div>
+    <div class="section-odd">
+
+        <div class="container">
+            <div class="content">
+                <h4>Data Re-Use Conditions</h4>
+
+                <p>Each of our sources may stipulate re-use conditions for their data.  Below are the sources, a link to their
+                    last known terms and conditions, and a summary of the terms at last review (provided for information only, and
+                    should not be considered legal advice - refer to the 3rd party's terms of service for details):</p>
+
+                <p><strong>Sources' terms and conditions last checked on 24 May 2017</strong></p>
+
+                <table class="summarytable">
+                    <thead>
+                    <tr>
+                        <th width="20%">Service</th>
+                        <th width="20%">Terms URL</th>
+                        <th width="60%">Summary</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><a href="https://core.ac.uk/">CORE</a></td>
+                        <td>No terms of service available</td>
+                        <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation.  CORE do ask that if you use their data in
+                        research to cite an appropriate publication, as described here: <a href="https://core.ac.uk/about/researchoutputs">https://core.ac.uk/about/researchoutputs</a></td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://europepmc.org/">Europe PMC</a></td>
+                        <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                        <td>EPMC places no additional restrictions on re-use of the data they hold.  They note that the data they distribute may be subject to rights applied by the owner/submitter (e.g. patent/copyright), and you have
+                            a responsibility not to violate those rights.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://crossref.org/">CrossRef</a></td>
+                        <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
+                        <td>CrossRef does not claim ownership of any bibliographic records in their system, and permits you to cache and/or incorporate data and DOIs into your systems.</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://doaj.org">DOAJ</a></td>
+                        <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
+                        <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
+                    <tr>
+                    <tr>
+                        <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
+                        <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                        <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
+                    <tr>
+                    <tr>
+                        <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
+                        <td><a href="http://www.sherpa.ac.uk/romeoreuse.html">terms</a></td>
+                        <td>Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License - if you re-publish data sourced from Sherpa Romeo you should attribute as specified on their terms of re-use page.</td>
+                    <tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section-even">
+
+        <div class="container">
+            <div class="content">
+                <h4>Previous Data Re-Use Conditions</h4>
+
+                <p>We periodically review the data re-use conditions of our data sources, and below you can see our summaries at the time.  Note that
+                for old reviews of their terms, links may no longer be valid, or the summary may not reflect what you find published
+                on the page.  This section is informational only, and if you have questions about any changes in terms and conditions
+                for these sources, you should contact them directly.</p>
+
+                    <p><strong>Sources' terms and conditions checked on 18 September 2016</strong>&nbsp;
+                        <a href="#" class="expander" data-expand="sept2016" data-state="closed">Show</a></p>
+
+                        <div id="sept2016" style="display:none">
+                    <table class="summarytable">
+                        <thead>
+                        <tr>
+                            <th width="20%">Service</th>
+                            <th width="20%">Terms URL</th>
+                            <th width="60%">Summary</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a href="https://core.ac.uk/">CORE</a></td>
+                            <td>No terms of service available</td>
+                            <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://europepmc.org/">Europe PMC</a></td>
+                            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                            <td>EPMC places no additional restrictions on re-use of the data they hold.  They note that the data they distribute may be subject to rights applied by the owner/submitter (e.g. patent/copyright), and you have
+                                a responsibility not to violate those rights.</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://crossref.org/">CrossRef</a></td>
+                            <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
+                            <td>CrossRef places no restrictions on re-use of the data in this context</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://doaj.org">DOAJ</a></td>
+                            <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
+                            <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
+                        <tr>
+                        <tr>
+                            <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
+                            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                            <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
+                            <td><a href="http://www.sherpa.ac.uk/romeoreuse.html">terms</a></td>
+                            <td>Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License - if you re-publish data sourced from Sherpa Romeo you should attribute as specified on their terms of re-use page.</td>
+                        <tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p><strong>Sources' terms and conditions checked on 11 May 2016</strong>&nbsp;
+                    <a href="#" class="expander" data-expand="may2016" data-state="closed">Show</a>
+                </p>
+
+                <div id="may2016" style="display:none">
+                    <table class="summarytable">
+                        <thead>
+                        <tr>
+                            <th width="20%">Service</th>
+                            <th width="20%">Terms URL</th>
+                            <th width="60%">Summary</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><a href="https://core.ac.uk/">CORE</a></td>
+                            <td>No terms of service available</td>
+                            <td>As no terms are available, it should be assumed that you may not re-use data from CORE outside your organisation</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://europepmc.org/">Europe PMC</a></td>
+                            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                            <td>EPMC places no restrictions on re-use of the data, though they note that the data they distribute may be subject to 3rd party rights (e.g. patent/copyright).</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://crossref.org/">CrossRef</a></td>
+                            <td><a href="http://www.crossref.org/requestaccount/termsandconditions.html">terms</a></td>
+                            <td>CrossRef places no restrictions on re-use of the data in this context</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://doaj.org">DOAJ</a></td>
+                            <td>Reuse terms are available in their <a href="http://doaj.org">webpage</a> footer</td>
+                            <td>The DOAJ site and its metadata are licensed under CC BY-SA</td>
+                        <tr>
+                        <tr>
+                            <td><a href="https://europepmc.org/GristAPI">Grist</a></td>
+                            <td><a href="http://www.ebi.ac.uk/about/terms-of-use">terms</a></td>
+                            <td>Grist is operated by EuropePMC/EBI, so the same conditions apply</td>
+                        <tr>
+                        <tr>
+                            <td><a href="http://www.sherpa.ac.uk/romeo">Sherpa Romeo</a></td>
+                            <td><a href="http://www.sherpa.ac.uk/romeo/faq.php?la=en&fIDnum=|&mode=simple#reuse">terms</a> provided via FAQ</td>
+                            <td>CC BY-NC-SA</td>
+                        <tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(".expander").click(function(event) {
