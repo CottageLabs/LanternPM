@@ -142,6 +142,8 @@
 jQuery(document).ready(function($) {
 
     var document = function(data) {
+        var data = JSON.parse(data);
+
         // first turn the doc data around to be in the right shape
         var documentation = {};
         var keys = Object.keys(data);
@@ -162,13 +164,13 @@ jQuery(document).ready(function($) {
 
 
     var error = function() {
-        alert("there was an error");
+        $("#doc-table tbody").html('<tr><td></td><td>Oops, there was an error loading the documentation, please <a href="/feedback">contact us</a> and let us know!</td></tr>');
     };
 
     $.ajax({
         method: "GET",
         url: "/static/fields.json",
-        dataType: "application/json",
+        dataType: "text/plain",
         success:  document,
         error: error
     });
