@@ -40,7 +40,7 @@ $topStrapBackground: #ffffff;
   background-color: $altBackground;
   color: $background;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 90px;
   font-size: 1.2em;
 
   a {
@@ -70,14 +70,17 @@ $topStrapBackground: #ffffff;
   }
 
   .feature-box {
-    border: 2px solid $background;
+    border: 2px solid #cccccc;
     border-radius: 25px;
     text-align: center;
-    margin: 40px;
-    height: 200px;
+    margin: 20px;
+    padding: 10px;
+    height: 250px;
+    color: $altBackground;
+    box-shadow: inset 4px 3px 15px 0px;
 
     h4 {
-      font-size: 1.5em;
+      font-size: 1.2em;
     }
   }
 }
@@ -86,7 +89,7 @@ $topStrapBackground: #ffffff;
   background-color: $background;
   color: $textColour;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 90px;
   font-size: 1.2em;
 
   a {

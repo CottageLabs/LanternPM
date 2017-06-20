@@ -23,7 +23,7 @@
   background-color: #477890;
   color: #fcfcfc;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 90px;
   font-size: 1.2em; }
   .section-odd a {
     color: #c9f299; }
@@ -42,19 +42,22 @@
     color: #fcfcfc;
     font-size: 1.5em; }
   .section-odd .feature-box {
-    border: 2px solid #fcfcfc;
+    border: 2px solid #cccccc;
     border-radius: 25px;
     text-align: center;
-    margin: 40px;
-    height: 200px; }
+    margin: 20px;
+    padding: 10px;
+    height: 250px;
+    color: #477890;
+    box-shadow: inset 4px 3px 15px 0px; }
     .section-odd .feature-box h4 {
-      font-size: 1.5em; }
+      font-size: 1.2em; }
 
 .section-even {
   background-color: #fcfcfc;
   color: #393e41;
   padding-top: 30px;
-  padding-bottom: 30px;
+  padding-bottom: 90px;
   font-size: 1.2em; }
   .section-even a {
     color: #477890; }
