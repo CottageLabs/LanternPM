@@ -170,6 +170,7 @@ jQuery(document).ready(function($) {
     $.ajax({
         method: "GET",
         url: "/static/fields.json",
+        dataType: "text",
         success:  document,
         error: error
     });
