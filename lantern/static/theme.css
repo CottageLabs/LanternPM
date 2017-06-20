@@ -131,6 +131,8 @@
     color: #fcfcfc; }
     .documentation .header-primary h3 {
       font-size: 3em; }
+  .documentation .intro {
+    font-size: 1.4em; }
   .documentation .section-expansion {
     border-bottom: 1px dashed #cccccc; }
   .documentation h4 {

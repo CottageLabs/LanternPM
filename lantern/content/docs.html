@@ -27,9 +27,10 @@
 
                 <p><strong class="step">Step 1</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Make a list of your identifiers.  This can be as a comma-separated list, or as a CSV.</p>
 
-                <p>As a list, this might just be: 10.1080/0005772x.1997.11099339, 10.2307/40132944, 10.1017/cbo9781139506427</p>
+                <p>As a list, this might just be something like: <code>10.1080/0005772x.1997.11099339, 10.2307/40132944, 10.1017/cbo9781139506427</code></p>
 
-                <p>As a CSV, you can start with your favourite spreadsheet program, and create a sheet like the example below.  As long as it has one or more of the headers "DOI", "PMID" or "PMICD" it will work:
+                <p>As a CSV, you can start with your favourite spreadsheet program, and create a sheet like the example below.  As long as it has one or
+                    more of the headers "DOI", "PMID" or "PMICD" it will work:
 
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
@@ -68,9 +69,12 @@
 
                 </div>
 
-                <p>Once you've done that, export it as a CSV.  In Excel you can do this by choosing <strong>Save As</strong> and selecting <strong>CSV (Comma delimited)</strong> as the type.  For more information see <a href="https://support.office.com/en-us/article/Import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba#bmexport">Microsoft's support page</a>.</p>
+                <p>Once you've done that, export it as a CSV.  In Excel you can do this by choosing <strong>Save As</strong>
+                    and selecting <strong>CSV (Comma delimited)</strong> as the type.  For more information see
+                    <a href="https://support.office.com/en-us/article/Import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba#bmexport">Microsoft's support page</a>.</p>
 
-                <p><strong class="step">Step 2</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Copy your identifier list into the input box or use the "upload a file" link on our <a href="#">front page</a>.</p>
+                <p><strong class="step">Step 2</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Copy your identifier list into the input box or
+                    use the "upload a file" link on our <a href="/">front page</a>.</p>
 
                 <p><strong class="step">Step 3</strong>:&nbsp;&nbsp;&nbsp;&nbsp;Take a break, put your feet up and let us do all the work.  Depending on how many identifiers you've given us, it might take a little while to gather the results.  We'll email you when they're ready.</p>
 
@@ -107,7 +111,7 @@
 
                 <p>When you download your report, there will be a lot of information in there; below you'll find details on what all of those fields mean.</p>
 
-                <table class="fields" id="doc-table">
+                <table class="infotable" id="doc-table">
                     <thead>
                     <tr>
                         <td width="30%"><strong class="step">Field</strong></td>
@@ -156,11 +160,17 @@ jQuery(document).ready(function($) {
         $("#doc-table tbody").html(table);
     };
 
+
+    var error = function() {
+        alert("there was an error");
+    };
+
     $.ajax({
         method: "GET",
         url: "/static/fields.json",
         dataType: "application/json",
-        success:  document
+        success:  document,
+        error: error
     });
 });
 </script>
