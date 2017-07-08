@@ -62,17 +62,17 @@
   "in_epmc": {
     "short_name": "Fulltext in EPMC?",
     "long_name": "Is the fulltext available in EuropePMC?",
-    "description": "Does the fulltext of the article appear in some form in <a href=\"http://europepmc.org/\">EPMC</a>? This is equivalent to the EPMC metadata record asserting inEPMC: Y"
+    "description": "Does the fulltext of the article appear in some form in <a href=\"http://europepmc.org/\">EuropePMC</a>? This is equivalent to the EuropePMC metadata record asserting inEPMC: Y"
   },
   "epmc_xml": {
     "short_name": "XML Fulltext?",
     "long_name": "Is the EuropePMC fulltext available as XML?",
-    "description": "Does the XML version of the fulltext of the article appear in <a href=\"http://europepmc.org/\">EPMC</a>? This will be a subset of those where the fulltext appears in some form (some are PDF only), and all OA-subset articles SHOULD have this content available."
+    "description": "Does the XML version of the fulltext of the article appear in <a href=\"http://europepmc.org/\">EuropePMC</a>? This will be a subset of those where the fulltext appears in some form (some are PDF only), and all OA-subset articles SHOULD have this content available."
   },
   "aam": {
     "short_name": "AAM?",
     "long_name": "Is the EuropePMC version the accepted author manuscript (AAM)?",
-    "description": "Is the copy of the paper in <a href=\"http://europepmc.org/\">EPMC</a> the Accepted Authors Manuscript (AAM)? If the XML fulltext is present in EPMC then this information will be lifted from there, otherwise we page-scrape the EPMC web page for the article to detect whether it is the author manuscript"
+    "description": "Is the copy of the paper in <a href=\"http://europepmc.org/\">EuropePMC</a> the Accepted Authors Manuscript (AAM)? If the XML fulltext is present in EuropePMC then this information will be lifted from there, otherwise we page-scrape the EuropePMC web page for the article to detect whether it is the author manuscript"
   },
   "ahead_of_print": {
     "short_name": "Ahead of Print?",
@@ -82,7 +82,7 @@
   "open_access": {
     "short_name": "Open Access",
     "long_name": "Is the article in the EuropePMC open access subset?",
-    "description": "Is the article in the <a href=\"http://europepmc.org/\">EPMC</a> Open Access subset? This is equivalent to the EPMC metadata record asserting isOpenAccess: Y"
+    "description": "Is the article in the <a href=\"http://europepmc.org/\">EuropePMC</a> Open Access subset? This is equivalent to the EuropePMC metadata record asserting isOpenAccess: Y"
   },
   "licence": {
     "short_name": "Licence",
@@ -92,7 +92,7 @@
   "licence_source": {
     "short_name": "Licence Source",
     "long_name": "Which source did we use for the Licence information?",
-    "description": "Where did we find the licence information contained in the Licence column? <ol><li>epmc_rest_api - Detected via the EPMC REST API</li><li>epmc_xml_permissions - Detected in the EPMC Fulltext XML under the permissions section</li><li>epmc_xml - Detected elsewhere in the EPMC Fulltext XML</li><li>epmc - Detected on the EPMC web page (via page scraping)</li><li>publisher - Detected on the publisher's page for the article (via page scraping, or publisher API if one exists)</li><li>unknown - We were unable to determine a licence for this article</li></ol>"
+    "description": "Where did we find the licence information contained in the Licence column? <ol><li>epmc_rest_api - Detected via the EuropePMC REST API</li><li>epmc_xml_permissions - Detected in the EuropePMC Fulltext XML under the permissions section</li><li>epmc_xml - Detected elsewhere in the EuropePMC Fulltext XML</li><li>epmc - Detected on the EuropePMC web page (via page scraping)</li><li>publisher - Detected on the publisher's page for the article (via page scraping, or publisher API if one exists)</li><li>unknown - We were unable to determine a licence for this article</li></ol>"
   },
   "journal_type": {
     "short_name": "Journal Type",
