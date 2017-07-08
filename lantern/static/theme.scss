@@ -9,7 +9,7 @@ $csvBackground: #ffffff;
 $csvBorder: #000000;
 
 $shadow: 0px 2px 8px 1px #cccccc;
-$topStrapBackground: #ffffff;
+$topStrapBackground: $background;
 
 .topstrap {
   background-color: $topStrapBackground;
@@ -26,17 +26,6 @@ $topStrapBackground: #ffffff;
   color: $textColour;
   padding-top: 30px;
   padding-bottom: 200px;
-  // font-size: 1.2em;
-
-  /*
-  a {
-    color: $altBackground;
-
-    &:hover {
-      color: $altBackground;
-      text-decoration: none;
-    }
-  }*/
 }
 
 .section-odd {

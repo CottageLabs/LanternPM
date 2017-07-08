@@ -1,5 +1,5 @@
 .topstrap {
-  background-color: #ffffff; }
+  background-color: #fcfcfc; }
 
 .topshadow {
   box-shadow: 0px 2px 8px 1px #cccccc;
@@ -10,16 +10,7 @@
   background-color: #fcfcfc;
   color: #393e41;
   padding-top: 30px;
-  padding-bottom: 200px;
-  /*
-  a {
-    color: $altBackground;
-
-    &:hover {
-      color: $altBackground;
-      text-decoration: none;
-    }
-  }*/ }
+  padding-bottom: 200px; }
 
 .section-odd {
   background-color: #477890;
