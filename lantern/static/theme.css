@@ -123,7 +123,8 @@
     margin-bottom: 15px; }
 
 .documentation {
-  background-color: #fcfcfc; }
+  background-color: #fcfcfc;
+  margin-top: -10px; }
   .documentation .header-primary {
     text-align: center;
     padding-bottom: 40px;
