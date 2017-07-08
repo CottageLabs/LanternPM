@@ -72,7 +72,7 @@
   "aam": {
     "short_name": "AAM?",
     "long_name": "Is the EuropePMC version the accepted author manuscript (AAM)?",
-    "description": "Is the copy of the paper in <a href=\"http://europepmc.org/\">EuropePMC</a> the Accepted Authors Manuscript (AAM)? If the XML fulltext is present in EuropePMC then this information will be lifted from there, otherwise we page-scrape the EuropePMC web page for the article to detect whether it is the author manuscript"
+    "description": "Is the copy of the paper in <a href=\"http://europepmc.org/\">EuropePMC</a> the Accepted Author Manuscript (AAM)? If the XML fulltext is present in EuropePMC then this information will be lifted from there, otherwise we page-scrape the EuropePMC web page for the article to detect whether it is the author manuscript"
   },
   "ahead_of_print": {
     "short_name": "Ahead of Print?",
@@ -122,7 +122,7 @@
   "publisher_copy_embargo": {
     "short_name": "Publisher's Copy Embargo",
     "long_name": "What is the journal published copy embargo policy?",
-    "description": "The standard embargo period for publiser copies for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
+    "description": "The standard embargo period for publisher copies for the Journal in which this article is published, according to <a href=\"http://www.sherpa.ac.uk/romeo/index.php\">Sherpa Romeo</a>"
   },
   "publisher_copy_self_archiving": {
     "short_name": "Publisher's Copy Self-Archiving Policy",
