@@ -190,11 +190,12 @@
     height: 300px; }
   .feedback-form button {
     font-size: 1.5em;
+    margin-top: 30px;
     background: #fcfcfc;
     color: #477890; }
     .feedback-form button:hover {
-      background: #cccccc;
-      color: #477890; }
+      background: #477890;
+      color: #fcfcfc; }
   .feedback-form .thanks {
     margin-top: 100px;
     margin-bottom: 100px; }
