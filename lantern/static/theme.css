@@ -191,11 +191,12 @@
   .feedback-form button {
     font-size: 1.5em;
     margin-top: 30px;
+    border: none;
     background: #fcfcfc;
     color: #477890; }
     .feedback-form button:hover {
-      background: #477890;
-      color: #fcfcfc; }
+      background: #eeeeee;
+      color: #477890; }
   .feedback-form .thanks {
     margin-top: 100px;
     margin-bottom: 100px; }

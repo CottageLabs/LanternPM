@@ -299,12 +299,13 @@ $topStrapBackground: #ffffff;
   button {
     font-size: 1.5em;
     margin-top: 30px;
+    border: none;
     background: $background;
     color: $altBackground;
 
     &:hover {
-      background: $altBackground;
-      color: $background;
+      background: #eeeeee;
+      color: $altBackground;
     }
   }
 
