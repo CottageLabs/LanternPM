@@ -154,6 +154,21 @@
     "long_name": "Which repositories does the article appear in",
     "description": "A list of names of repositories in which a copy of some version of the article exists."
   },
+  "repository_urls": {
+    "short_name": "Repository URLs",
+    "long_name": "URLs of repositories the article appears in",
+    "description": "A list of URLs of repositories in which a copy of some version of the article exists."
+  },
+  "repository_oai_ids": {
+    "short_name": "Repository OAI IDs",
+    "long_name": "OAI IDs of repositories the article appears in",
+    "description": "A list of OAI IDs of repositories in which a copy of some version of the article exists."
+  },
+  "repository_fulltext_urls": {
+    "short_name": "Repository Fulltext URLs",
+    "long_name": "Fulltext URLs of repositories the article fulltext appears in",
+    "description": "A list of fulltext URLs of repositories in which a fulltext copy of some version of the article exists."
+  },
   "grant": {
     "short_name": "Grant {X}",
     "long_name": "Grant number associated with this article ({X})",
