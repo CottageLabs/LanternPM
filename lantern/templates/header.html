@@ -1,23 +1,22 @@
-<div class="navbar navbar-fixed-top topstrap">
-	<div class="container-fluid" style="max-width:1000px;">
+<div class="navbar navbar-fixed-top topstrap" style="height:90px;">
+	<div class="container-fluid" style="max-width:1200px;">
 		<div class="row">
-			<div class="col-md-6">
-				<h3 id="header" style="display:none;">
+			<div class="col-sm-6 hidden-xs">
+				<h3 id="header">
 					<a style="color:#555;" href="/">LANTERN</a>
 					<br><small>by <a href="https://cottagelabs.com">Cottage Labs</a></small>
 				</h3>
 			</div>
-			<div class="col-md-6">
+			<div class="col-sm-6">
 				<div>
-					<p style="text-align:right;margin-top:15px;" id="tagline">
+					<p style="text-align:right;margin-top:20px;" id="tagline">
 						Shining a light on open access<br>
 						<span class="notcloggedin"><a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a></span>
 					</p>
 					<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-10px;">
-						<span id="creditscore">No credit</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Account <span class="caret"></span>
+						Account <span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu pull-right">
-						<li><a href="/settings#credit">Add credit</a></li>
 						<li><a href="/history">Report history</a></li>
 						<li><a href="/settings">Settings</a></li>
 						<li><a id="cloginLogout" href="#">Logout</a></li>
@@ -39,3 +38,20 @@
 		</div>
 	</div>
 </div>
+
+<script>
+jQuery(document).ready(function() {
+
+	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
+	var ready = function() {
+		$('#cloginArea').hide();
+		$('#blurb').hide();
+		lantern.startup();
+	}
+
+	clogin.init({
+		afterLogin:ready
+	});
+
+});
+</script>

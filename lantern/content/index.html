@@ -59,9 +59,6 @@
 				<p>
 					Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
 				</p>
-				<p id="buycredit">
-					You can now <a href="/settings#credit">buy credit</a> to enter multiple identifiers.
-				</p>
 				<p>
 					Read the <a href="/docs">documentation</a>, check out the <a href="/format">file upload format</a>,
 					or give us <a href="">feedback</a>.
@@ -182,12 +179,12 @@
 
 <script>
 jQuery(document).ready(function() {
+	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginEmail').val($('#startlogin').val()); $('#cloginArea').show(); $('#cloginSubmit').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
+
 	$('#customise').bind('click',function(e) { e.preventDefault(); alert('will show the tickboxes for what fields they want to download'); });
 	$('#rename').bind('click',function(e) { e.preventDefault(); alert('will rename report for user to share nicely'); });
 	
 	$('#startupload').bind('click',function(e) { e.preventDefault(); $('#fileupload').trigger('click'); });
-	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginEmail').val($('#startlogin').val()); $('#cloginArea').show(); $('#cloginSubmit').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
-	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
 	$('#doyouneedhelp').bind('click',function(e) { e.preventDefault(); $('#youneedhelp').toggle(); });
 	
 	var results = function(e) {
@@ -208,19 +205,9 @@ jQuery(document).ready(function() {
 	}
 	$('#find').bind('click',find);
 	
-	var ready = function() {
-		$('#cloginArea').hide();
-		$('#blurb').hide();
-		lantern.startup();
-	}
-
-  clogin.init({
-		afterLogin:ready
-	});
-	
 	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
-		$('#header').show();
 	} else {
+		$('#header').hide();
 		$('#signupprompt').show();
 		$('.lanternsubmit').show();
 	}
