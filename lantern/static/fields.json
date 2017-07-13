@@ -24,10 +24,10 @@
     "long_name": "Journal title",
     "description": "The name of the Journal in which the article was published."
   },
-  "journal_type": {
-    "short_name": "Journal Type",
+  "pure_oa": {
+    "short_name": "Pure Open Access",
     "long_name": "Is the article in a pure OA journal listed in DOAJ?",
-    "description": "Whether this is a hybrid or pure Open Access journal. Determined by whether the journal is present in the <a href=\"https://doaj.org\">DOAJ</a>"
+    "description": "Whether this is a pure Open Access journal or not (in which case just hybrid). Determined by whether the journal is present in the <a href=\"https://doaj.org\">DOAJ</a>"
   },
   "issn": {
     "short_name": "ISSN",
@@ -189,10 +189,15 @@
     "long_name": "How sure are we that we have identified the correct article",
     "description": "What level of confidence does the system have that it has successfully identified and analysed the correct article?  Since there are different ways we might identify the article, we may not always be 100% certain that we have found the correct one. "
   },
-  "compliance": {
-    "short_name": "{X} Compliance",
-    "long_name": "{X} Compliance",
-    "description": "Whether or not this article is compliant with the named compliance definition."
+  "compliance_wellcome_standard": {
+    "short_name": "Compliance Wellcome Standard",
+    "long_name": "Compliance Wellcome Standard",
+    "description": "Whether or not this article is compliant with the Wellcome Trust standard compliance policy. We can add compliance definitions upon request."
+  },
+  "compliance_wellcome_deluxe": {
+    "short_name": "Compliance Wellcome Deluxe",
+    "long_name": "Compliance Wellcome Deluxe",
+    "description": "Whether or not this article is compliant with the Wellcome Trust deluxe compliance policy. We can add compliance definitions upon request."
   },
   "score": {
     "short_name": "Lantern Score",
