@@ -139,7 +139,7 @@
 	lantern.error = function(data) {
 		$('.lanternprogress').hide();
 		$('.lanternsubmit').show();
-		$('#lanternmsg').html('<p>There has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact lantern@cottagelabs.com attaching a copy of your file');
+		$('#lanternmsg').html('<p class="alert alert-warning">There has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact <a href="mailto:lantern@cottagelabs.com">lantern@cottagelabs.com</a> attaching a copy of your file');
   }
 	
 	lantern.result = function(res) {
@@ -151,13 +151,24 @@
 		if (res.journal_title) info += 'in <i>' + res.journal_title + '</i>';
 		if (res.issn) info += ' (' + res.issn + ')';
 		if (!res.issn && res.eissn) info += ' (' + res.eissn + ')';
-		if (res.publication_date) info += '<br>Published on ' + res.publication_date.split('T')[0];
+		if (res.publication_date) info += '<br>Published on ' + moment(res.publication_date).format("DD/MM/YYYY");
 		if (res.publisher) info += ' by ' + res.publisher;
-		if (res.electronic_publication_date) info += '<br>Electronically published on ' + res.electronic_publication_date;
+		if (res.electronic_publication_date) info += '<br>Electronically published on ' + moment(res.electronic_publication_date).format("DD/MM/YYYY");
+		var ellipsing = false;
 		if (res.authors) {
-			info += '<br>Author(s): ALL TEH AUTHS';
-			// TODO list first 5 authors, then et al? or put all in a dropdown?
+			info += '<br>Author(s): ';
+			for ( var au in res.authors ) {
+				if (res.authors[au].fullName) {
+					if (au !== '0') info += ', ';
+					if (au === '4') {
+						ellipsing = true;
+						info += '<a alt="Show more authors" title="Show more authors" href="#" id="showellipsedauthors" style="font-weight:bold;">...</a> <span id="ellipsedauthors" style="display:none;"><br>';
+					}
+					info += res.authors[au].fullName;
+				}
+			}
 		}
+		if (ellipsing) info += '</span>';
 		info += '</p></div><div class="col-md-4"><p>';
 		if (res.doi) info += 'DOI: <a href="https://doi.org/' + res.doi + '" target="_blank">' + res.doi + '</a><br>';
 		if (res.pmid) info += 'Pubmed ID: <a href="/' + res.pmid + '" target="_blank">' + res.pmid + '</a><br>'; // TODO proper links for PMCID and PMID
@@ -268,10 +279,13 @@
 		}
 		
 		$('#lanternresult').html(info);
+		if (ellipsing) {
+			$('#showellipsedauthors').bind('click',function(e) { e.preventDefault(); $('#ellipsedauthors').toggle(); });
+		}
 	}
 
 	lantern.overview = function() {
-		var ov = '<p>From file ' + lantern.progress.name + ' (TODO RENAME)</p>';
+		var ov = '<p>From file ' + lantern.progress.name + '</p>';
 		ov += '<div class="row" style="margin-top:50px;">\
 			<div class="col-md-12">\
 				<div class="well" style="min-height:200px;">\
@@ -295,11 +309,11 @@
 		$('#lanternreport').show();
 		$('#lanterndate').html('Compiled on ' + moment.unix(Math.floor(lantern.progress.createdAt/1000)).format("DD/MM/YYYY"));
 		// TODO add triggers to the share buttons
-		// TODO have backend work out an openness score of any given report, and give a green/red shade plus score number to each report
 		if (lantern.results.length === 1) {
 			lantern.result(lantern.results[0]);
 		} else {
 			lantern.overview();
+			$('.reportcolumn').removeClass('col-md-10').removeClass('col-md-offset-1').addClass('col-md-12');
 		}
 	}
 
@@ -451,6 +465,5 @@
 			lantern.hash = window.location.hash.replace('#','');
 			lantern.poll(lantern.hash);
 		} else {
-			// TODO get user account credit info, unless user login gets this by default
 		}
 	}
