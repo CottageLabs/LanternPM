@@ -148,13 +148,13 @@
 		info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1">';
 		if (res.title) info += '<h4>' + res.title + '</h4>';
 		info += '<div class="row"><div class="col-md-8"><p>';
-		if (res.journal && res.journal.title) info += 'in <i>' + res.journal.title + '</i>';
-		if (res.journal && res.journal.issn) info += ' (' + res.journal.issn + ')';
-		if (res.journal && !res.journal.issn && res.journal.eissn) info += ' (' + res.journal.eissn + ')';
-		if (res.journal && res.journal.dateOfPublication) info += '<br>Published on ' + res.journal.dateOfPublication.split('T')[0];
+		if (res.journal_title) info += 'in <i>' + res.journal_title + '</i>';
+		if (res.issn) info += ' (' + res.issn + ')';
+		if (!res.issn && res.eissn) info += ' (' + res.eissn + ')';
+		if (res.publication_date) info += '<br>Published on ' + res.publication_date.split('T')[0];
 		if (res.publisher) info += ' by ' + res.publisher;
-		if (res.electronic_published_date) info += '<br>Electronically published on ' + res.electronic_published_date;
-		if (res.author) {
+		if (res.electronic_publication_date) info += '<br>Electronically published on ' + res.electronic_publication_date;
+		if (res.authors) {
 			info += '<br>Author(s): ALL TEH AUTHS';
 			// TODO list first 5 authors, then et al? or put all in a dropdown?
 		}
@@ -165,26 +165,31 @@
 		info += '</p></div></div>';
 		info += '</div></div>';
 		
-		if (res.compliance) {
-			info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1"><div class="well" style="background-color:transparent;padding:10px 15px 0px 15px;">';
-			info += '<div class="row"><div class="col-sm-12"><b>Which funder mandates does this article comply with?</b></div></div>';
-			for ( var f in res.compliance ) {
+		var compliances = false;
+		for ( var f in res ) {
+			if (f.indexOf('compliance_') === 0) {
+				if (compliances === false) {
+					info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1"><div class="well" style="background-color:transparent;padding:10px 15px 0px 15px;">';
+					info += '<div class="row"><div class="col-sm-12"><b>Which funder mandates does this article comply with?</b></div></div>';
+					compliances = true;
+				}
 				info += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">';
 				info += f;
 				info += '</div><div class="col-sm-4" style="word-break:break-all;word-wrap:break-word;background-color:';
-				info += res.compliance[f].compliant === true ? '#B4EFA5;">Yes' : '#FF9191;">No';
+				info += res[f] === true ? '#B4EFA5;">Yes' : '#FF9191;">No';
 				info += '</div></div>';
 			}
-			info += '</div></div></div>';
 		}
+		if (compliances) info += '</div></div></div>';
 
 		info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1"><div class="well" style="background-color:transparent;padding:10px 15px 0px 15px;">';
 		info += '<div class="row"><div class="col-sm-12"><b>Article details</b></div></div>';
 		var keys = [
-			'in_core','in_epmc','has_fulltext_xml','is_aam',
-			'aheadofprint','is_oa','licence',
-			'journal.in_doaj','embargo.preprint','archiving.preprint',
-			'embargo.postprint','archiving.postprint','embargo.pdf','archiving.pdf'
+			"in_core","in_epmc","epmc_xml","aam",
+			"ahead_of_print","open_access","licence",
+			"pure_oa","preprint_embargo",
+		    "preprint_self_archiving","postprint_embargo",
+		    "postprint_self_archiving","publisher_copy_embargo","publisher_copy_self_archiving"
 		];
 		var names = [
 			'Is the article in CORE?','Is the fulltext available in EuropePMC?','Is the EuropePMC fulltext available as XML?','Is the EuropePMC version the accepted author manuscript (AAM)?',
