@@ -1,73 +1,71 @@
-<div class="application-panel">
 
-	<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<h1 style="text-align:center;margin-top:50px;font-size:4em;">
-					<a style="color:#555;" href="/">LANTERN</a>
-				</h1>
-				<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
-				<div class="input-group">
-					<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
-					<div class="input-group-btn">
-						<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
-					</div>
+<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1 style="text-align:center;margin-top:50px;font-size:4em;">
+				<a style="color:#555;" href="/">LANTERN</a>
+			</h1>
+			<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
+			<div class="input-group">
+				<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
+				<div class="input-group-btn">
+					<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
 				</div>
-				<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
-				<p class="cloggedin" style="margin-top:3px;color:#999;margin-left:12px;">
-					You can enter multiple identifiers separated by a comma, or <a id="startupload" href="#">upload a list</a>
-				</p>
 			</div>
+			<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
+			<p class="cloggedin" style="margin-top:3px;color:#999;margin-left:12px;">
+				You can enter multiple identifiers separated by a comma, or <a id="startupload" href="#">upload a list</a>
+			</p>
 		</div>
 	</div>
+</div>
 
-	<div class="container-fluid lanternprogress" style="max-width:1000px;display:none;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
-				<p class="lanternloading" style="text-align:center;">
-					<img src="https://static.cottagelabs.com/spin_grey.svg">
-				</p>
-				<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
-			</div>
+<div class="container-fluid lanternprogress" style="max-width:1000px;display:none;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
+			<p class="lanternloading" style="text-align:center;">
+				<img src="https://static.cottagelabs.com/spin_grey.svg">
+			</p>
+			<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
 		</div>
 	</div>
+</div>
 
-	<div class="container-fluid" style="max-width:1000px;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2" id="lanternmsg">
-			</div>
-			<div class="col-md-8 col-md-offset-2" id="lanternpoll">
-			</div>
+<div class="container-fluid" style="max-width:1000px;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" id="lanternmsg">
+		</div>
+		<div class="col-md-8 col-md-offset-2" id="lanternpoll">
 		</div>
 	</div>
+</div>
 
-	<div class="container-fluid" style="max-width:1000px;" id="blurb">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<p style="text-align:center;margin-top:50px;">
-					Is it open access? Lantern gives you a quick way to report on
-					institutional, funder and government policies, or fulfil your research goals.
-					<a href="/about">Read more</a> or <a href="/feedback">get help</a>.
-				</p>
-			</div>
+<div class="container-fluid" style="max-width:1000px;" id="blurb">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<p style="text-align:center;margin-top:50px;">
+				Is it open access? Lantern gives you a quick way to report on
+				institutional, funder and government policies, or fulfil your research goals.
+				<a href="/about">Read more</a> or <a href="/feedback">get help</a>.
+			</p>
 		</div>
 	</div>
+</div>
 
-	<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
-		<div class="row cloggedin" style="margin-top:50px;margin-bottom:100px;">
-			<div class="col-md-8 col-md-offset-2">
-				<p>
-					Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
-				</p>
-				<p>
-					Read the <a href="/docs">documentation</a>, check out the <a href="/format">file upload format</a>,
-					or give us <a href="">feedback</a>.
-				</p>
-				<p id="getcustom">
-					Do you want your own custom branded version of Lantern for your organisation?
-					<br><a href="/organisatons">Learn more</a>.
-				</p>
-			</div>
+<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+	<div class="row cloggedin" style="margin-top:50px;margin-bottom:100px;">
+		<div class="col-md-8 col-md-offset-2">
+			<p>
+				Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
+			</p>
+			<p>
+				Read the <a href="/docs">documentation</a>, check out the <a href="/format">file upload format</a>,
+				or give us <a href="">feedback</a>.
+			</p>
+			<p id="getcustom">
+				Do you want your own custom branded version of Lantern for your organisation?
+				<br><a href="/organisatons">Learn more</a>.
+			</p>
 		</div>
 	</div>
 </div>
