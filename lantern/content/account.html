@@ -1,12 +1,14 @@
 
 <div id="account" class="container-fluid cloggedin" style="display:none;max-width:1200px;margin-bottom:50px;">
     <div class="row">
+        <!--
         <div class="col-md-6">
             <div id="settings">
                 
             </div>
         </div>
-        <div class="col-md-6">
+        -->
+        <div class="col-md-8 col-md-offset-2">
             <div id="history">
                 
             </div>
@@ -31,7 +33,7 @@ jQuery(document).ready(function() {
     					info += job.name && job.name.length > 0 ? job.name : '#' + job._id;
     					var date = new Date(job.createdAt).toUTCString();
     					info += ' on ' + date.substring(0,date.length-7);
-    					info += '</a>';
+    					info += ' (' + data.data.jobs[j].processes + ' article' + (data.data.jobs[j].processes !== 1 ? 's' : '') + ')</a>';
     				}
     				$('#history').html(info);
     			}

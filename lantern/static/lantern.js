@@ -142,7 +142,8 @@
 		$('#lanternmsg').html('<p class="alert alert-warning">There has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact <a href="mailto:lantern@cottagelabs.com">lantern@cottagelabs.com</a> attaching a copy of your file');
   }
 	
-	lantern.result = function(res) {
+	lantern.result = function(res,tgt) {
+		if (tgt === undefined) tgt = '#lanternresult';
 		if (res === undefined) res = lantern.results[0];
 		var info = '';
 		info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1">';
@@ -171,8 +172,8 @@
 		if (ellipsing) info += '</span>';
 		info += '</p></div><div class="col-md-4"><p>';
 		if (res.doi) info += 'DOI: <a href="https://doi.org/' + res.doi + '" target="_blank">' + res.doi + '</a><br>';
-		if (res.pmid) info += 'Pubmed ID: <a href="/' + res.pmid + '" target="_blank">' + res.pmid + '</a><br>'; // TODO proper links for PMCID and PMID
-		if (res.pmcid) info += 'PMC ID: <a href="/' + res.pmcid + '" target="_blank">' + res.pmcid + '</a><br>';
+		if (res.pmid) info += 'Pubmed ID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/' + res.pmid + '" target="_blank">' + res.pmid + '</a><br>';
+		if (res.pmcid) info += 'PMC ID: <a href="http://europepmc.org/articles/' + res.pmcid + '" target="_blank">' + res.pmcid + '</a><br>';
 		info += '</p></div></div>';
 		info += '</div></div>';
 		
@@ -217,7 +218,7 @@
 				key = key.split('.')[1];
 			}
 			if (lres[key] !== undefined && lres[key] !== null) {
-				info += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">'; // TODO add green/red shade to answers that are pro/con openness
+				info += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">';
 				info += name;
 				info += '</div><div class="col-sm-4" style="background-color:';
 				if (lres[key] === false) {
@@ -225,7 +226,6 @@
 				} else if (lres[key] === true) {
 					info += '#B4EFA5;">Yes';
 				} else {
-					// TODO combine where licence found into what licence is column, perhaps
 					if (key === 'licence') {
 						info += lres[key].toLowerCase().indexOf('cc-') !== -1 && lres[key].toLowerCase().indexOf('-nc') === -1 ? '#B4EFA5;' : '#FF9191;';
 					} else {
@@ -246,7 +246,7 @@
 				info += res.repositories[rp].name;
 				info += '</div><div class="col-sm-8" style="text-align:right;word-break:break-all;word-wrap:break-word;">';
 				if (res.repositories[rp].fulltexts) {
-					var ft = res.repositories[rp].fulltexts[0]; // TODO could do some guessing to pick most appropriate link
+					var ft = res.repositories[rp].fulltexts[0];
 					info += '<a target="_blank" href="' + ft + '">' + ft + '</a>';
 				}
 				info += '</div></div>';
@@ -278,7 +278,7 @@
 			info += '</ul></div></div></div>';
 		}
 		
-		$('#lanternresult').html(info);
+		$(tgt).html(info);
 		if (ellipsing) {
 			$('#showellipsedauthors').bind('click',function(e) { e.preventDefault(); $('#ellipsedauthors').toggle(); });
 		}
@@ -286,34 +286,94 @@
 
 	lantern.overview = function() {
 		var ov = '<p>From file ' + lantern.progress.name + '</p>';
-		ov += '<div class="row" style="margin-top:50px;">\
-			<div class="col-md-12">\
-				<div class="well" style="min-height:200px;">\
-					<p>VIS OF JOB STATS<BR>\
-					Compliance mandates headline % (for each mandate, unless user has specified one)<br>\
-					Licence distribution pie chart<br>\
-					How many of each type of ID did we get? bar chart<br>\
-					Publisher distribution pie chart<br>\
-					Date histogram(s) of print/electronic publication dates<br>\
-					Headline number how many in CORE<br>\
-					Headline number how many in repos<br>\
-					Headline number how many fulltext in EPMC (of which xml, OA, AAM)<br>\
-					</p>\
-				</div>\
-			</div>\
-		</div>';
+		ov += '<div class="row" style="margin-top:50px;"><div class="col-md-12">';
+		ov += '<div id="overviewstats" style="margin-bottom:30px;"></div>';
+		var compliance = 0;
+		var licences = {};
+		var identifiers = {doi:0,pmid:0,pmcid:0,title:0};
+		var publishers = {};
+		var in_core = 0;
+		var in_repos = 0;
+		var epmc = {xml:0,oa:0,aam:0};
+		for ( var lr in lantern.results ) {
+			var lrs = lantern.results[lr];
+			var compliances = 0;
+			var compliants = 0;
+			for ( var k in lrs ) {
+				if (k.indexOf('compliance_') === 0) {
+					compliances += 1;
+					if (lrs[k]) compliants += 1;
+				}
+			}
+			if (compliances) compliance += compliants / compliances;
+			if (lrs.licence) {
+				if (licences[lrs.licence] === undefined) licences[lrs.licence] = 0;
+				licences[lrs.licence] += 1;
+			}
+			if (lrs.doi) identifiers.doi += 1;
+			if (lrs.pmid) identifiers.pmid += 1;
+			if (lrs.pmcid) identifiers.pmcid += 1;
+			if (lrs.title) identifiers.title += 1;
+			if (lrs.publisher) {
+				if (publishers[lrs.publisher] === undefined) publishers[lrs.publisher] = 0;
+				publishers[lrs.publisher] += 1;
+			}
+			if (lrs.in_core) in_core += 1;
+			if (lrs.repositories.length > 0) in_repos += 1;
+			if (lrs.epmc_xml) epmc.xml += 1;
+			if (lrs.open_access) epmc.oa += 1;
+			if (lrs.aam) epmc.aam += 1;
+			if (lrs.doi || lrs.pmid || lrs.pmcid || lrs.title) {
+				ov += '<div class="well"><a class="showresult" href="' + lr + '">';
+				if (lrs.title) ov += lrs.title + ' ';
+				if (lrs.doi) {
+					ov += lrs.doi + ' ';
+				} else if (lrs.pmcid) {
+					ov += lrs.pmcid + ' ';
+				} else if (lrs.pmid) {
+					ov += lrs.pmid + ' ';
+				}
+				ov += '</a><div id="forresult' + lr + '" style="display:none;"></div></div>';
+			}
+		}
+		ov += '</div></div>';
 		$('#lanternoverview').html(ov);
+		var stats = '<p>This report contains ' + lantern.results.length + ' articles, ';
+		stats += 'with an overall compliance rate of ' + compliance + '%.</p>';
+		stats += '</p>We found ' + identifiers.doi + ' DOIs, ' + identifiers.pmcid + ' PMC IDs, ' + identifiers.pmid + ' Pubmed IDs, and ' + identifiers.title + ' titles.</p>';
+		stats += '<p>' + epmc.xml + (epmc.xml === 1 ? ' is' : ' are') + ' available in EuropePMC, with ' + epmc.oa + ' indicated as open source, and ' + epmc.aam + ' being the author manuscript.</p>';
+		stats += '<p>' + in_core + ' article' + (in_core !== 1 ? 's are' : ' is') + ' in CORE, with ' + in_repos + ' available in a public repository.</p>';
+		if (JSON.stringify(licences) !== '{}') {
+			stats += '<p>We found articles with the following licences:<br>';
+			for ( var lk in licences ) stats += lk + ': ' + licences[lk] + '<br>';
+			stats += '</p>';
+		}
+		if (JSON.stringify(publishers) !== '{}') {
+			stats += '<p>We found articles from the following publishers:<br>';
+			for ( var pk in publishers ) stats += pk + ': ' + publishers[pk] + '<br>';
+			stats += '</p>';
+		}
+		stats += '<p>Click on any record below for further details.</p>';
+		$('#overviewstats').html(stats);
+		$('.showresult').bind('click',lantern.report);
 	}
 	
-	lantern.report = function() {
-		$('#lanternreport').show();
-		$('#lanterndate').html('Compiled on ' + moment.unix(Math.floor(lantern.progress.createdAt/1000)).format("DD/MM/YYYY"));
-		// TODO add triggers to the share buttons
-		if (lantern.results.length === 1) {
-			lantern.result(lantern.results[0]);
+	lantern.report = function(e) {
+		if (e) {
+			e.preventDefault();
+			var repno = $(this).attr('href');
+			if ( $('#forresult'+repno).html().length === 0 ) lantern.result(lantern.results[repno],'#forresult'+repno);
+			$('#forresult'+repno).toggle();
 		} else {
-			lantern.overview();
-			$('.reportcolumn').removeClass('col-md-10').removeClass('col-md-offset-1').addClass('col-md-12');
+			$('#lanternreport').show();
+			$('#lanterndate').html('Compiled on ' + moment.unix(Math.floor(lantern.progress.createdAt/1000)).format("DD/MM/YYYY"));
+			// TODO add triggers to the share buttons
+			if (lantern.results.length === 1) {
+				lantern.result(lantern.results[0]);
+			} else {
+				lantern.overview();
+				$('.reportcolumn').removeClass('col-md-10').removeClass('col-md-offset-1').addClass('col-md-12');
+			}
 		}
 	}
 
@@ -410,7 +470,7 @@
 				url: lantern.apibaseurl + '/service/lantern?apikey='+clogin.apikey,
 				method: 'POST',
 				data: JSON.stringify(payload),
-				dataType: 'JSON', // TODO sort issue here, the POST invalidates preflight without jsonp but with jsonp we don't get back a jsonp object
+				dataType: 'JSON',
 				contentType: "application/json; charset=utf-8",
 				success: lantern.success,
 				error: lantern.error
