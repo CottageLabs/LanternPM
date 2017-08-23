@@ -8,22 +8,22 @@
 				</h3>
 			</div>
 			<div class="col-sm-6">
-				<p style="text-align:right;margin-top:20px;">
+				<p style="text-align:right;margin-top:15px;">
 					Shining a light on open access
 				</p>
-				<div>
-					<p class="notcloggedin" style="text-align:right;margin-top:20px;">
-						<a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a>
-					</p>
-					<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-10px;">
-						Account <span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu pull-right">
-						<li><a href="/history">Report history</a></li>
-						<li><a href="/settings">Settings</a></li>
-						<li><a id="cloginLogout" href="#">Logout</a></li>
-					</ul>
-				</div>
+				<p class="notcloggedin" style="text-align:right;margin-top:-5px;">
+					<a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a>
+				</p>
+				<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-5px;">
+					Account <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right">
+					<li><a href="/account#history">Report history</a></li>
+					<!--
+					<li><a href="/account#settings">Settings</a></li>
+					-->
+					<li><a id="cloginLogout" href="#">Logout</a></li>
+				</ul>
 				<div id="cloginArea" style="display:none;margin-top:10px;">
 					<div id="cloginEmailArea" class="input-group">
 						<input type="text" id="cloginEmail" class="form-control" placeholder="Enter your email address">
@@ -44,16 +44,17 @@
 <script>
 jQuery(document).ready(function() {
 
-	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
+	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
 	var ready = function() {
 		$('#cloginArea').hide();
 		$('#blurb').hide();
-		lantern.startup();
 	}
 
 	clogin.init({
 		afterLogin:ready
 	});
+	
+	lantern.startup();
 
 });
 </script>

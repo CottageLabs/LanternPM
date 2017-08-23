@@ -1,0 +1,54 @@
+
+<div id="account" class="container-fluid cloggedin" style="display:none;max-width:1200px;margin-bottom:50px;">
+    <div class="row">
+        <!--
+        <div class="col-md-6">
+            <div id="settings">
+                
+            </div>
+        </div>
+        -->
+        <div class="col-md-8 col-md-offset-2">
+            <div id="history">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+jQuery(document).ready(function() {
+
+    var run = function() {
+    	$.ajax({
+    		url: lantern.apibaseurl + '/service/lantern/jobs/' + clogin.user.email + '?apikey='+clogin.apikey,
+    		method: 'GET',
+    		success: function(data) {
+    			if (data.data.total) {
+    				var info = '<p>Your reports:</p>';
+    				for ( var j in data.data.jobs ) {
+    					var job = data.data.jobs[j];
+    					info += '<a class="btn btn-default btn-block" target="_blank" href="/#' + job._id + '">';
+    					info += job.name && job.name.length > 0 ? job.name : '#' + job._id;
+    					var date = new Date(job.createdAt).toUTCString();
+    					info += ' on ' + date.substring(0,date.length-7);
+    					info += ' (' + data.data.jobs[j].processes + ' article' + (data.data.jobs[j].processes !== 1 ? 's' : '') + ')</a>';
+    				}
+    				$('#history').html(info);
+    			}
+    		}
+    	});
+    }
+    var delay = function() {
+        if (clogin.apikey === undefined) {
+            setTimeout(delay,500);
+            return;
+        } else {
+            run();
+        }
+    }
+    delay();
+
+});
+</script>

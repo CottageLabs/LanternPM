@@ -1,125 +1,89 @@
-<div class="application-panel">
 
-	<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<h1 style="text-align:center;margin-top:50px;font-size:4em;">
-					<a style="color:#555;" href="/">LANTERN</a>
-				</h1>
-				<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
-				<div class="input-group">
-					<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
-					<div class="input-group-btn">
-						<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
-					</div>
+<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1 style="text-align:center;margin-top:50px;font-size:4em;">
+				<a style="color:#555;" href="/">LANTERN</a>
+			</h1>
+			<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
+			<div class="input-group">
+				<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
+				<div class="input-group-btn">
+					<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
 				</div>
-				<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
-				<p class="cloggedin" style="margin-top:3px;color:#999;margin-left:12px;">
-					You can enter multiple identifiers separated by a comma, or <a id="startupload" href="#">upload a list</a>
-				</p>
 			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid lanternprogress" style="max-width:1000px;display:none;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
-				<p class="lanternloading" style="text-align:center;">
-					<img src="https://static.cottagelabs.com/spin_grey.svg">
-				</p>
-				<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
-			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid" style="max-width:1000px;">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2" id="lanternmsg">
-			</div>
-			<div class="col-md-8 col-md-offset-2" id="lanternpoll">
-			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid" style="max-width:1000px;" id="blurb">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<p style="text-align:center;margin-top:50px;">
-					Is it open access? Lantern gives you a quick way to report on
-					institutional, funder and government policies, or fulfil your research goals.
-					<a href="/about">Read more</a> or <a href="/feedback">get help</a>.
-				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
-		<div class="row cloggedin" style="margin-top:50px;margin-bottom:100px;">
-			<div class="col-md-8 col-md-offset-2">
-				<p>
-					Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
-				</p>
-				<p>
-					Read the <a href="/docs">documentation</a>, check out the <a href="/format">file upload format</a>,
-					or give us <a href="">feedback</a>.
-				</p>
-				<p id="getcustom">
-					Do you want your own custom branded version of Lantern for your organisation?
-					<br><a href="/organisatons">Learn more</a>.
-				</p>
-			</div>
+			<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
+			<p class="cloggedin" style="margin-top:3px;color:#999;margin-left:12px;">
+				You can enter multiple identifiers separated by a comma, or <a id="startupload" href="#">upload a list</a>
+			</p>
 		</div>
 	</div>
 </div>
 
-<div class="notcloggedin">
-	<div class="section-odd" style="padding-bottom: 200px">
-		<div class="container-fluid" id="signupprompt" style="max-width:1000px;display:none;">
-			<div class="row ">
-				<div class="col-md-8 col-md-offset-2" id="signup">
-					<h3 id="signupheader">
-						Sign up for more features.
-					</h3>
-					<ul>
-						<li>Bulk upload article identifiers</li>
-						<li>Download your results as a spreadsheet</li>
-						<li>Publish and share your results</li>
-						<li>Get email updates on long-running requests</li>
-						<li>Access your previous requests</li>
-						<li>...<a href="/about">find out more</a></li>
-					</ul>
-
-					<div class="input-group" style="margin-bottom: 40px">
-						<input type="text" id="startlogin" class="form-control" placeholder="Enter your email address">
-						<div class="input-group-btn">
-							<button class="btn btn-primary" href="#" id="startsignup">Sign up</button>
-						</div>
-					</div>
-
-					<p>
-						Do you want your own custom branded version of Lantern for your organisation?
-						<a href="/organisations">Learn more</a>.
-					</p>
-
-				</div>
-			</div>
+<div class="container-fluid lanternprogress" style="max-width:1000px;display:none;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
+			<p class="lanternloading" style="text-align:center;">
+				<img src="https://static.cottagelabs.com/spin_grey.svg">
+			</p>
+			<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
 		</div>
 	</div>
 </div>
+
+<div class="container-fluid" style="max-width:1000px;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" id="lanternmsg">
+		</div>
+		<div class="col-md-8 col-md-offset-2" id="lanternpoll">
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" style="max-width:1000px;display:none;" id="blurb">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<p style="text-align:center;margin-top:50px;">
+				Is it open access? Lantern gives you a quick way to report on
+				institutional, funder and government policies, or fulfil your research goals.
+				<a href="/about">Read more</a> or <a href="/feedback">get help</a>.
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+	<div class="row cloggedin" style="margin-top:50px;margin-bottom:100px;">
+		<div class="col-md-8 col-md-offset-2">
+			<p>
+				Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
+			</p>
+			<p>
+				Read the <a href="/docs">documentation</a>, check out the <a href="/format">file upload format</a>,
+				or give us <a href="">feedback</a>.
+			</p>
+			<p id="getcustom">
+				Do you want your own custom branded version of Lantern for your organisation?
+				<br><a href="/organisatons">Learn more</a>.
+			</p>
+		</div>
+	</div>
+</div>
+
 
 
 <div class="container-fluid" style="max-width:1000px;display:none;" id="lanternreport">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
+		<div class="reportcolumn col-md-10 col-md-offset-1">
 			<div class="row">
 				<div class="col-md-8">
 					<h3>
 						Open access report (rename)
 					</h3>
 					<p id="lanterndate"></p>
+				</div>
+				<div class="col-md-4" style="padding-top:15px;">
 					<p>
-						Download
-						Re-run
 						<a href="#"><i class="fa fa-share-alt-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-twitter-square fa-2x"></i></a>
@@ -127,13 +91,9 @@
 						<a href="#"><i class="fa fa-google-plus-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-envelope-square fa-2x"></i></a>
 					</p>
-				</div>
-				<div class="col-md-4">
-					<div class="well" style="background-color:#C3EFB8;margin-bottom:0px;">
-						<h1 style="text-align:center;margin-top:25px;margin-bottom:25px;">
-							TODO%
-						</h1>
-					</div>
+					<p>
+						Download | Re-run
+					</p>
 				</div>
 			</div>
 		</div>
@@ -179,8 +139,44 @@
 </div>
 
 
+<div class="section-odd notcloggedin" id="signupprompt" style="display:none;margin-top:200px;padding-bottom:200px;">
+	<div class="container-fluid" style="max-width:1000px;">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2" id="signup">
+				<h3 id="signupheader">
+					Sign up for more features.
+				</h3>
+				<ul>
+					<li>Bulk upload article identifiers</li>
+					<li>Download your results as a spreadsheet</li>
+					<li>Publish and share your results</li>
+					<li>Get email updates on long-running requests</li>
+					<li>Access your previous requests</li>
+					<li>...<a href="/about">find out more</a></li>
+				</ul>
+
+				<div class="input-group" style="margin-bottom: 40px">
+					<input type="text" id="startlogin" class="form-control" placeholder="Enter your email address">
+					<div class="input-group-btn">
+						<button class="btn btn-primary" href="#" id="startsignup">Sign up</button>
+					</div>
+				</div>
+
+				<p>
+					Do you want your own custom branded version of Lantern for your organisation?
+					<a href="/organisations">Learn more</a>.
+				</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <script>
 jQuery(document).ready(function() {
+	
 	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginEmail').val($('#startlogin').val()); $('#cloginArea').show(); $('#cloginSubmit').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
 
 	$('#customise').bind('click',function(e) { e.preventDefault(); alert('will show the tickboxes for what fields they want to download'); });
@@ -202,7 +198,11 @@ jQuery(document).ready(function() {
 	
 	var find = function(e) {
 		if (e) e.preventDefault();
-		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 ) $('#header').show();
+		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 ) {
+			$('#header').show();
+			$('#blurb').hide();
+			$('html,body').scrollTop(0);
+		}
 		lantern.submit();
 	}
 	$('#find').bind('click',find);
@@ -210,7 +210,10 @@ jQuery(document).ready(function() {
 	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
 	} else {
 		$('#header').hide();
-		$('#signupprompt').show();
+		if (!clogin.loggedin()) {
+			$('#blurb').show();
+			$('#signupprompt').show();
+		}
 		$('.lanternsubmit').show();
 	}
 
