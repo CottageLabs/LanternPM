@@ -11,6 +11,11 @@ $csvBorder: #000000;
 $shadow: 0px 2px 8px 1px #cccccc;
 $topStrapBackground: $background;
 
+body {
+  background-color: $background;
+  color: $textColour;
+}
+
 .topstrap {
   background-color: $topStrapBackground;
 }
