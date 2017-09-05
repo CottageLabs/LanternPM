@@ -122,7 +122,7 @@
 			f = e.target.files[0];
 		}
 		lantern.filename = f.name;
-		var msg = '<p>We\'re preparing your report, requested at TIME on DATE,<br> ';
+		var msg = '<p>We\'re preparing your report<br>';
 		msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
 		msg += '<br>Processing will begin shortly...</p>';
 		$('#lanternmsg').html(msg);
@@ -324,7 +324,7 @@
 			if (lrs.open_access) epmc.oa += 1;
 			if (lrs.aam) epmc.aam += 1;
 			if (lrs.doi || lrs.pmid || lrs.pmcid || lrs.title) {
-				ov += '<div class="well"><a class="showresult" href="' + lr + '">';
+				ov += '<div class="well">' + (parseInt(lr)+1) + ': <a class="showresult" href="' + lr + '">';
 				if (lrs.title) ov += lrs.title + ' ';
 				if (lrs.doi) {
 					ov += lrs.doi + ' ';
@@ -336,10 +336,12 @@
 				ov += '</a><div id="forresult' + lr + '" style="display:none;"></div></div>';
 			}
 		}
+		compliance = (compliance / lantern.results.length) * 100;
 		ov += '</div></div>';
 		$('#lanternoverview').html(ov);
-		var stats = '<p>This report contains ' + lantern.results.length + ' articles, ';
-		stats += 'with an overall compliance rate of ' + compliance + '%.</p>';
+		var stats = '<p>This report contains ' + lantern.results.length + ' articles';
+		//stats += ', with an overall compliance rate of ' + compliance + '%.';
+		stats += '</p>';
 		stats += '</p>We found ' + identifiers.doi + ' DOIs, ' + identifiers.pmcid + ' PMC IDs, ' + identifiers.pmid + ' Pubmed IDs, and ' + identifiers.title + ' titles.</p>';
 		stats += '<p>' + epmc.xml + (epmc.xml === 1 ? ' is' : ' are') + ' available in EuropePMC, with ' + epmc.oa + ' indicated as open source, and ' + epmc.aam + ' being the author manuscript.</p>';
 		stats += '<p>' + in_core + ' article' + (in_core !== 1 ? 's are' : ' is') + ' in CORE, with ' + in_repos + ' available in a public repository.</p>';
@@ -367,6 +369,8 @@
 		} else {
 			$('#lanternreport').show();
 			$('#lanterndate').html('Compiled on ' + moment.unix(Math.floor(lantern.progress.createdAt/1000)).format("DD/MM/YYYY"));
+			status += '<p><a id="downloadresults" href="#">Download results so far</a></p>';
+			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '">Or download your original spreadsheet</a></p>';
 			// TODO add triggers to the share buttons
 			if (lantern.results.length === 1) {
 				lantern.result(lantern.results[0]);
@@ -376,48 +380,95 @@
 			}
 		}
 	}
+	
+	lantern.rename = function(e,name) {
+		if (e) e.preventDefault();
+		if (name === undefined) name = $('#report_name').val();
+		$('#report_rename').hide();
+		$('#current_report_name').html(name);
+		$('#lantern_name_header').show();
+		$.ajax({
+			url: lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/rename/' + name + '?apikey='+clogin.apikey,
+			method: 'GET'
+		});
+	}
 
 	var _download_fields = {};
 	lantern.polling = function(data) {
-		if (lantern.debug) console.log('poll returned');
-		lantern.progress = data.data;
-		var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
-		var pc = (Math.floor(progress * 10))/10;
-		if (data.data.progress !== 100) {
-			$('#lanternpercent').html(pc + '%');
-			if ( !$('#lanternreview').length ) {
-				var pollmsg = '<p>Report ';
-				if (data.data && data.data.name) pollmsg += 'generating from file ' + data.data.name + '<br>Report ';
-				pollmsg += 'ID <a href="/#' + data.data._id + '">#' + data.data._id + '</a></p>';
-				$('#lanternmsg').html(pollmsg);
-			} else if ( !$('#lanternid').length ) {
-				$('#lanternmsg').append('<p id="lanternid">Report ID #' + data.data._id + '</p>');
-			}
-			var status = '';
-			if (data.data && data.data.new === true) status += '<p>Your report is new, and is still being loaded into the system. For large reports this may take a couple of minutes.</p>';
-			status += '<p><a id="downloadresults" href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '">Download results so far</a></p>';
-			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '">Or download your original spreadsheet</a></p>';
-			$('#lanternpoll').html(status);
-			setTimeout(lantern.poll,10000);
+		// support the old wellcome UI for a while
+		if (window.location.host.indexOf('compliance.') !== -1 || window.location.host.indexOf('wellcome.') !== -1) {
+			$('.uploader').hide();
+			$('#poller').show();
+			var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
+			var pc = (Math.floor(progress * 10))/10;
+			var status = '<p>Job ';
+			status += data.data && data.data.name ? data.data.name : '#' + data.data._id;
+			status += '</p>';
+			if (data.data && data.data.new === true) status += '<p>Your job is new, and is still being loaded into the system. For large jobs this may take a couple of minutes.</p>';
+			status += '<p>Your job is ' + pc + '% complete.</p>';
+			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '" class="btn btn-default btn-block">Download your results</a></p>';
+			status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '" style="font-weight:normal;">or download your original spreadsheet</a></p>';
+			if (data.data.progress !== 100) setTimeout(lantern.poll,10000);
+			$('#pollinfo').html(status);
 		} else {
-			$('.lanternprogress').hide();
-			$.ajax({
-				url: lantern.apibaseurl + '/service/lantern/' + data.data._id + '/results?apikey='+clogin.apikey,
-				method: 'GET',
-				success: function(data) {
-					lantern.results = data.data;
-					$('#lanternmsg').html('');
-					$('#lanternpoll').html('');
-					lantern.report();
+			if (lantern.debug) console.log('poll returned');
+			lantern.progress = data.data;
+			var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
+			var pc = (Math.floor(progress * 10))/10;
+			if (data.data.progress !== 100) {
+				$('#lanternpercent').html(pc + '%');
+				if ( !$('#lanternreview').length ) {
+					var pollmsg = '<p>Report ';
+					if (data.data && data.data.name) pollmsg += 'generating from file ' + data.data.name + '<br>Report ';
+					pollmsg += 'ID <a href="/#' + data.data._id + '">#' + data.data._id + '</a></p>';
+					if (data.data && data.data.createdAt) {
+						pollmsg += '<p>Report created ' + moment.unix(data.data.createdAt/1000).calendar().replace('Today','today').replace(' AM','am').replace(' PM','pm') + '</p>';
+					}
+					$('#lanternmsg').html(pollmsg);
+				} else if ( !$('#lanternid').length ) {
+					$('#lanternmsg').append('<p id="lanternid">Report ID #' + data.data._id + '</p>');
 				}
-			});
+				var status = '';
+				if (data.data && data.data.new === true) status += '<p>Your report is new, and is still being loaded into the system. For large reports this may take a couple of minutes.</p>';
+				$('#lanternpoll').html(status);
+				setTimeout(lantern.poll,10000);
+			} else {
+				$('.lanternprogress').hide();
+				$.ajax({
+					url: lantern.apibaseurl + '/service/lantern/' + data.data._id + '/results?apikey='+clogin.apikey,
+					method: 'GET',
+					success: function(data) {
+						lantern.results = data.data;
+						$('#lanternmsg').html('');
+						$('#lanternpoll').html('');
+						lantern.report();
+					}
+				});
+			}
+			var download = function(e) {
+				var hr = lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey;
+				for ( var d in _download_fields ) hr += '&' + d + '=' + _download_fields[d];
+				$(this).attr('href',hr);
+			}
+			$('#downloadresults').bind('click',download);
+			var show_rename = function(e) {
+				e.preventDefault();
+				$('#lantern_name_header').hide();
+				$('#report_rename').show();
+			}
+			if (data.data.report) {
+				$('#current_report_name').html(data.data.report);
+				$('#report_rename').val(data.data.report);
+			}
+			setTimeout(function() {
+				if (clogin.user && clogin.user.email === data.data.email) {
+					$('#lantern_rename').bind('click',show_rename);
+					$('#save_name').bind('click',lantern.rename);
+				} else {
+					$('#lantern_rename').hide();
+				}
+			},2000);
 		}
-		var download = function(e) {
-			var hr = $(this).attr('href') ;
-			for ( var d in _download_fields ) hr += '&' + d + '=' + _download_fields[d];
-			$(this).attr('href',hr);
-		}
-		$('#downloadresults').bind('click',download);
 	}
 	
 	lantern.poll = function(hash) {
@@ -466,6 +517,7 @@
 			$('.lanternsubmit').hide();
 			$('.lanternprogress').show();
 			var payload = {list:lantern.identifiers,name:lantern.filename};
+			try { payload.email = $('#email').val(); } catch(err) {} // wellcome
 			$.ajax({
 				url: lantern.apibaseurl + '/service/lantern?apikey='+clogin.apikey,
 				method: 'POST',
@@ -523,7 +575,7 @@
 			$('.lanternprogress').show();
 			$('#lanternmsg').html('<p>One moment please, retrieving report progress...</p>');
 			lantern.hash = window.location.hash.replace('#','');
-			lantern.poll(lantern.hash);
+			setTimeout(function() {lantern.poll(lantern.hash); },1000);
 		} else {
 		}
 	}

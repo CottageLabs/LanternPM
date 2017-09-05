@@ -11,7 +11,7 @@
 				<p style="text-align:right;margin-top:15px;">
 					Shining a light on open access
 				</p>
-				<p class="notcloggedin" style="text-align:right;margin-top:-5px;">
+				<p class="notcloggedin" style="display:none;text-align:right;margin-top:-5px;">
 					<a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a>
 				</p>
 				<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-5px;">
@@ -50,8 +50,18 @@ jQuery(document).ready(function() {
 		$('#blurb').hide();
 	}
 
+	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
+	} else {
+		$('#header').hide();
+		$('.lanternsubmit').show();
+	}
+
 	clogin.init({
-		afterLogin:ready
+		afterLogin:ready,
+		nologin: function() {
+			$('#blurb').show();
+			$('#signupprompt').show();
+		}
 	});
 	
 	lantern.startup();

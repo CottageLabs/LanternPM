@@ -26,15 +26,19 @@ jQuery(document).ready(function() {
     		method: 'GET',
     		success: function(data) {
     			if (data.data.total) {
-    				var info = '<p>Your reports:</p>';
+    				var info = '<p>Your reports:</p><table class="table table-bordered">';
     				for ( var j in data.data.jobs ) {
     					var job = data.data.jobs[j];
-    					info += '<a class="btn btn-default btn-block" target="_blank" href="/#' + job._id + '">';
-    					info += job.name && job.name.length > 0 ? job.name : '#' + job._id;
     					var date = new Date(job.createdAt).toUTCString();
-    					info += ' on ' + date.substring(0,date.length-7);
-    					info += ' (' + data.data.jobs[j].processes + ' article' + (data.data.jobs[j].processes !== 1 ? 's' : '') + ')</a>';
+    					info += '<tr>';
+    					info += '<td>' + date.substring(0,date.length-7) + '</td>';
+    					info += '<td>' + data.data.jobs[j].processes + ' article' + (data.data.jobs[j].processes !== 1 ? 's' : '') + '</td>';
+    					info += '<td><a href="/#' + job._id + '">';
+    					info += job.name && job.name.length > 0 ? job.name : '#' + job._id;
+    					info += '</a></td>';
+    					info += '</tr>';
     				}
+    				info += '</table>';
     				$('#history').html(info);
     			}
     		}

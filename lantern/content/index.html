@@ -77,23 +77,32 @@
 		<div class="reportcolumn col-md-10 col-md-offset-1">
 			<div class="row">
 				<div class="col-md-8">
-					<h3>
-						Open access report (rename)
+	                <div class="input-group" id="report_rename" style="display:none;">
+						<input type="text" class="form-control" id="report_name">
+    		            <div class="input-group-btn"><a class="btn btn-info" id="save_name" alt="save" title="save" href="#">save</a></div>
+    		        </div>
+					<h3 id="lantern_name_header">
+						<span id="current_report_name">Open access report</span> <small><a id="lantern_rename" href="#">(rename)</a></small>
 					</h3>
 					<p id="lanterndate"></p>
 				</div>
 				<div class="col-md-4" style="padding-top:15px;">
 					<p>
+						<a id="downloadresults" href="#"><i style="vertical-align:-5%;" class="fa fa-download fa-2x"></i></a>
+						<a href="https://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook-square fa-2x"></i></a>
+						<a id="twittershare" href="https://twitter.com/intent/tweet?text="><i class="fa fa-twitter-square fa-2x"></i></a>
+						<a id="mailshare" href="mailto:?body="><i class="fa fa-envelope-square fa-2x"></i></a>
+						<!--
 						<a href="#"><i class="fa fa-share-alt-square fa-2x"></i></a>
-						<a href="#"><i class="fa fa-facebook-square fa-2x"></i></a>
-						<a href="#"><i class="fa fa-twitter-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-google-plus-square fa-2x"></i></a>
-						<a href="#"><i class="fa fa-envelope-square fa-2x"></i></a>
+						-->
 					</p>
+					<!--
 					<p>
-						Download | Re-run
+						<a id="downloadresults" href="#">Download</a> | Re-run
 					</p>
+					-->
 				</div>
 			</div>
 		</div>
@@ -177,12 +186,15 @@
 <script>
 jQuery(document).ready(function() {
 	
+	if ($('#twittershare').length) $('#twittershare').attr('href',$('#twittershare').attr('href') + encodeURIComponent(window.location.href));
+	if ($('#mailshare').length) $('#mailshare').attr('href',$('#mailshare').attr('href') + encodeURIComponent(window.location.href));
+	
 	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginEmail').val($('#startlogin').val()); $('#cloginArea').show(); $('#cloginSubmit').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
 
 	$('#customise').bind('click',function(e) { e.preventDefault(); alert('will show the tickboxes for what fields they want to download'); });
 	$('#rename').bind('click',function(e) { e.preventDefault(); alert('will rename report for user to share nicely'); });
 	
-	$('#startupload').bind('click',function(e) { e.preventDefault(); $('#fileupload').trigger('click'); });
+	$('#startupload').bind('click',function(e) { e.preventDefault(); $('#header').show(); $('#fileupload').trigger('click'); });
 	$('#doyouneedhelp').bind('click',function(e) { e.preventDefault(); $('#youneedhelp').toggle(); });
 	
 	var results = function(e) {
@@ -198,25 +210,18 @@ jQuery(document).ready(function() {
 	
 	var find = function(e) {
 		if (e) e.preventDefault();
-		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 ) {
+		$('#inappropriate').remove();
+		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 && ( $('#lanternident').val().indexOf('10.') !== -1 || $('#lanternident').val().toLowerCase().indexOf('pmc') !== -1 || !isNaN(parseInt($('#lanternident').val().trim())) ) ) {
 			$('#header').show();
 			$('#blurb').hide();
 			$('html,body').scrollTop(0);
+			lantern.submit();
+		} else {
+			$('#lanternident').parent().after('<p id="inappropriate">Sorry, that doesn\'t seem to be a DOI, PubMed ID or PMC ID. Please alter it and try again.</p>');
 		}
-		lantern.submit();
 	}
 	$('#find').bind('click',find);
 	
-	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
-	} else {
-		$('#header').hide();
-		if (!clogin.loggedin()) {
-			$('#blurb').show();
-			$('#signupprompt').show();
-		}
-		$('.lanternsubmit').show();
-	}
-
 
 });
 
