@@ -83,7 +83,24 @@ exported by Excel by default) should still work, though you may notice character
     Those additional columns can be interpreted as described below.</p>
 
 <p>Note that if you provide any of the columns below yourself, any data that you provide will be overwritten. The only exception is the Article title column - if you supply a title for an article, <em>your title</em> will be used in EPMC and other lookups. Therefore it is not overwritten, so you can clearly see what title was used in gathering compliance information in all the other columns.</p>
-            
+
+<table class="infotable" id="doc-table">
+    <thead>
+    <tr>
+        <td width="30%"><strong class="step">Field</strong></td>
+        <td width="70%"><strong class="step">Description</strong></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>&nbsp;</td>
+        <td>Loading documentation ...</td>
+    </tr>
+
+    </tbody>
+</table>
+
+            <!--
 <table class="fields">
     <thead>
         <tr>
@@ -251,12 +268,48 @@ exported by Excel by default) should still work, though you may notice character
     </tbody>
 </table>
 
+-->
+
         </div>
     </div>
 </div>
 
 
-<script>
-jQuery(document).ready(function() {
-});
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+
+        var document = function(data) {
+            var data = JSON.parse(data);
+
+            // first turn the doc data around to be in the right shape
+            var documentation = {};
+            var keys = Object.keys(data);
+            for (var i = 0; i < keys.length; i++) {
+                var def = data[keys[i]];
+                documentation[def["short_name"]] = def["description"];
+            }
+
+            var sortKeys = Object.keys(documentation);
+            sortKeys.sort();
+
+            var table = "";
+            for (var i = 0; i < sortKeys.length; i++) {
+                table += '<tr><td>' + sortKeys[i] + '</td><td>' + documentation[sortKeys[i]] + '</td></tr>';
+            }
+            $("#doc-table tbody").html(table);
+        };
+
+
+        var error = function() {
+            $("#doc-table tbody").html('<tr><td></td><td>Oops, there was an error loading the documentation, please <a href="mailto:lantern@cottagelabs.com">contact us</a> and let us know!</td></tr>');
+        };
+
+        $.ajax({
+            method: "GET",
+            url: "/static/fields.json",
+            dataType: "text",
+            success:  document,
+            error: error
+        });
+    });
 </script>
