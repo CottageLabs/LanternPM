@@ -1,0 +1,142 @@
+{
+  "pmcid": {
+    "short_name": "PMCID",
+    "long_name": "Europe PubMed Central ID",
+    "description": "The <a href=\"http://europepmc.org\">EuropePMC</a> identifier for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
+  },
+  "pmid": {
+    "short_name": "PMID",
+    "long_name": "PubMed ID",
+    "description": "The <a href=\"http://www.ncbi.nlm.nih.gov/pubmed\">PubMed</a> identifier for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
+  },
+  "doi": {
+    "short_name": "DOI",
+    "long_name": "DOI",
+    "description": "The DOI for the article. You may have provided us this initially when you uploaded your data, but if you didn't we will have tried to populate it for you."
+  },
+  "title": {
+    "short_name": "Article title",
+    "long_name": "Article title",
+    "description": "The title of the article."
+  },
+  "journal_title": {
+    "short_name": "Journal title",
+    "long_name": "Journal title",
+    "description": "The name of the Journal in which the article was published."
+  },
+  "pure_oa": {
+    "short_name": "Pure Open Access",
+    "long_name": "Is the article in a pure OA journal listed in DOAJ?",
+    "description": "Whether this is a pure Open Access journal or not (in which case just hybrid). Determined by whether the journal is present in the <a href=\"https://doaj.org\">DOAJ</a>"
+  },
+  "issn": {
+    "short_name": "ISSN",
+    "long_name": "ISSN",
+    "description": "The ISSN(s) of the Journal in which the article was published; if more than one ISSN is found (e.g. the Print ISSN, Electronic ISSN or Linking ISSN) then they will be presented as a comma-separated list."
+  },
+  "eissn": {
+    "short_name": "EISSN",
+    "long_name": "EISSN",
+    "description": "The Electronic ISSN, if known"
+  },
+  "publication_date": {
+    "short_name": "Publication Date",
+    "long_name": "Publication Date",
+    "description": "The date the publisher made the article available (either in print or electronically). The date may contain both the year and month, or only the year, depending on what data is available. If no publication date can be found this column will contain the text \"Unavailable\"."
+  },
+  "electronic_publication_date": {
+    "short_name": "Electronic Publication Date",
+    "long_name": "Electronic Publication Date",
+    "description": "The date the publisher made the article available online. The date will be in the form YYYY-MM-DD (e.g. 2011-03-21). If no electronic publication date can be found this column will contain the text \"Unavailable\"."
+  },
+  "publisher": {
+    "short_name": "Publisher",
+    "long_name": "Journal Publisher",
+    "description": "The Publisher of the Journal in which the article was published."
+  },
+  "publisher_licence": {
+    "short_name": "Publisher Licence",
+    "long_name": "Publisher Licence",
+    "description": "The licence found on the journal publisher page, if known."
+  },
+  "epmc_licence": {
+    "short_name": "EPMC Licence",
+    "long_name": "EPMC Licence",
+    "description": "What licence, if any, EPMC stated the article was published under."
+  },
+  "epmc_licence_source": {
+    "short_name": "EPMC Licence Source",
+    "long_name": "EPMC Licence Source",
+    "description": "Where did we find the EPMC licence information."
+  },
+  "in_epmc": {
+    "short_name": "Fulltext in EPMC?",
+    "long_name": "Is the fulltext available in EuropePMC?",
+    "description": "Does the fulltext of the article appear in some form in <a href=\"http://europepmc.org/\">EuropePMC</a>? This is equivalent to the EuropePMC metadata record asserting inEPMC: Y"
+  },
+  "epmc_xml": {
+    "short_name": "XML Fulltext?",
+    "long_name": "Is the EuropePMC fulltext available as XML?",
+    "description": "Does the XML version of the fulltext of the article appear in <a href=\"http://europepmc.org/\">EuropePMC</a>? This will be a subset of those where the fulltext appears in some form (some are PDF only), and all OA-subset articles SHOULD have this content available."
+  },
+  "aam": {
+    "short_name": "AAM?",
+    "long_name": "Is the EuropePMC version the accepted author manuscript (AAM)?",
+    "description": "Is the copy of the paper in <a href=\"http://europepmc.org/\">EuropePMC</a> the Accepted Author Manuscript (AAM)? If the XML fulltext is present in EuropePMC then this information will be lifted from there, otherwise we page-scrape the EuropePMC web page for the article to detect whether it is the author manuscript"
+  },
+  "open_access": {
+    "short_name": "Open Access",
+    "long_name": "Is the article in the EuropePMC open access subset?",
+    "description": "Is the article in the <a href=\"http://europepmc.org/\">EuropePMC</a> Open Access subset? This is equivalent to the EuropePMC metadata record asserting isOpenAccess: Y"
+  },
+  "ahead_of_print": {
+    "short_name": "Ahead of Print?",
+    "long_name": "Was the article published electronically before print?",
+    "description": "Was the article published electronically before it was released in print. For journals which release both electronic and print versions, this will be either TRUE or FALSE. For journals which do not have print versions, this will be \"not applicable\". If we are unable to determine either the status of the journal or the status of the article this will be \"unknown\"."
+  },
+  "authors": {
+    "short_name": "Author(s)",
+    "long_name": "Author(s)",
+    "description": "List of the article's authors. First, we look for this information in Europe Pubmed Central. Then we check CrossRef. Finally we check CORE."
+  },
+  "grant": {
+    "short_name": "Grant {X}",
+    "long_name": "Grant number associated with this article ({X})",
+    "description": "Grant Number associated with this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Agency {X}\" and \"PI {X}\" fields"
+  },
+  "agency": {
+    "short_name": "Agency {X}",
+    "long_name": "Agency responsible for funding this article ({X})",
+    "description": "Agency responsible for funding this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Grant {X}\" and \"PI {X}\" fields"
+  },
+  "pi": {
+    "short_name": "PI {X}",
+    "long_name": "Principal Investigator of the grant associated with this article",
+    "description": "The Principal Investigator of the grant associated with this article.  This is a repeated field, where {X} is a number used to identify the field, and to associate it with the related \"Grant {X}\" and \"Agency {X}\" fields"
+  },
+  "confidence": {
+    "short_name": "Correct Article Confidence",
+    "long_name": "How sure are we that we have identified the correct article",
+    "description": "What level of confidence does the system have that it has successfully identified and analysed the correct article?  Since there are different ways we might identify the article, we may not always be 100% certain that we have found the correct one. "
+  },
+  "compliance_wellcome_standard": {
+    "short_name": "Standard Compliance",
+    "long_name": "Standard Compliance",
+    "description": "Does the result of the analysis live up to the requirements of Wellcome's Standard Compliance criteria? These criteria are: <ul><li>IF full-text is in Europe PMC AND it is an author manuscript THEN compliance = TRUE</li><li>IF full-text is in Europe PMC AND the licence in Europe PMC is CC BY or CC0 THEN compliance = TRUE</li></ul>"
+  },
+  "compliance_wellcome_deluxe": {
+    "short_name": "Deluxe Compliance",
+    "long_name": "Deluxe Compliance",
+    "description": "Does the result of the analysis live up to the requirements of Wellcome's Deluxe Compliance criteria?  These criteria are: <ul><li>IF full-text is in Europe PMC AND it is an author manuscript THEN compliance = TRUE</li><li>IF full-text is in Europe PMC AND the licence in Europe PMC is CC BY or CC0 AND the article is in the open access subset THEN compliance = TRUE</li></ul>"
+  },
+  "score": {
+    "short_name": "Lantern Score",
+    "long_name": "Lantern Score (Experimental)",
+    "description": "An experimental attempt to score an article with a value between 0 and 100, 100 being the most \"open\" that an article could be."
+  },
+  "provenance": {
+    "short_name": "Provenance",
+    "long_name": "What actions did we take on this identifier",
+    "description": "This field contains detailed logging and provenance information for the processing run, allowing you to understand on a case-by-case basis how the decisions and analysis were made"
+  }
+}
