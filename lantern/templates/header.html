@@ -51,12 +51,15 @@ jQuery(document).ready(function() {
 	}
 
 	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
-	} else {
+	} else if (window.location.pathname === '/') {
 		$('#header').hide();
 		$('.lanternsubmit').show();
 	}
 
 	clogin.init({
+		afterLogout: function() {
+			window.location = '/';
+		},
 		afterLogin:ready,
 		nologin: function() {
 			$('#blurb').show();

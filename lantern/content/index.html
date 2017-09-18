@@ -78,7 +78,7 @@
 			<div class="row">
 				<div class="col-md-8">
 	                <div class="input-group" id="report_rename" style="display:none;">
-						<input type="text" class="form-control" id="report_name">
+						<input type="text" class="form-control" id="report_name" value="Open access report">
     		            <div class="input-group-btn"><a class="btn btn-info" id="save_name" alt="save" title="save" href="#">save</a></div>
     		        </div>
 					<h3 id="lantern_name_header">
@@ -218,6 +218,12 @@ jQuery(document).ready(function() {
 			$('#lanternident').parent().after('<p id="inappropriate">Sorry, that doesn\'t seem to be a DOI, PubMed ID or PMC ID. Please alter it and try again.</p>');
 		}
 	}
+	$('#lanternident').bind('keyup',function(e) {
+		if (e && e.keyCode === 13) {
+			e.preventDefault();
+			find();
+		}
+	});
 	$('#find').bind('click',find);
 	
 

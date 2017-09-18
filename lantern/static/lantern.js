@@ -17,7 +17,7 @@
 		lantern.apibaseurl = 'https://dev.api.cottagelabs.com';
 	}
 
-  lantern.review = function() {
+    lantern.review = function() {
 		if (lantern.debug) {
 			console.log(lantern.identifiers);
 			console.log(lantern.identifiers.length);
@@ -37,7 +37,7 @@
 			$('#lanternreview').html(rev);
 			setTimeout(lantern.submit,3000);
 		}
-  }
+    }
   
 	lantern.transform = function(split,wrap) {
 		lantern.identifiers = [];
@@ -51,9 +51,9 @@
 		// could try to look for split and wrap chars in file somehow - looking at first char is no good because systems/people sometimes only use the wraps 
 		// when they must, like when surrounding content with a comma, but do not bother at other times
 		
-    lantern.file = lantern.file.replace(/\r\n/g,'\n'); // switch MS line breaks to unix
-    lantern.file = lantern.file.replace(/\n{2,}/g,'\n'); // get rid of any blank lines
-    lantern.file = lantern.file.replace(/\n*$/g,''); // remove newlines at end of file
+	    lantern.file = lantern.file.replace(/\r\n/g,'\n'); // switch MS line breaks to unix
+	    lantern.file = lantern.file.replace(/\n{2,}/g,'\n'); // get rid of any blank lines
+	    lantern.file = lantern.file.replace(/\n*$/g,''); // remove newlines at end of file
 		
 		var lines = [];
 		var fls = lantern.file.split('\n');
@@ -122,18 +122,23 @@
 			f = e.target.files[0];
 		}
 		lantern.filename = f.name;
-		var msg = '<p>We\'re preparing your report<br>';
-		msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
-		msg += '<br>Processing will begin shortly...</p>';
-		$('#lanternmsg').html(msg);
-		var reader = new FileReader();
-		reader.onload = (function(theFile) {
-			return function(e) {
-				lantern.file = e.target.result;
-				lantern.transform();
-			};
-		})(f);
-		reader.readAsBinaryString(f);
+		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1) {
+			var msg = '<p>We\'re preparing your report<br>';
+			msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
+			msg += '<br>Processing will begin shortly...</p>';
+			$('#lanternmsg').html(msg);
+			var reader = new FileReader();
+			reader.onload = (function(theFile) {
+				return function(e) {
+					lantern.file = e.target.result;
+					lantern.transform();
+				};
+			})(f);
+			reader.readAsBinaryString(f);
+		} else {
+			var msg = '<p>Only CSV files are accepted, with a file name ending with the ".csv" file type. Please try again.</p>';
+			$('#lanternmsg').html(msg);
+		}
   }
 
 	lantern.error = function(data) {
@@ -417,7 +422,7 @@
 			var pc = (Math.floor(progress * 10))/10;
 			if (data.data.progress !== 100) {
 				$('#lanternpercent').html(pc + '%');
-				if ( !$('#lanternreview').length ) {
+				if ($('#lanternreview').length !== 1) {
 					var pollmsg = '<p>Report ';
 					if (data.data && data.data.name) pollmsg += 'generating from file ' + data.data.name + '<br>Report ';
 					pollmsg += 'ID <a href="/#' + data.data._id + '">#' + data.data._id + '</a></p>';
@@ -458,7 +463,7 @@
 			}
 			if (data.data.report) {
 				$('#current_report_name').html(data.data.report);
-				$('#report_rename').val(data.data.report);
+				$('#report_name').val(data.data.report);
 			}
 			setTimeout(function() {
 				if (clogin.user && clogin.user.email === data.data.email) {
@@ -497,7 +502,6 @@
   
 	lantern.submit = function(e) {
 		if (e) e.preventDefault();
-		$('#lanternmsg').html("");
 		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 ) {
 			var vl = $('#lanternident').val();
 			var pl = {};
