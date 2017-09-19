@@ -89,9 +89,9 @@
 				<div class="col-md-4" style="padding-top:15px;">
 					<p>
 						<a id="downloadresults" href="#"><i style="vertical-align:-5%;" class="fa fa-download fa-2x"></i></a>
-						<a href="https://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook-square fa-2x"></i></a>
-						<a id="twittershare" href="https://twitter.com/intent/tweet?text="><i class="fa fa-twitter-square fa-2x"></i></a>
-						<a id="mailshare" href="mailto:?body="><i class="fa fa-envelope-square fa-2x"></i></a>
+						<a target="_blank" id="facebookshare" href="https://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook-square fa-2x"></i></a>
+						<a target="_blank" id="twittershare" href="https://twitter.com/intent/tweet?text="><i class="fa fa-twitter-square fa-2x"></i></a>
+						<a target="_blank" id="mailshare" href="mailto:?body="><i class="fa fa-envelope-square fa-2x"></i></a>
 						<!--
 						<a href="#"><i class="fa fa-share-alt-square fa-2x"></i></a>
 						<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
@@ -183,9 +183,6 @@
 
 <script>
 jQuery(document).ready(function() {
-	
-	if ($('#twittershare').length) $('#twittershare').attr('href',$('#twittershare').attr('href') + encodeURIComponent(window.location.href));
-	if ($('#mailshare').length) $('#mailshare').attr('href',$('#mailshare').attr('href') + encodeURIComponent(window.location.href));
 	
 	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#cloginEmail').val($('#startlogin').val()); $('#cloginArea').show(); $('#cloginSubmit').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
 

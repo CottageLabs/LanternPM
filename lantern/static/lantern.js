@@ -384,6 +384,9 @@
 				$('.reportcolumn').removeClass('col-md-10').removeClass('col-md-offset-1').addClass('col-md-12');
 			}
 		}
+		if ($('#facebookshare').length) $('#facebookshare').attr('href',$('#facebookshare').attr('href') + encodeURIComponent(window.location.href));
+		if ($('#twittershare').length) $('#twittershare').attr('href',$('#twittershare').attr('href') + encodeURIComponent(window.location.href));
+		if ($('#mailshare').length) $('#mailshare').attr('href',$('#mailshare').attr('href') + encodeURIComponent(window.location.href));
 	}
 	
 	lantern.rename = function(e,name) {

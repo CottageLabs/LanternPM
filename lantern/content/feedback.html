@@ -12,18 +12,19 @@
                 <div id="feedback_form" class="feedback-form">
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
+                            <a id="feedback_link" href="" style="display:none;"></a>
                             <form>
-                                <input name="email" placeholder="Your email">
+                                <input id="email" name="email" placeholder="Your email">
                                 <p class="form-help">enter your email if you'd like us to get back to you</p>
                                 <textarea name="feedback" id="feedback" placeholder="Enter your message here"></textarea>
-                                <button class="btn btn-primary">Send message</button>
+                                <button id="submit_feedback" class="btn btn-primary">Send message</button>
                             </form>
 
                         </div>
                     </div>
                 </div>
 
-                <div id="feedback_thanks" class="feedback-form">
+                <div id="feedback_thanks" class="feedback-form" style="display:none;">
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
                             <p class="thanks">Thanks for contacting us.  If you gave us an email address, we'll get back to you as soon as we can.</p>
@@ -80,3 +81,18 @@
         </div>
     </div>
 </div>
+
+<script>
+jQuery(document).ready(function() {
+    $('#submit_feedback').bind('click',function(e) {
+       e.preventDefault();
+       if ( $('#feedback').val() ) {
+           $.ajax({
+               url: lantern.apibaseurl + '/mail/feedback/lantern_fb_tok_4747?from=' + $('#email').val() + '&content=' + encodeURIComponent($('#feedback').val())
+           })
+           $('#feedback_form').hide();
+           $('#feedback_thanks').show();
+       }
+    });
+});
+</script>
