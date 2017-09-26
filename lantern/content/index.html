@@ -215,7 +215,7 @@ jQuery(document).ready(function() {
 			$('#lanternident').parent().after('<p id="inappropriate">Sorry, that doesn\'t seem to be a DOI, PubMed ID or PMC ID. Please alter it and try again.</p>');
 		}
 	}
-	$('#lanternident').bind('keyup',function(e) {
+	$('#lanternident').bind('keydown',function(e) {
 		if (e && e.keyCode === 13) {
 			e.preventDefault();
 			find();

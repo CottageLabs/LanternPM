@@ -113,8 +113,6 @@
   }
 	
   lantern.upload = function(e) {
-		$('.lanternsubmit').hide();
-		$('.lanternprogress').show();
 		var f;
 		if( window.FormData === undefined ) {
 			f = (e.files || e.dataTransfer.files);
@@ -122,7 +120,9 @@
 			f = e.target.files[0];
 		}
 		lantern.filename = f.name;
-		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1) {
+		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1 && (lantern.dois || lantern.pmids || lantern.pmcids || lantern.titles)) {
+			$('.lanternsubmit').hide();
+			$('.lanternprogress').show();
 			var msg = '<p>We\'re preparing your report<br>';
 			msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
 			msg += '<br>Processing will begin shortly...</p>';
@@ -136,7 +136,7 @@
 			})(f);
 			reader.readAsBinaryString(f);
 		} else {
-			var msg = '<p>Only CSV files are accepted, with a file name ending with the ".csv" file type. Please try again.</p>';
+			var msg = '<p>Only CSV files are accepted, with a file name ending with the ".csv" file type. There must also be at least one column titled "DOI", "PMID", "PMCID", or "Title", and containing at least one value. Please try again.</p>';
 			$('#lanternmsg').html(msg);
 		}
   }
