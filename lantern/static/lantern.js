@@ -27,6 +27,8 @@
 			console.log(lantern.titles);
 		}
 		if ( lantern.identifiers.length === 0 ) {
+			$('.lanternprogress').hide();
+			$('.lanternsubmit').show();
 			$('#lanternmsg').html('<p>Your file must have at least one record in it.<br>Please provide more information and try again.</p>');
 		} else if ( $('#lanternreview').length ) {
 			var rev = 'containing ' + lantern.identifiers.length + ' rows with:<br>';
@@ -120,13 +122,13 @@
 			f = e.target.files[0];
 		}
 		lantern.filename = f.name;
-		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1 && (lantern.dois || lantern.pmids || lantern.pmcids || lantern.titles)) {
+		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1) {
 			$('.lanternsubmit').hide();
 			$('.lanternprogress').show();
 			var msg = '<p>We\'re preparing your report<br>';
 			msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
 			msg += '<br>Processing will begin shortly...</p>';
-			$('#lanternmsg').html(msg);
+			if ( !$('#email').length ) $('#lanternmsg').html(msg);
 			var reader = new FileReader();
 			reader.onload = (function(theFile) {
 				return function(e) {
@@ -344,23 +346,42 @@
 		compliance = (compliance / lantern.results.length) * 100;
 		ov += '</div></div>';
 		$('#lanternoverview').html(ov);
-		var stats = '<p>This report contains ' + lantern.results.length + ' articles';
-		//stats += ', with an overall compliance rate of ' + compliance + '%.';
-		stats += '</p>';
-		stats += '</p>We found ' + identifiers.doi + ' DOIs, ' + identifiers.pmcid + ' PMC IDs, ' + identifiers.pmid + ' Pubmed IDs, and ' + identifiers.title + ' titles.</p>';
-		stats += '<p>' + epmc.xml + (epmc.xml === 1 ? ' is' : ' are') + ' available in EuropePMC, with ' + epmc.oa + ' indicated as open source, and ' + epmc.aam + ' being the author manuscript.</p>';
-		stats += '<p>' + in_core + ' article' + (in_core !== 1 ? 's are' : ' is') + ' in CORE, with ' + in_repos + ' available in a public repository.</p>';
+		var stats = '<div class="row"><div class="col-md-10 col-md-offset-1"><div class="well" style="background-color:transparent;padding:0px 15px 0px 15px;">';
+		stats += '<div class="row"><div class="col-sm-8">Number of articles</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + lantern.results.length + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of DOIs</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + identifiers.doi + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of PMC IDs</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + identifiers.pmcid + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of Pubmed IDs</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + identifiers.pmid + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of titles</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + identifiers.title + '</div></div>';
+		//stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Overall compliance rate</div>';
+		//stats += '<div class="col-sm-4" style="text-align:center">' + compliance + '%</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number available in EuropePMC</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + epmc.xml + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number open source in EuropePMC</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + epmc.oa + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Numnber of author manuscripts in EuropePMC</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + epmc.aam + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number in CORE</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + in_core + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number available in a public repository</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + in_repos + '</div></div>';
 		if (JSON.stringify(licences) !== '{}') {
-			stats += '<p>We found articles with the following licences:<br>';
+			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of articles by licence</div>';
+			stats += '<div class="col-sm-4">';
 			for ( var lk in licences ) stats += lk + ': ' + licences[lk] + '<br>';
-			stats += '</p>';
+			stats += '</div></div>';
 		}
 		if (JSON.stringify(publishers) !== '{}') {
-			stats += '<p>We found articles from the following publishers:<br>';
+			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of articles by publisher</div>';
+			stats += '<div class="col-sm-4">';
 			for ( var pk in publishers ) stats += pk + ': ' + publishers[pk] + '<br>';
-			stats += '</p>';
+			stats += '</div></div>';
 		}
-		stats += '<p>Click on any record below for further details.</p>';
+		stats += '</div></div></div><p style="margin-top:30px;">Click on any record below for further details.</p>';
 		$('#overviewstats').html(stats);
 		$('.showresult').bind('click',lantern.report);
 	}

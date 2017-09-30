@@ -11,7 +11,7 @@
 				</div>
         <input type="submit" class="submit form-control" id="lanternmulti" name="submit" value="Submit" style="background-color:grey;color:white;font-size:1.4em;height:50px;">
         <input type="submit" class="submit form-control disabled" id="submitting" name="submitting" value="Submitting, please wait" style="display:none;background-color:grey;color:white;font-size:1.4em;height:50px;">
-      	<div id="errormsg" style="display:none;" class="alert alert-warning"></div>
+      	<div id="lanternmsg"></div>
 			</form>
     </div>
   </div>
@@ -47,7 +47,7 @@ jQuery(document).ready(function() {
 			lantern.submit(e);
 		} else {
 			e.preventDefault();
-			$('#errormsg').html("You must provide an email address so we can contact you about your job progress.").show();
+			$('#lanternmsg').html("You must provide an email address so we can contact you about your job progress.").show();
 		}
 	}
   $('#lanternmulti').bind('click',checksubmit);
