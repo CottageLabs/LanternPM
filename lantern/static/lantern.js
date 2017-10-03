@@ -31,11 +31,14 @@
 			$('.lanternsubmit').show();
 			$('#lanternmsg').html('<p>Your file must have at least one record in it.<br>Please provide more information and try again.</p>');
 		} else if ( $('#lanternreview').length ) {
-			var rev = 'containing ' + lantern.identifiers.length + ' rows with:<br>';
-			if (lantern.dois) rev += lantern.dois + ' DOIs<br>';
+			var rev = 'This report contains ' + lantern.identifiers.length + ' rows with ';
+			if (lantern.dois) rev += lantern.dois + ' DOIs';
+			if (lantern.dois && lantern.pmcids) rev += ', ';
 			if (lantern.pmcids) rev += lantern.pmcids + ' PMC IDs<br>';
+			if ((lantern.dois || lantern.pmcids) && lantern.pmids) rev += ', ';
 			if (lantern.pmids) rev += lantern.pmids + ' Pubmed IDs<br>';
-			if (lantern.titles) rev += lantern.titles + ' titles<br>';
+			if ((lantern.dois || lantern.pmcids || lantern.pmids) && lantern.titles) rev += ', ';
+			if (lantern.titles) rev += lantern.titles + ' titles';
 			$('#lanternreview').html(rev);
 			setTimeout(lantern.submit,3000);
 		}
@@ -125,9 +128,9 @@
 		if (lantern.filename.toLowerCase().indexOf('.csv') !== -1) {
 			$('.lanternsubmit').hide();
 			$('.lanternprogress').show();
-			var msg = '<p>We\'re preparing your report<br>';
-			msg += 'for file ' + lantern.filename + '<br><span id="lanternreview"></span>';
-			msg += '<br>Processing will begin shortly...</p>';
+			var msg = '<p>We\'re preparing your report for file ' + lantern.filename + '</p>';
+			msg += '<p id="lanternreview"></p>';
+			msg += '<p id="procbegin">Processing will begin shortly...</p>';
 			if ( !$('#email').length ) $('#lanternmsg').html(msg);
 			var reader = new FileReader();
 			reader.onload = (function(theFile) {
@@ -254,7 +257,7 @@
 				info += '</div><div class="col-sm-8" style="text-align:right;word-break:break-all;word-wrap:break-word;">';
 				if (res.repositories[rp].fulltexts) {
 					var ft = res.repositories[rp].fulltexts[0];
-					info += '<a target="_blank" href="' + ft + '">' + ft + '</a>';
+					if (ft) info += '<a target="_blank" href="' + ft + '">' + ft + '</a>';
 				}
 				info += '</div></div>';
 			}
@@ -370,14 +373,14 @@
 		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number available in a public repository</div>';
 		stats += '<div class="col-sm-4" style="text-align:center">' + in_repos + '</div></div>';
 		if (JSON.stringify(licences) !== '{}') {
-			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of articles by licence</div>';
-			stats += '<div class="col-sm-4">';
+			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-6">Number of articles by licence</div>';
+			stats += '<div class="col-sm-6">';
 			for ( var lk in licences ) stats += lk + ': ' + licences[lk] + '<br>';
 			stats += '</div></div>';
 		}
 		if (JSON.stringify(publishers) !== '{}') {
-			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number of articles by publisher</div>';
-			stats += '<div class="col-sm-4">';
+			stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-6">Number of articles by publisher</div>';
+			stats += '<div class="col-sm-6">';
 			for ( var pk in publishers ) stats += pk + ': ' + publishers[pk] + '<br>';
 			stats += '</div></div>';
 		}
@@ -413,6 +416,7 @@
 	lantern.rename = function(e,name) {
 		if (e) e.preventDefault();
 		if (name === undefined) name = $('#report_name').val();
+		document.title = name;
 		$('#report_rename').hide();
 		$('#current_report_name').html(name);
 		$('#lantern_name_header').show();
@@ -445,6 +449,7 @@
 			var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
 			var pc = (Math.floor(progress * 10))/10;
 			if (data.data.progress !== 100) {
+				document.title = pc + '% ' + (document.title.indexOf('% ') !== -1 ? document.title.split('% ')[1] : document.title);
 				$('#lanternpercent').html(pc + '%');
 				if ($('#lanternreview').length !== 1) {
 					var pollmsg = '<p>Report ';
@@ -455,6 +460,7 @@
 					}
 					$('#lanternmsg').html(pollmsg);
 				} else if ( !$('#lanternid').length ) {
+					$('#procbegin').remove();
 					$('#lanternmsg').append('<p id="lanternid">Report ID #' + data.data._id + '</p>');
 				}
 				var status = '';
@@ -462,6 +468,7 @@
 				$('#lanternpoll').html(status);
 				setTimeout(lantern.poll,10000);
 			} else {
+				if (document.title.indexOf('% ') !== -1) document.title = document.title.split('% ')[1];
 				$('.lanternprogress').hide();
 				$.ajax({
 					url: lantern.apibaseurl + '/service/lantern/' + data.data._id + '/results?apikey='+clogin.apikey,
@@ -487,6 +494,7 @@
 			}
 			if (data.data.report) {
 				$('#current_report_name').html(data.data.report);
+				document.title = data.data.report;
 				$('#report_name').val(data.data.report);
 			}
 			setTimeout(function() {
@@ -518,11 +526,31 @@
   lantern.success = function(data) {
     if (lantern.debug) console.log(data);
 		try {
-			window.history.pushState("", "poll", '#' + data.data.job);
+			window.history.pushState('#' + data.data.job, "", '#' + data.data.job);
 		} catch (err) {}
+		document.title = 'Lantern open access report';
 		lantern.hash = data.data.job;
 		lantern.poll(data.data.job);
   }
+  
+  window.addEventListener('popstate',function(e) {
+  	if (lantern.debug) console.log(e.state)
+  	if (e.state === null) {
+			document.title = 'Lantern';
+  		$('#lanternmsg').html("");
+  		$('#lanternpoll').html("");
+  		$('#lanternreport').hide();
+  		$('.lanternprogress').hide();
+  	  $('.lanternsubmit').show();
+  	} else if (e.state.indexOf('#') === 0 && e.state.length === 18) {
+			$('.lanternsubmit').hide();
+			$('.lanternprogress').show();
+			$('#lanternmsg').html('<p>One moment please, retrieving report progress...</p>');
+			document.title = 'Lantern open access report';
+			lantern.hash = e.state.replace('#','');
+			lantern.poll(lantern.hash);
+  	}
+  });
   
 	lantern.submit = function(e) {
 		if (e) e.preventDefault();
