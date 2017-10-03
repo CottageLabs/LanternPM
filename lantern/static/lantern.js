@@ -152,7 +152,21 @@
 		$('#lanternmsg').html('<p class="alert alert-warning">There has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact <a href="mailto:lantern@cottagelabs.com">lantern@cottagelabs.com</a> attaching a copy of your file');
   }
 	
+	var fieldnames;
+
 	lantern.result = function(res,tgt) {
+		if (fieldnames === undefined) {
+			$.ajax({
+			  url: '/static/fields.json',
+			  dataType: "json",
+			  success: function(data) {
+			  	fieldnames = data;
+			  	lantern.result(res,tgt);
+			  }
+			});
+			return;
+		}
+
 		if (tgt === undefined) tgt = '#lanternresult';
 		if (res === undefined) res = lantern.results[0];
 		var info = '';
@@ -196,7 +210,7 @@
 					compliances = true;
 				}
 				info += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">';
-				info += f;
+				info += fieldnames && fieldnames[f] && fieldnames[f].long_name ? fieldnames[f].long_name : f;
 				info += '</div><div class="col-sm-4" style="word-break:break-all;word-wrap:break-word;background-color:';
 				info += res[f] === true ? '#B4EFA5;">Yes' : '#FF9191;">No';
 				info += '</div></div>';
@@ -209,19 +223,12 @@
 		var keys = [
 			"in_core","in_epmc","epmc_xml","aam",
 			"ahead_of_print","open_access","licence",
-			"pure_oa","preprint_embargo",
-		    "preprint_self_archiving","postprint_embargo",
-		    "postprint_self_archiving","publisher_copy_embargo","publisher_copy_self_archiving"
-		];
-		var names = [
-			'Is the article in CORE?','Is the fulltext available in EuropePMC?','Is the EuropePMC fulltext available as XML?','Is the EuropePMC version the accepted author manuscript (AAM)?',
-			'Was the article published electronically before print?','Is the article in the EuropePMC open access subset?','What licence (if any) is the article published under?',
-			'Is the article in a pure OA journal listed in DOAJ?','What is the journal preprint embargo policy?','Does the journal allow preprint self-archiving?',
-			'What is the journal postprint embargo policy?','Does the journal allow postprint self-archiving?','What is the published copy embargo policy?','Does the publisher allow self-archiving of the published copy?'
+			"pure_oa","preprint_embargo","preprint_self_archiving",
+			"postprint_embargo","postprint_self_archiving","publisher_copy_embargo","publisher_copy_self_archiving"
 		];
 		for ( var k in keys ) {
 			var key = keys[k];
-			var name = names[k];
+			var name = fieldnames && fieldnames[key] && fieldnames[key].long_name ? fieldnames[key].long_name : key;
 			var lres = res;
 			if (key.indexOf('.') !== -1) {
 				lres = res[key.split('.')[0]];
@@ -293,7 +300,7 @@
 			$('#showellipsedauthors').bind('click',function(e) { e.preventDefault(); $('#ellipsedauthors').toggle(); });
 		}
 	}
-
+	
 	lantern.overview = function() {
 		var ov = '<p>From file ' + lantern.progress.name + '</p>';
 		ov += '<div class="row" style="margin-top:50px;"><div class="col-md-12">';
