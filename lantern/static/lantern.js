@@ -29,7 +29,7 @@
 		if ( lantern.identifiers.length === 0 ) {
 			$('.lanternprogress').hide();
 			$('.lanternsubmit').show();
-			$('#lanternmsg').html('<p>Your file must have at least one record in it.<br>Please provide more information and try again.</p>');
+			$('#lanternmsg').html('<div class="alert alert-info"><p>Your file must have at least one record in it.<br>Please provide more information and try again.</p></div>');
 		} else if ( $('#lanternreview').length ) {
 			var rev = 'This report contains ' + lantern.identifiers.length + ' rows with ';
 			if (lantern.dois) rev += lantern.dois + ' DOIs';
@@ -71,7 +71,7 @@
 			}
 		}
 		if (lines.length > 3001) {
-			$('#lanternmsg').html('<p>The maximum amount of rows that can be submitted in one file is 3000. Please reduce the content of the file and try again.</p>');
+			$('#lanternmsg').html('<div class="alert alert-info"><p>The maximum amount of rows that can be submitted in one file is 3000. Please reduce the content of the file and try again.</p></div>');
 			lantern.file = undefined;
 			lantern.filename = '';
 		} else {
@@ -141,7 +141,7 @@
 			})(f);
 			reader.readAsBinaryString(f);
 		} else {
-			var msg = '<p>Only CSV files are accepted, with a file name ending with the ".csv" file type. There must also be at least one column titled "DOI", "PMID", "PMCID", or "Title", and containing at least one value. Please try again.</p>';
+			var msg = '<div class="alert alert-info"><p>Only CSV files are accepted, with a file name ending with the ".csv" file type. There must also be at least one column titled "DOI", "PMID", "PMCID", or "Title", and containing at least one value. See our <a href="/docs#format">file upload documentation</a> for more infomration.</p></div>';
 			$('#lanternmsg').html(msg);
 		}
   }
@@ -176,7 +176,15 @@
 		if (res.journal_title) info += 'in <i>' + res.journal_title + '</i>';
 		if (res.issn) info += ' (' + res.issn + ')';
 		if (!res.issn && res.eissn) info += ' (' + res.eissn + ')';
-		if (res.publication_date) info += '<br>Published on ' + moment(res.publication_date).format("DD/MM/YYYY");
+		if (res.publication_date) {
+			var pd = moment(res.publication_date).format("DD/MM/YYYY");
+			if (pd === 'Invalid date') {
+				info += '<br>';
+				if (res.publisher) info += 'Published';
+			} else {
+				info += '<br>Published on ' + pd;
+			}
+		}
 		if (res.publisher) info += ' by ' + res.publisher;
 		if (res.electronic_publication_date) info += '<br>Electronically published on ' + moment(res.electronic_publication_date).format("DD/MM/YYYY");
 		var ellipsing = false;
@@ -280,7 +288,7 @@
 				info += '</div><div class="col-sm-4">';
 				info += 'Grant ' + res.grants[g].grantId;
 				info += '</div><div class="col-sm-4">';
-				info += 'PI ' + res.grants[g].PI;
+				info += 'PI ' + (res.grants[g].PI ? res.grants[g].PI : 'unknown');
 				info += '</div></div>';
 			}
 			info += '</div></div></div>';
@@ -575,7 +583,7 @@
 		}
 		if ( lantern.identifiers === undefined || lantern.identifiers.length === 0 ) {
 			$('#lanternident').focus();
-			$('#lanternmsg').html('<p>You must provide an identifier in order to submit.<br>Please provide more information and try again.</p>');
+			$('#lanternmsg').html('<div class="alert alert-info"><p>You must provide an identifier in order to submit.<br>Please provide more information and try again.</p></div>');
 		} else {
 			$('.lanternsubmit').hide();
 			$('.lanternprogress').show();
