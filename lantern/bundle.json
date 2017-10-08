@@ -1,0 +1,15 @@
+[
+  "https://static.cottagelabs.com/jquery-1.10.2.min.js",
+  "https://static.cottagelabs.com/bootstrap-3.0.3/js/bootstrap.min.js",
+  "https://static.cottagelabs.com/moment.min.js",
+  "https://static.cottagelabs.com/fingerprint2.min.js",
+  "https://static.cottagelabs.com/clogin.js",
+  "https://use.fontawesome.com/5aecd91b73.js",
+  "./static/dropfile.js",
+  "./static/lantern.js",
+  "https://static.cottagelabs.com/bootstrap-3.0.3/css/bootstrap.min.css",
+  "https://fonts.googleapis.com/css?family=Corben",
+  "https://fonts.googleapis.com/css?family=Raleway:500",
+  "./static/lantern.css",
+  "./static/theme.css"
+]

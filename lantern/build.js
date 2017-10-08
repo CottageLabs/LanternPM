@@ -1,49 +1,64 @@
 
-// build static files to serve
+// Build static files to serve. Put files in a content folder, and use handlebars if necessary.
+// Content files can be .html or .md (in which case marked is also required). html files can 
+// also included markdown sections in <markdown></markdown> tags.
 
-// look for top level index and header and footer
-// go through content folder and build a serve folder - throw away all that was in there before, rebuild from scratch
-// for every file get the top level index and header and footer and wrap them round it
-// get any referenced js files and minify and bundle them
+// Requires fs and handlebars - handlebars syntax can be used to include files in other files.
 
-// still allow nginx to serve any files it does find in the folder directly
+// if a bundle.json file is included, then crypto, sync-request, uglify-js, uglifycss are required
+// with these, bundle.json should contain a json list of routes to local js or css files, or 
+// URLs starting with http which will be retrieved into the local static folder, if they don't 
+// already exist there. To force a new retrieve, just append a version increment parameter to the URL.
+// All files listed in the bundle.json will then be converted into a minified js and css files.
 
-// what about autoload of following content? just as current, via the nginx routes to /content?
+// Special templates are optional, called open, close, header, head, and footer.
+// open and close customise the opening and closing html tags if necessary.
+// header and footer can be defined to be included in every content file, even if not explicitly included.
+// head can contain any custom head tags that may be required. Any content template can also include a 
+// head tag which will be combined into the top head tag. The bundled css and js files will be added to the 
+// top of the generated head section.
 
+// if there is a local vars.json file, it will be searched for variables to inject into any handlebars 
+// variables found in the content files.
+
+// Static files should be placed in the static folder, which is where the minified css and js files will 
+// be placed too (in the static/bundle folder which gets created on each build). Any files in here that are 
+// not included in bundle.json can just be called in the normal way.
+
+// Generated content will be placed in a serve folder which gets emptied on every build. 
+
+// Use something like the example nginx config provided to serve files. 
+
+// To route requests for particular item pages, e.g. a given widget in a set of widgets, use the aforementioned 
+// nginx config and in the content/widgets folder create a content template called item.html. That template can 
+// then be rendered via a call to a URL like /widgets/widget1. The template must include the necessary js code 
+// to get the item specified in the URL string from some widgets API, and render it into the page.
+
+var args = {
+  nobundle: false, // if true a new js and css minified bundle will not be made, old one will be used
+  noretrieve: false // if true a new bundle will be made, but only using copies already available in static
+}
+for ( var i = 2; i < process.argv.length; i++) {
+  if (process.argv[i].indexOf('-') === 0) {
+    var a = process.argv[i].replace('-',''); 
+    if (args[a] === undefined) {
+      console.log('No option called ' + process.argv[i]);
+    } else {
+      args[a] = true;
+    }
+  } else {
+    var parts = process.argv[i].split('=');
+    if (parts.length < 2 || args[parts[0]] === undefined) {
+      console.log('No option called ' + process.argv[i]);
+    } else {
+      args[parts[0]] = parts[1];
+    }
+  }
+}
+
+console.log(args);
 
 var fs = require('fs');
-
-var tags = function(tag,content) {
-  var re = new RegExp("<" + tag + ".*?>","gi");
-  var res = [];
-  var match;
-  while (match = re.exec(content)) {
-    var str = match[2];
-    str = str.replace(/[ ]{0,1}=[ ]{0,1}/gi,'=');
-    var parts = str.split(' ');
-    var obj = {};
-    for ( var i in parts ) {
-      var se = parts.split('=');
-      if (se.length === 2) {
-        var clean = se[1];
-        if ( clean.indexOf('"') === 0 || clean.indexOf("'") === 0 ) clean = clean.substring(1,clean.length);
-        if ( clean.substring(clean.length-1,1) === '"' || clean.substring(clean.length-1,1) === "'" ) clean = clean.substring(1,clean.length-1);
-        obj[se[0]] = clean;
-      } else {
-        if (obj.tag !== undefined) {
-          obj.tag = se[0];
-        } else {
-          if (obj.vals === undefined) obj.vals = [];
-          obj.vals.push(se[0]);
-        }
-      }
-    }
-    res.push(match[2]);
-  }
-  console.log("tags");
-  console.log(res);
-  return res;
-}
 
 var walk = function(dir, done) {
   var results = [];
@@ -87,189 +102,152 @@ var deleteFolderRecursive = function(path) {
 deleteFolderRecursive('./serve');
 fs.mkdirSync('./serve');
 
-var jshash, csshash;
-walk('./static', function(err, results) {
+var bundle, jshash, csshash;
+try { bundle = require('./bundle.json'); } catch(err) {}
+console.log(bundle)
+if (!args.nobundle && bundle && typeof bundle === 'object') {
+  var request, uglyjs, uglycss;
+  var crypto = require('crypto');
+  if (!fs.existsSync('./static')) fs.mkdirSync('./static');
+  if (!fs.existsSync('./static/bundle')) fs.mkdirSync('./static/bundle');
+  fs.readdirSync('./static/bundle').forEach(function(file,index) { fs.unlinkSync('./static/bundle/' + file); });
   var js = [];
   var css = [];
-  var other = [];
-  for ( var r in results ) {
-    var fl = results[r];
-    if ( false) {// fl.indexOf('.js') !== -1 ) {
-      js.push(fl);
-    } else if ( false) {// fl.indexOf('.css') !== -1 ) {
-      css.push(fl);
-    } else {
-      other.push(fl);
+  for ( var b in bundle ) {
+    if (bundle[b].indexOf('http') === 0) {
+      var url = bundle[b];
+      bundle[b] = './static/' + bundle[b].split('/').pop();
+      if (!fs.existsSync(bundle[b]) || !args.noretrieve) {
+        if (request === undefined) request = require('sync-request');
+        var res = request('GET', url);
+        fs.writeFileSync(bundle[b], res.getBody());
+      }
     }
-  }
-  console.log(js);
-  console.log(css);
-  var uglyjs, uglycss;
-  var crypto = require('crypto');
-  fs.mkdirSync('./serve/static');
+    bundle[b].indexOf('.js') !== -1 ? js.push(bundle[b]) : css.push(bundle[b]);
+  }  
   // gz compress them too?
   if (js.length) {
     var uglify = require("uglify-js");
     uglyjs = uglify.minify(js);
     jshash = crypto.createHash('md5').update(uglyjs.code).digest("hex");
-    fs.writeFileSync('./serve/static/' + jshash + '.min.js', uglyjs.code);
+    fs.writeFileSync('./static/bundle/' + jshash + '.min.js', uglyjs.code);
   }
   if (css.length) {
     var uglifycss = require('uglifycss');
     uglycss = uglifycss.processFiles(css);
     csshash = crypto.createHash('md5').update(uglycss).digest("hex");
-    fs.writeFileSync('./serve/static/' + csshash + '.min.css', uglycss);
+    fs.writeFileSync('./static/bundle/' + csshash + '.min.css', uglycss);
   }
-  if (other.length) {
-    for ( var o in other ) {
-      fs.createReadStream(other[o]).pipe(fs.createWriteStream(other[o].replace('/static/','/serve/static/')));
-    }
-  }
-});
+}
+if (args.nobundle && fs.existsSync('./static/bundle') && jshash === undefined && csshash === undefined) {
+  fs.readdirSync('./static/bundle').forEach(function(file,index) {
+    if (file.indexOf('.min.js') !== -1 && jshash === undefined) jshash = file.replace('.min.js','');
+    if (file.indexOf('.min.css') !== -1 && csshash === undefined) csshash = file.replace('.min.css','');
+  });
+}
 
 var handlebars = require('handlebars');
-
 var templates = [];
-walk('./templates', function(err, results) {
-  for ( var r in results ) {
-    var fl = results[r];
-    var part = fs.readFileSync(fl).toString();
-    var fln = fl.replace('./templates/','').split('.')[0];
+walk('./content', function(err, results) {
+  if (err) throw err;
+  for ( var tr in results ) { // register all contents as templates
+    var tfl = results[tr];
+    var part = fs.readFileSync(tfl).toString();
+    var fln = tfl.replace('./content/','').split('.')[0];
     templates.push(fln);
     handlebars.registerPartial(fln,part);
   }
 
-  walk('./content', function(err, results) {
-    if (err) throw err;
-
-    // sort the results in some way?
-    for ( var tr in results ) templates.push(results[tr].replace('./content/',''));
-    console.log("Templates:");
-    console.log(templates);
-
-    for ( var r in results ) {
-      // settings in files do not do anything yet...
-      var settings = {};
-      settings.head = undefined;
-      settings.header = undefined;
-      settings.footer = undefined;
-      settings.title = undefined;
-      settings.prev = undefined;
-      settings.next = undefined;
-      settings.append = undefined;
-      settings.from = undefined;
-      settings.draft = undefined;
-      settings.collection = undefined;
-      settings.scroll = undefined;
-      settings.date = undefined;
-      settings.order = undefined;
-      settings.tags = undefined;
-      settings.context = {};
-      try { settings.context = require('context.json'); } catch(err) {}
-
-      var fl = results[r];
-      var content = fs.readFileSync(fl).toString();
-
-      if (content.indexOf('---') !== -1) {
-        var pts = content.split('---');
-        if (pts.length === 3) {
-          var sets = pts[1];
-          // parse sets for settings info
-          content = pts[2];
-        }
+  for ( var r in results ) { // for every content, build it
+    var vars = {};
+    try { vars = require('./vars.json'); } catch(err) {}
+    var fl = results[r];
+    var content = fs.readFileSync(fl).toString();
+    if (content.indexOf('---') !== -1) {
+      var pts = content.split('---');
+      if (pts.length === 3) {
+        var sets = pts[1];
+        // parse sets for vars info
+        content = pts[2];
       }
-
-      if (settings.header !== false && content.indexOf('<header') === -1) {
-        if (settings.header !== undefined) {
-          content = '{{> ' + settings.header + ' }}' + '\n\n' + content;
-        } else if (templates.indexOf('header') !== -1) {
-          content = '{{> header }}' + '\n\n' + content;
-        }
-      }
-
-      if (settings.footer !== false && content.indexOf('<footer') === -1) {
-        if (settings.footer !== undefined) {
-          content = content + '\n\n{{> ' + settings.footer + ' }}\n\n';
-        } else if (templates.indexOf('footer') !== -1) {
-          content = content + '\n\n{{> footer }}\n\n';
-        }
-      }
-
-      // look for any <extrahead></extrahead> section in the content - extract it
-      var extrahead = undefined;
-      if ( content.indexOf('<extrahead>') !== -1 ) {
-        var pa = content.split('</extrahead>');
-        extrahead = pa[0].replace('<extrahead>','');
-        content = pa[1];
-      }
-
-      if (content.indexOf('<body') === -1) content = '<body>\n' + content + '\n</body>';
-
-      if (settings.head !== false && content.indexOf('<head') === -1) {
-        if (settings.head !== undefined) {
-          content = '{{> ' + settings.head + ' }}' + '\n\n' + content;
-        } else if (templates.indexOf('head') !== -1) {
-          content = '{{> head }}' + '\n\n' + content;
-        }
-      }
-
-      // make all content files available as handlebars partials too?
-
-      if (templates.indexOf('mandatory') !== -1) content += '{{> mandatory }}';
-
-      var template = handlebars.compile(content);
-      content = template(settings.context);
-
-      var marked;
-      if ( fl.indexOf('.md') !== -1) {
-        marked = require('marked');
-        content = marked(content);
-      } else if ( content.indexOf('<markdown>') !== -1 ) {
-        var nc = '';
-        var cp = content.split('<markdown>');
-        for ( var a in cp ) {
-          if (a === 0) {
-            nc += cp[a];
-          } else {
-            var pts = cp[a].split('</markdown>');
-            marked = require('marked');
-            nc += marked(pts[0]) + pts[1];
-          }
-        }
-        content = nc;      
-      }
-
-      // insert the calls to the necessary js and css, and any extra head data provided in the page itself
-      if (content.indexOf('<head') === -1) content = '\n<head>\n</head>\n\n' + content;
-      if (csshash) content = content.replace('</head>','<link rel="stylesheet" href="/static/' + csshash + '.min.css">\n</head>');
-      if (jshash) content = content.replace('</head>','<script src="/static/' + jshash + '.min.js"></script>\n</head>');
-      if (extrahead) content = content.replace('</head>',extrahead + '\n</head>');
-
-      // ensure there is a title on the page meta, and append | where title is provided    
-
-      // now can run plugins on content if necessary, or just keep simple - one useful one could be lunr.js
-
-      var open, close;
-      try { open = fs.readFileSync('./templates/open.html').toString(); } catch(err) { open = '<!DOCTYPE html><html dir="ltr" lang="en">'; }
-      try { close = fs.readFileSync('./templates/close.html').toString(); } catch(err) { close = '\n</html>'; }
-      if ( content.indexOf('<html') === -1 ) content = open + content;
-      if ( content.indexOf('</html') === -1 ) content = content + close;
-
-      var dcp = fl.replace('./content/','').split('/');
-      var dc = './serve';
-      for ( var i = 0; i < dcp.length-1; i++ ) {
-        dc += '/' + dcp[i];
-        if (!fs.existsSync(dc)) fs.mkdirSync(dc);
-      }
-      fs.writeFileSync(fl.replace('./content/','./serve/').replace('.md','').replace('.html','')+'.html',content);
-
     }
 
-    console.log("Files");
-    console.log(results);
-  });
+    if (vars.header !== false && content.indexOf('<header') === -1) {
+      if (vars.header === undefined && templates.indexOf('header') !== -1) vars.header = 'header';
+      if (vars.header) content = '{{> ' + vars.header + ' }}' + '\n\n' + content;
+    }
+    if (vars.footer !== false && content.indexOf('<footer') === -1) {
+      if (vars.footer === undefined && templates.indexOf('footer') !== -1) vars.footer = 'footer';
+      if (vars.footer) content = content + '\n\n{{> ' + vars.footer + ' }}\n\n';
+    }
+    var extrahead = undefined;
+    if ( content.indexOf('<head>') !== -1 ) {
+      var pa = content.split('</head>');
+      extrahead = pa[0].replace('<head>','');
+      content = pa[1];
+    }
+    if (content.indexOf('<body') === -1) content = '<body>\n' + content + '\n</body>';
+    if (vars.head !== false && content.indexOf('<head') === -1) {
+      if (vars.head === undefined && templates.indexOf('head') !== -1) vars.head = 'head';
+      if (vars.head) {
+        content = '{{> ' + vars.head + ' }}' + '\n\n' + content;
+      } else {
+        content = '<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n\
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->\n\
+<!--[if lt IE 9]>\n\
+<script src="//static.cottagelabs.com/html5shim.min.js"></script>\n\
+<![endif]-->\n</head>\n\n' + content;
+      }
+    }
 
+    var template = handlebars.compile(content);
+    content = template(vars);
+
+    var marked;
+    if ( fl.indexOf('.md') !== -1) {
+      marked = require('marked');
+      content = marked(content);
+    } else if ( content.indexOf('<markdown>') !== -1 ) {
+      marked = require('marked');
+      var nc = '';
+      var cp = content.split('<markdown>');
+      for ( var a in cp ) {
+        if (a === 0) {
+          nc += cp[a];
+        } else {
+          var ms = cp[a].split('</markdown>');
+          nc += marked(ms[0]) + ms[1];
+        }
+      }
+      content = nc;
+    }
+
+    // insert the calls to the necessary js and css, and any extra head data provided in the page itself
+    if (content.indexOf('<head') === -1) content = '\n<head>\n</head>\n\n' + content;
+    if (csshash) content = content.replace('<head>','<head>\n<link rel="stylesheet" href="/static/bundle/' + csshash + '.min.css">\n');
+    if (jshash) content = content.replace('<head>','<head>\n<script src="/static/bundle/' + jshash + '.min.js"></script>\n');
+    if (extrahead) content = content.replace('</head>',extrahead + '\n</head>');
+
+    var open, close;
+    try { open = fs.readFileSync('./content/open.html').toString(); } catch(err) { open = '<!DOCTYPE html>\n<html dir="ltr" lang="en">\n'; }
+    try { close = fs.readFileSync('./content/close.html').toString(); } catch(err) { close = '\n</html>'; }
+    if ( content.indexOf('<html') === -1 ) content = open + content;
+    if ( content.indexOf('</html') === -1 ) content = content + close;
+
+    var dcp = fl.replace('./content/','').split('/');
+    var dc = './serve';
+    for ( var i = 0; i < dcp.length-1; i++ ) {
+      dc += '/' + dcp[i];
+      if (!fs.existsSync(dc)) fs.mkdirSync(dc);
+    }
+    fs.writeFileSync(fl.replace('./content/','./serve/').replace('.md','').replace('.html','')+'.html',content);
+
+  }
+
+  console.log("Files");
+  console.log(results);
 });
+
 
 
 
