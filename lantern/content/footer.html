@@ -35,8 +35,53 @@
   </div>
 </div>
 
+
 <script>
 jQuery(document).ready(function() {
+
+	if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
+		$('.lanternsubmit').show();
+		$('#header').hide();
+	} else {
+		$('.lanternsubmit').hide();
+	}
+
+	$('.accnav').bind('click',function(e) {
+		e.preventDefault();
+		$(this).next().is(':visible') ? $(this).next().hide() : $(this).next().show();
+	});
+	
+	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
+	
+	var ready = function() {
+		if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
+			$('.lanternprogress').hide();
+			$('.lanterninput').show();
+		}
+		$('#cloginArea').hide();
+		$('#blurb').hide();
+	}
+
+	clogin.init({
+		afterLogout: function() {
+			window.location = '/';
+		},
+		afterLogin:ready,
+		nologin: function() {
+			if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
+				$('.lanternprogress').hide();
+				$('#blurb').show();
+				$('.lanterninput').show();
+			}
+			if (window.location.pathname.indexOf('account') !== -1) {
+				$('.loading').hide();
+				$('.nologin').show();
+			}
+			$('#signupprompt').show();
+		}
+	});
+	
+	lantern.startup();
 
   $(window).on("scroll", function() {
     var offset = $(window).scrollTop();
@@ -52,15 +97,13 @@ jQuery(document).ready(function() {
   });
 
 });
-</script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-20871671-1', 'cottagelabs.com');
-  ga('require', 'linkid', 'linkid.js');
-  ga('send', 'pageview');
+ga('create', 'UA-20871671-1', 'cottagelabs.com');
+ga('require', 'linkid', 'linkid.js');
+ga('send', 'pageview');
 </script>

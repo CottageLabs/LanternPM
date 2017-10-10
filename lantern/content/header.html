@@ -1,15 +1,7 @@
 <head>
   <title>Lantern</title>
-
-  <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="author" content="Cottage Labs">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-  <!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
 </head>
 
 <div class="navbar navbar-fixed-top topstrap" style="height:90px;">
@@ -28,7 +20,7 @@
 				<p class="notcloggedin" style="display:none;text-align:right;margin-top:-5px;">
 					<a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a>
 				</p>
-				<a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" class="pull-right cloggedin" style="margin-top:-5px;">
+				<a data-toggle="dropdown" href="#" role="button" class="pull-right cloggedin accnav" style="margin-top:-5px;">
 					Account <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right">
@@ -39,19 +31,22 @@
 					<li><a id="cloginLogout" href="#">Logout</a></li>
 				</ul>
 				<div id="cloginArea" style="display:none;margin-top:10px;">
-					<div style="float:left;">
-						<div id="cloginEmailArea" class="input-group" style="max-width:300px;">
-							<input type="text" id="cloginEmail" class="form-control" placeholder="Enter your email address">
-							<div class="input-group-btn">
-								<a id="cloginSubmit" class="btn btn-primary" href="#">Login / sign up</a>
-							</div>
+					<div id="cloginEmailArea">
+						<div style="float:left;">
+							Login with 
+			    	        <a id="cloginOauthGoogle" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/ggl.png"> Google</a>
+				            <a id="cloginOauthFacebook" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/facebook.png"> Facebook</a>
+							 or 
 						</div>
-					</div>
-					<div style="float:right;">
-						or sign in with 
-		    	        <a id="cloginOauthGoogle" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/google.png"> Google</a>
-			            <a id="cloginOauthFacebook" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/facebook.png"> Facebook</a>
-			        </div>
+						<div style="float:right;">
+							<div class="input-group" style="max-width:280px;">
+								<input type="text" id="cloginEmail" class="form-control" placeholder="Enter your email address">
+								<div class="input-group-btn">
+									<a id="cloginSubmit" class="btn btn-primary" href="#">Login / sign up</a>
+								</div>
+							</div>
+				        </div>
+				    </div>
 					<div id="cloginTokenArea" style="display:none;">
 						<input type="text" class="form-control" id="cloginToken" placeholder="Check your email, enter your login code - or just click the link in the email">
 					</div>
@@ -61,34 +56,3 @@
 		</div>
 	</div>
 </div>
-
-<script>
-jQuery(document).ready(function() {
-
-	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
-	var ready = function() {
-		$('#cloginArea').hide();
-		$('#blurb').hide();
-	}
-
-	if (window.location.hash && window.location.hash.replace('#','').length === 17) {
-	} else if (window.location.pathname === '/') {
-		$('#header').hide();
-		$('.lanternsubmit').show();
-	}
-
-	clogin.init({
-		afterLogout: function() {
-			window.location = '/';
-		},
-		afterLogin:ready,
-		nologin: function() {
-			$('#blurb').show();
-			$('#signupprompt').show();
-		}
-	});
-	
-	lantern.startup();
-
-});
-</script>

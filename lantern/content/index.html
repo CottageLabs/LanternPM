@@ -1,12 +1,12 @@
 
-<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+<div class="container-fluid lanternsubmit" style="max-width:1000px;">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<h1 style="text-align:center;margin-top:50px;font-size:4em;">
 				<a style="color:#555;" href="/">LANTERN</a>
 			</h1>
 			<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
-			<div class="input-group">
+			<div class="input-group lanterninput" style="display:none;">
 				<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
 				<div class="input-group-btn">
 					<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
@@ -20,11 +20,37 @@
 	</div>
 </div>
 
-<div class="container-fluid lanternprogress" style="max-width:1000px;display:none;">
+<div class="container-fluid lanternprogress" style="max-width:1000px;">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
 			<p class="lanternloading" style="text-align:center;">
-				<img src="https://static.cottagelabs.com/spin_grey.svg">
+				<img src='data:image/svg+xml;utf8,<svg width="198px" height="198px" xmlns="http://www.w3.org/2000/svg" 
+					viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-spin"><rect x="0" y="0" width="100" 
+					height="100" fill="none" class="bk"></rect><g transform="translate(50 50)"><g transform="rotate(0) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(45) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.12s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.12s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(90) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.25s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.25s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(135) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.37s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.37s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(180) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.5s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.5s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(225) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.62s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.62s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(270) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.75s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.75s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(315) translate(34 0)">
+					<circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.87s" dur="1s" 
+					repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.87s" 
+					dur="1s" repeatCount="indefinite"></animateTransform></circle></g></g></svg>'>
 			</p>
 			<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
 		</div>
@@ -222,7 +248,6 @@ jQuery(document).ready(function() {
 		}
 	});
 	$('#find').bind('click',find);
-	
 
 });
 

@@ -34,14 +34,27 @@
 // then be rendered via a call to a URL like /widgets/widget1. The template must include the necessary js code 
 // to get the item specified in the URL string from some widgets API, and render it into the page.
 
+var help = {
+  dev: 'true/false* if true bundle values are inserted into head, no retrieval, no bundling',
+  bundle: 'true*/false if true new js and css minified bundle files are created from everything listed in bundle.json',
+  retrieve: 'true*/false if true any remote files listed in bundle.json will be retrieved before bundling, if false but some have been retrieved in a previous attempt, they will be reused in the bundle'
+}
 var args = {
-  nobundle: false, // if true a new js and css minified bundle will not be made, old one will be used
-  noretrieve: false // if true a new bundle will be made, but only using copies already available in static
+  dev: false,
+  bundle: true,
+  retrieve: true
 }
 for ( var i = 2; i < process.argv.length; i++) {
+  if (process.argv[i] === '-help') {
+    console.log(help);
+    console.log(args);
+    return;
+  }
   if (process.argv[i].indexOf('-') === 0) {
     var a = process.argv[i].replace('-',''); 
-    if (args[a] === undefined) {
+    if (a.indexOf('no') === 0 && args[a.replace('no','')] !== undefined) {
+      args[a.replace('no','')] = false;
+    } else if (args[a] === undefined) {
       console.log('No option called ' + process.argv[i]);
     } else {
       args[a] = true;
@@ -99,48 +112,90 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-deleteFolderRecursive('./serve');
-fs.mkdirSync('./serve');
+if (!fs.existsSync('./serve')) fs.mkdirSync('./serve');
+fs.readdirSync('./serve/').forEach(function(n,index) {
+  if ( (n !== 'static' && n !== 'retrieved') || (n === 'static' && args.bundle) || (n === 'retrieved' && args.retrieve) ) {
+    if (fs.lstatSync('./serve/' + n).isDirectory()) {
+      deleteFolderRecursive('./serve/' + n);
+    } else {
+      fs.unlinkSync('./serve/' + n);
+    }
+  }
+});
+if (!fs.existsSync('./serve/static')) fs.mkdirSync('./serve/static');
+if (!fs.existsSync('./serve/retrieved')) fs.mkdirSync('./serve/retrieved');
 
 var bundle, jshash, csshash;
 try { bundle = require('./bundle.json'); } catch(err) {}
 console.log(bundle)
-if (!args.nobundle && bundle && typeof bundle === 'object') {
+if (!args.dev && args.bundle && bundle && typeof bundle === 'object') {
   var request, uglyjs, uglycss;
   var crypto = require('crypto');
-  if (!fs.existsSync('./static')) fs.mkdirSync('./static');
-  if (!fs.existsSync('./static/bundle')) fs.mkdirSync('./static/bundle');
-  fs.readdirSync('./static/bundle').forEach(function(file,index) { fs.unlinkSync('./static/bundle/' + file); });
   var js = [];
   var css = [];
   for ( var b in bundle ) {
-    if (bundle[b].indexOf('http') === 0) {
+    if (bundle[b].indexOf('http') === 0 && args.retrieve) {
       var url = bundle[b];
-      bundle[b] = './static/' + bundle[b].split('/').pop();
-      if (!fs.existsSync(bundle[b]) || !args.noretrieve) {
-        if (request === undefined) request = require('sync-request');
-        var res = request('GET', url);
-        fs.writeFileSync(bundle[b], res.getBody());
+      bundle[b] = './serve/retrieved/' + bundle[b].split('/').pop();
+      if (request === undefined) request = require('sync-request');
+      var res = request('GET', url);
+      var cb = res.getBody().toString();
+      if (cb.indexOf('url(') !== -1) {
+        var ncb = '';
+        var cbpts = cb.split('url(');
+        for (var c in cbpts) {
+          if (c === '0') {
+            ncb += cbpts[c];
+          } else {
+            var qtp = cbpts[c].indexOf('"') === 0 ? '"' : (cbpts[c].indexOf("'") === 0 ? "'" : '');
+            var orurl = cbpts[c].replace(qtp,'').split(qtp+')')[0].split('?')[0].split('#')[0];
+            var csurl = orurl;
+            var csfn = csurl.split('/').pop();
+            if (csurl.indexOf('http') !== 0) {
+              var pieces = csurl.split('/');
+              var sourceparts = url.split('/');
+              var tgt = '';
+              for ( var cp in pieces ) {
+                if (pieces[cp] !== '.' && pieces[cp] !== '..' && pieces[cp].length) {
+                  tgt += '/' + pieces[cp];
+                  sourceparts.pop();
+                }
+              }
+              csurl = sourceparts.join('/') + tgt;
+            }
+            if (!fs.existsSync('./serve/static/' + csfn)) {
+              console.log('Getting ' + csurl + ' as ' + csfn + ' for ' + url);
+              var csres = request('GET', csurl);
+              fs.writeFileSync('./serve/static/' + csfn,csres.getBody());
+            }
+            ncb += 'url(' + qtp + './' + csfn + cbpts[c].split(orurl)[1];
+          }
+        }
+        cb = ncb;
       }
+      fs.writeFileSync(bundle[b], cb);
     }
-    bundle[b].indexOf('.js') !== -1 ? js.push(bundle[b]) : css.push(bundle[b]);
-  }  
-  // gz compress them too?
+    if (fs.existsSync(bundle[b])) {
+      bundle[b].indexOf('.js') !== -1 ? js.push(bundle[b]) : css.push(bundle[b]);
+    } else {
+      console.log('COULD NOT RETRIEVE ' + bundle[b]);
+    }
+  }
   if (js.length) {
     var uglify = require("uglify-js");
     uglyjs = uglify.minify(js);
     jshash = crypto.createHash('md5').update(uglyjs.code).digest("hex");
-    fs.writeFileSync('./static/bundle/' + jshash + '.min.js', uglyjs.code);
+    fs.writeFileSync('./serve/static/' + jshash + '.min.js', uglyjs.code);
   }
   if (css.length) {
     var uglifycss = require('uglifycss');
     uglycss = uglifycss.processFiles(css);
     csshash = crypto.createHash('md5').update(uglycss).digest("hex");
-    fs.writeFileSync('./static/bundle/' + csshash + '.min.css', uglycss);
+    fs.writeFileSync('./serve/static/' + csshash + '.min.css', uglycss);
   }
 }
-if (args.nobundle && fs.existsSync('./static/bundle') && jshash === undefined && csshash === undefined) {
-  fs.readdirSync('./static/bundle').forEach(function(file,index) {
+if (!args.dev && !args.bundle && jshash === undefined && csshash === undefined) {
+  fs.readdirSync('./serve/static/').forEach(function(file,index) {
     if (file.indexOf('.min.js') !== -1 && jshash === undefined) jshash = file.replace('.min.js','');
     if (file.indexOf('.min.css') !== -1 && csshash === undefined) csshash = file.replace('.min.css','');
   });
@@ -150,98 +205,123 @@ var handlebars = require('handlebars');
 var templates = [];
 walk('./content', function(err, results) {
   if (err) throw err;
+  var headerhead = '';
   for ( var tr in results ) { // register all contents as templates
     var tfl = results[tr];
     var part = fs.readFileSync(tfl).toString();
     var fln = tfl.replace('./content/','').split('.')[0];
+    if ( fln === 'header' && part.indexOf('<head>') !== -1 ) {
+      var ph = part.split('</head>');
+      headerhead = ph[0].replace('<head>','');
+      part = ph[1];
+    }
     templates.push(fln);
     handlebars.registerPartial(fln,part);
   }
 
   for ( var r in results ) { // for every content, build it
-    var vars = {};
-    try { vars = require('./vars.json'); } catch(err) {}
     var fl = results[r];
-    var content = fs.readFileSync(fl).toString();
-    if (content.indexOf('---') !== -1) {
-      var pts = content.split('---');
-      if (pts.length === 3) {
-        var sets = pts[1];
-        // parse sets for vars info
-        content = pts[2];
-      }
-    }
-
-    if (vars.header !== false && content.indexOf('<header') === -1) {
-      if (vars.header === undefined && templates.indexOf('header') !== -1) vars.header = 'header';
-      if (vars.header) content = '{{> ' + vars.header + ' }}' + '\n\n' + content;
-    }
-    if (vars.footer !== false && content.indexOf('<footer') === -1) {
-      if (vars.footer === undefined && templates.indexOf('footer') !== -1) vars.footer = 'footer';
-      if (vars.footer) content = content + '\n\n{{> ' + vars.footer + ' }}\n\n';
-    }
-    var extrahead = undefined;
-    if ( content.indexOf('<head>') !== -1 ) {
-      var pa = content.split('</head>');
-      extrahead = pa[0].replace('<head>','');
-      content = pa[1];
-    }
-    if (content.indexOf('<body') === -1) content = '<body>\n' + content + '\n</body>';
-    if (vars.head !== false && content.indexOf('<head') === -1) {
-      if (vars.head === undefined && templates.indexOf('head') !== -1) vars.head = 'head';
-      if (vars.head) {
-        content = '{{> ' + vars.head + ' }}' + '\n\n' + content;
-      } else {
-        content = '<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n\
-<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->\n\
-<!--[if lt IE 9]>\n\
-<script src="//static.cottagelabs.com/html5shim.min.js"></script>\n\
-<![endif]-->\n</head>\n\n' + content;
-      }
-    }
-
-    var template = handlebars.compile(content);
-    content = template(vars);
-
-    var marked;
-    if ( fl.indexOf('.md') !== -1) {
-      marked = require('marked');
-      content = marked(content);
-    } else if ( content.indexOf('<markdown>') !== -1 ) {
-      marked = require('marked');
-      var nc = '';
-      var cp = content.split('<markdown>');
-      for ( var a in cp ) {
-        if (a === 0) {
-          nc += cp[a];
-        } else {
-          var ms = cp[a].split('</markdown>');
-          nc += marked(ms[0]) + ms[1];
+    if( ['open','head','header','footer','close'].indexOf(fl.replace('./content/','').split('.')[0]) === -1 ) {
+      var vars = {};
+      try { vars = require('./vars.json'); } catch(err) {}
+      var content = fs.readFileSync(fl).toString();
+      if (content.indexOf('---') !== -1) {
+        var pts = content.split('---');
+        if (pts.length === 3) {
+          //var sets = pts[1];
+          // parse sets for vars info
+          content = pts[2];
         }
       }
-      content = nc;
+  
+      if (vars.header !== false && content.indexOf('<header') === -1) {
+        if (vars.header === undefined && templates.indexOf('header') !== -1) vars.header = 'header';
+        if (vars.header) content = '{{> ' + vars.header + ' }}' + '\n\n' + content;
+      }
+      if (vars.footer !== false && content.indexOf('<footer') === -1) {
+        if (vars.footer === undefined && templates.indexOf('footer') !== -1) vars.footer = 'footer';
+        if (vars.footer) content = content + '\n\n{{> ' + vars.footer + ' }}\n\n';
+      }
+
+      var extrahead = '';
+      if ( content.indexOf('<head>') !== -1 ) {
+        var pa = content.split('</head>');
+        extrahead = pa[0].replace('<head>','');
+        content = pa[1];
+      }
+      extrahead = headerhead + extrahead;
+      if (content.indexOf('<body') === -1) content = '<body>\n' + content + '\n</body>';
+      if (vars.head !== false && content.indexOf('<head') === -1) {
+        if (vars.head === undefined && templates.indexOf('head') !== -1) vars.head = 'head';
+        if (vars.head) {
+          content = '{{> ' + vars.head + ' }}' + '\n\n' + content;
+        } else {
+          content = '<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n\
+  <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->\n\
+  <!--[if lt IE 9]>\n\
+  <script src="//static.cottagelabs.com/html5shim.min.js"></script>\n\
+  <![endif]-->\n</head>\n\n' + content;
+        }
+      }
+      template = handlebars.compile(content);
+      content = template(vars);
+  
+      var marked;
+      if ( fl.indexOf('.md') !== -1) {
+        marked = require('marked');
+        content = marked(content);
+      } else if ( content.indexOf('<markdown>') !== -1 ) {
+        marked = require('marked');
+        var nc = '';
+        var cp = content.split('<markdown>');
+        for ( var a in cp ) {
+          if (a === 0) {
+            nc += cp[a];
+          } else {
+            var ms = cp[a].split('</markdown>');
+            nc += marked(ms[0]) + ms[1];
+          }
+        }
+        content = nc;
+      }
+  
+      // insert the calls to the necessary js and css, and any extra head data provided in the page itself
+      if (content.indexOf('<head') === -1) content = '\n<head>\n</head>\n\n' + content;
+      if (csshash) content = content.replace('<head>','<head>\n<link rel="stylesheet" href="/static/' + csshash + '.min.css">\n');
+      if (jshash) {
+        var cbp = content.split('<body');
+        if ( cbp[1].indexOf('<script') !== -1) {
+          content = cbp[0] + '<body' + cbp[1].replace('<script','\n<script src="/static/' + jshash + '.min.js"></script>\n<script');
+        } else {
+          content = content.replace('<head>','<head>\n<script src="/static/' + jshash + '.min.js"></script>\n');
+        }
+      }
+      if (args.dev && args.bundle && bundle && typeof bundle === 'object') {
+        for ( var bn in bundle ) {
+          var bdr = args.retrieve ? bundle[bn] : (fs.existsSync('./serve/retrieved/' + bundle[bn].split('/').pop()) ? './serve/retrieved/' + bundle[bn].split('/').pop() : bundle[bn]);
+          if (bundle[bn].indexOf('.js') !== -1) {
+            content = content.replace('</head>','<script src="' + bdr + '"></script>\n</head>');
+          } else {
+            content = content.replace('</head>','<link rel="stylesheet" href="' + bdr + '">\n</head>');
+          }
+        }
+      }
+      if (extrahead) content = content.replace('</head>',extrahead + '\n</head>');
+  
+      var open, close;
+      try { open = fs.readFileSync('./content/open.html').toString(); } catch(err) { open = '<!DOCTYPE html>\n<html dir="ltr" lang="en">\n'; }
+      try { close = fs.readFileSync('./content/close.html').toString(); } catch(err) { close = '\n</html>'; }
+      if ( content.indexOf('<html') === -1 ) content = open + content;
+      if ( content.indexOf('</html') === -1 ) content = content + close;
+  
+      var dcp = fl.replace('./content/','').split('/');
+      var dc = './serve';
+      for ( var i = 0; i < dcp.length-1; i++ ) {
+        dc += '/' + dcp[i];
+        if (!fs.existsSync(dc)) fs.mkdirSync(dc);
+      }
+      fs.writeFileSync(fl.replace('./content/','./serve/').replace('.md','').replace('.html','')+'.html',content);
     }
-
-    // insert the calls to the necessary js and css, and any extra head data provided in the page itself
-    if (content.indexOf('<head') === -1) content = '\n<head>\n</head>\n\n' + content;
-    if (csshash) content = content.replace('<head>','<head>\n<link rel="stylesheet" href="/static/bundle/' + csshash + '.min.css">\n');
-    if (jshash) content = content.replace('<head>','<head>\n<script src="/static/bundle/' + jshash + '.min.js"></script>\n');
-    if (extrahead) content = content.replace('</head>',extrahead + '\n</head>');
-
-    var open, close;
-    try { open = fs.readFileSync('./content/open.html').toString(); } catch(err) { open = '<!DOCTYPE html>\n<html dir="ltr" lang="en">\n'; }
-    try { close = fs.readFileSync('./content/close.html').toString(); } catch(err) { close = '\n</html>'; }
-    if ( content.indexOf('<html') === -1 ) content = open + content;
-    if ( content.indexOf('</html') === -1 ) content = content + close;
-
-    var dcp = fl.replace('./content/','').split('/');
-    var dc = './serve';
-    for ( var i = 0; i < dcp.length-1; i++ ) {
-      dc += '/' + dcp[i];
-      if (!fs.existsSync(dc)) fs.mkdirSync(dc);
-    }
-    fs.writeFileSync(fl.replace('./content/','./serve/').replace('.md','').replace('.html','')+'.html',content);
-
   }
 
   console.log("Files");

@@ -177,16 +177,24 @@
 		if (res.issn) info += ' (' + res.issn + ')';
 		if (!res.issn && res.eissn) info += ' (' + res.eissn + ')';
 		if (res.publication_date) {
-			var pd = moment(res.publication_date).format("DD/MM/YYYY");
-			if (pd === 'Invalid date') {
+			try {
+				if (res.publication_date.toLowerCase().indexOf('unavailable') !== -1) {
+					info += '<br>';
+					if (res.publisher) info += 'Published';
+				} else {
+					info += '<br>Published on ' + res.publication_date.split('T')[0].split('-').reverse().join('/');
+				}
+			} catch(err) {
 				info += '<br>';
 				if (res.publisher) info += 'Published';
-			} else {
-				info += '<br>Published on ' + pd;
 			}
 		}
 		if (res.publisher) info += ' by ' + res.publisher;
-		if (res.electronic_publication_date) info += '<br>Electronically published on ' + moment(res.electronic_publication_date).format("DD/MM/YYYY");
+		if (res.electronic_publication_date) {
+			try {
+				info += '<br>Electronically published on ' + res.publication_date.split('T')[0].split('-').reverse().join('/');
+			} catch(err) {}
+		}
 		var ellipsing = false;
 		if (res.authors) {
 			info += '<br>Author(s): ';
@@ -412,7 +420,8 @@
 			$('#forresult'+repno).toggle();
 		} else {
 			$('#lanternreport').show();
-			$('#lanterndate').html('Compiled on ' + moment.unix(Math.floor(lantern.progress.createdAt/1000)).format("DD/MM/YYYY"));
+			var d = new Date(lantern.progress.createdAt);
+			$('#lanterndate').html('Compiled on ' + d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear());
 			status += '<p><a id="downloadresults" href="#">Download results so far</a></p>';
 			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '">Or download your original spreadsheet</a></p>';
 			// TODO add triggers to the share buttons
@@ -471,7 +480,8 @@
 					if (data.data && data.data.name) pollmsg += 'generating from file ' + data.data.name + '<br>Report ';
 					pollmsg += 'ID <a href="/#' + data.data._id + '">#' + data.data._id + '</a></p>';
 					if (data.data && data.data.createdAt) {
-						pollmsg += '<p>Report created ' + moment.unix(data.data.createdAt/1000).calendar().replace('Today','today').replace(' AM','am').replace(' PM','pm') + '</p>';
+						var dc = new Date(data.data.createdAt);
+						pollmsg += '<p>Report created on ' + d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear() + '</p>';
 					}
 					$('#lanternmsg').html(pollmsg);
 				} else if ( !$('#lanternid').length ) {

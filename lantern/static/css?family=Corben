@@ -1,6 +1,0 @@
-@font-face {
-  font-family: 'Corben';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Corben Regular'), local('Corben-Regular'), url(https://fonts.gstatic.com/s/corben/v10/aAJbkLknKhfXxsbVwcGZiA.ttf) format('truetype');
-}
