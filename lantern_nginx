@@ -12,6 +12,8 @@ server {
   
   root /home/cloo/live/LanternPM/lantern;
 
+  #rewrite ^/widget/.*$ /widget/item last;
+
   location /content {
     try_files $uri $uri.html $uri.md $uri/index $uri/index.html $uri/index.md /404 =404;
   }

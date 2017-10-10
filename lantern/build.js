@@ -1,31 +1,30 @@
 
-// Build static files to serve. Put files in a content folder, and use handlebars if necessary.
-// Content files can be .html or .md (in which case marked is also required). html files can 
+// Build static files to serve. Put file templates in a content folder, and use handlebars if necessary.
+// Content templates can be .html or .md (in which case marked is also required). html files can 
 // also included markdown sections in <markdown></markdown> tags.
 
 // Requires fs and handlebars - handlebars syntax can be used to include files in other files.
 
 // if a bundle.json file is included, then crypto, sync-request, uglify-js, uglifycss are required
-// with these, bundle.json should contain a json list of routes to local js or css files, or 
-// URLs starting with http which will be retrieved into the local static folder, if they don't 
-// already exist there. To force a new retrieve, just append a version increment parameter to the URL.
-// All files listed in the bundle.json will then be converted into a minified js and css files.
+// with these, bundle.json should contain a json list of routes to local js or css files in ./static/ 
+// or URLs starting with http which will be retrieved into the local static folder.
+// All files listed in the bundle.json will then be combined into a minified js file and minified css file.
 
-// Special templates are optional, called open, close, header, head, and footer.
+// Special templates are optional, called open, head, header, footer, close.
 // open and close customise the opening and closing html tags if necessary.
 // header and footer can be defined to be included in every content file, even if not explicitly included.
-// head can contain any custom head tags that may be required. Any content template can also include a 
-// head tag which will be combined into the top head tag. The bundled css and js files will be added to the 
-// top of the generated head section.
+// head can contain a custom head if required. Any content template can also include a 
+// head section which will be combined into the main head section. Tags to retrieve the bundled css and js 
+// files will be added to the rendered pages just above the first script tag found within the content if any, 
+// or else at the bottom of the content.
 
 // if there is a local vars.json file, it will be searched for variables to inject into any handlebars 
 // variables found in the content files.
 
-// Static files should be placed in the static folder, which is where the minified css and js files will 
-// be placed too (in the static/bundle folder which gets created on each build). Any files in here that are 
-// not included in bundle.json can just be called in the normal way.
+// Static files should be placed in the static folder. Any files in here that are 
+// not included in bundle.json can just be called in the normal way from the content files, if necessary.
 
-// Generated content will be placed in a serve folder which gets emptied on every build. 
+// Generated / retrieved content will be placed in a folder called serve which gets emptied on every build. 
 
 // Use something like the example nginx config provided to serve files. 
 
@@ -37,12 +36,14 @@
 var help = {
   dev: 'true/false* if true bundle values are inserted into head, no retrieval, no bundling',
   bundle: 'true*/false if true new js and css minified bundle files are created from everything listed in bundle.json',
-  retrieve: 'true*/false if true any remote files listed in bundle.json will be retrieved before bundling, if false but some have been retrieved in a previous attempt, they will be reused in the bundle'
+  retrieve: 'true*/false if true any remote files listed in bundle.json will be retrieved before bundling, if false but some have been retrieved in a previous attempt, they will be reused in the bundle',
+  sass: 'true*/false if true will look for any scss files in static and generate a css file equivalent, and bundle.json scss files will use css instead'
 }
 var args = {
   dev: false,
   bundle: true,
-  retrieve: true
+  retrieve: true,
+  sass: true
 }
 for ( var i = 2; i < process.argv.length; i++) {
   if (process.argv[i] === '-help') {
@@ -125,6 +126,7 @@ fs.readdirSync('./serve/').forEach(function(n,index) {
 if (!fs.existsSync('./serve/static')) fs.mkdirSync('./serve/static');
 if (!fs.existsSync('./serve/retrieved')) fs.mkdirSync('./serve/retrieved');
 
+var sass = args.sass ? require("node-sass") : undefined;
 var bundle, jshash, csshash;
 try { bundle = require('./bundle.json'); } catch(err) {}
 console.log(bundle)
@@ -173,10 +175,20 @@ if (!args.dev && args.bundle && bundle && typeof bundle === 'object') {
         }
         cb = ncb;
       }
+      if (bundle[b].indexOf('.scss') !== -1 && args.sass) {
+        console.log('Sass rendering retrieved ' + bundle[b] + ' for bundle');
+        cb = sass.renderSync({data:cb}).css;
+        bundle[b] = bundle[b].replace('.scss','.css');
+      }
       fs.writeFileSync(bundle[b], cb);
     }
-    if (fs.existsSync(bundle[b])) {
-      bundle[b].indexOf('.js') !== -1 ? js.push(bundle[b]) : css.push(bundle[b]);
+    if ((bundle[b].indexOf('.css') !== -1 || bundle[b].indexOf('.scss') !== -1) && args.sass && fs.existsSync(bundle[b].replace('.css','.scss'))) {
+      console.log('Sass rendering ' + bundle[b] + ' for bundle');
+      var csres = sass.renderSync({file:bundle[b].replace('.css','.scss')}).css;
+      fs.writeFileSync(bundle[b], csres);
+      css.push(bundle[b]);
+    } else if (fs.existsSync(bundle[b])) {
+      bundle[b].indexOf('.js') !== -1 ? js.push(bundle[b]) : css.push(bundle[b].replace('.scss','css'));
     } else {
       console.log('COULD NOT RETRIEVE ' + bundle[b]);
     }
@@ -194,10 +206,28 @@ if (!args.dev && args.bundle && bundle && typeof bundle === 'object') {
     fs.writeFileSync('./serve/static/' + csshash + '.min.css', uglycss);
   }
 }
+
 if (!args.dev && !args.bundle && jshash === undefined && csshash === undefined) {
   fs.readdirSync('./serve/static/').forEach(function(file,index) {
     if (file.indexOf('.min.js') !== -1 && jshash === undefined) jshash = file.replace('.min.js','');
     if (file.indexOf('.min.css') !== -1 && csshash === undefined) csshash = file.replace('.min.css','');
+  });
+}
+
+if (args.sass) {
+  // render anything in static that was not already done for bundle
+  walk('./static', function(err, results) {
+    for ( var sr in results ) {
+      if (results[sr].indexOf('.scss') !== -1) {
+        if (bundle && typeof bundle === 'object') {
+          if (bundle.indexOf(results[sr]) === -1 && bundle.indexOf(results[sr].replace('.scss','.css')) === -1) {
+            console.log('Sass rendering ' + results[sr]);
+            var sassres = sass.renderSync({file:results[sr]}).css;
+            fs.writeFileSync(results[sr].replace('.scss','.css'), sassres);
+          } 
+        }
+      }
+    }
   });
 }
 
