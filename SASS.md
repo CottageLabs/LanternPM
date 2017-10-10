@@ -1,3 +1,5 @@
+SASS has been added to build script. Just do sudo npm install node-sass then run node build.js
+
 SASS required to compile theme.scss.  In python this is:
 
     pip install sass

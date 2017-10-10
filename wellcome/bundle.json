@@ -1,7 +1,5 @@
 [
   "https://static.cottagelabs.com/jquery-1.10.2.min.js",
-  "https://static.cottagelabs.com/bootstrap-3.0.3/js/bootstrap.min.js",
-  "https://static.cottagelabs.com/fingerprint2.min.js",
   "https://static.cottagelabs.com/clogin.js",
   "https://use.fontawesome.com/5aecd91b73.js",
   "./static/dropfile.js",
