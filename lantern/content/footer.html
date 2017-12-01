@@ -50,37 +50,44 @@ jQuery(document).ready(function() {
 		e.preventDefault();
 		$(this).next().is(':visible') ? $(this).next().hide() : $(this).next().show();
 	});
-	
-	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#cloginSubmit').html($(this).html()); $('#cloginArea').toggle(); $('#cloginEmail').focus(); });
-	
+
+	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#noddyLogin').html($(this).html()); $('#noddyArea').toggle(); $('#noddyEmail').focus(); });
+
 	var ready = function() {
 		if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
 			$('.lanternprogress').hide();
 			$('.lanterninput').show();
 		}
-		$('#cloginArea').hide();
+		$('#noddyArea').hide();
 		$('#blurb').hide();
 	}
 
-	clogin.init({
+  var nologin = function() {
+		if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
+			$('.lanternprogress').hide();
+			$('#blurb').show();
+			$('.lanterninput').show();
+		}
+		if (window.location.pathname.indexOf('account') !== -1) {
+			$('.loading').hide();
+			$('.nologin').show();
+		}
+		$('#signupprompt').show();
+	}
+
+	noddy.init({
+	  api: '{{api}}',
+    service: '{{service}}',
+	  debug: {{debug}},
 		afterLogout: function() {
 			window.location = '/';
 		},
 		afterLogin:ready,
-		nologin: function() {
-			if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
-				$('.lanternprogress').hide();
-				$('#blurb').show();
-				$('.lanterninput').show();
-			}
-			if (window.location.pathname.indexOf('account') !== -1) {
-				$('.loading').hide();
-				$('.nologin').show();
-			}
-			$('#signupprompt').show();
-		}
+		nologin: nologin,
+		loginFailure: nologin
 	});
-	
+
+	lantern.apibaseurl = '{{api}}';
 	lantern.startup();
 
   $(window).on("scroll", function() {

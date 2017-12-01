@@ -149,6 +149,11 @@
     "long_name": "Is the article in CORE?",
     "description": "Whether the article appears in the CORE aggregation. Presence in CORE indicates that some version of the article is available Open Access in a repository or other open database."
   },
+  "in_base": {
+    "short_name": "In BASE?",
+    "long_name": "Is the article in BASE?",
+    "description": "Whether the article appears in the BASE aggregation. We use this in addition to CORE to look for fulltext URLs"
+  },
   "repositories": {
     "short_name": "Archived Repositories",
     "long_name": "Which repositories does the article appear in",

@@ -43,7 +43,7 @@
 			setTimeout(lantern.submit,3000);
 		}
     }
-  
+
 	lantern.transform = function(split,wrap) {
 		lantern.identifiers = [];
 		lantern.dois = 0;
@@ -53,13 +53,13 @@
 		if (split === undefined) split = ',';
 		if (wrap === undefined) wrap = '"';
 		var wrapreplace = new RegExp(wrap,"g");
-		// could try to look for split and wrap chars in file somehow - looking at first char is no good because systems/people sometimes only use the wraps 
+		// could try to look for split and wrap chars in file somehow - looking at first char is no good because systems/people sometimes only use the wraps
 		// when they must, like when surrounding content with a comma, but do not bother at other times
-		
+
 	    lantern.file = lantern.file.replace(/\r\n/g,'\n'); // switch MS line breaks to unix
 	    lantern.file = lantern.file.replace(/\n{2,}/g,'\n'); // get rid of any blank lines
 	    lantern.file = lantern.file.replace(/\n*$/g,''); // remove newlines at end of file
-		
+
 		var lines = [];
 		var fls = lantern.file.split('\n');
 		var il = '';
@@ -116,7 +116,7 @@
 			lantern.review();
 		}
   }
-	
+
   lantern.upload = function(e) {
 		var f;
 		if( window.FormData === undefined ) {
@@ -151,7 +151,7 @@
 		$('.lanternsubmit').show();
 		$('#lanternmsg').html('<p class="alert alert-warning">There has been an error with your submission. Please try again.<br>If you continue to receive an error, please contact <a href="mailto:lantern@cottagelabs.com">lantern@cottagelabs.com</a> attaching a copy of your file');
   }
-	
+
 	var fieldnames;
 
 	lantern.result = function(res,tgt) {
@@ -216,7 +216,7 @@
 		if (res.pmcid) info += 'PMC ID: <a href="http://europepmc.org/articles/' + res.pmcid + '" target="_blank">' + res.pmcid + '</a><br>';
 		info += '</p></div></div>';
 		info += '</div></div>';
-		
+
 		var compliances = false;
 		for ( var f in res ) {
 			if (f.indexOf('compliance_') === 0) {
@@ -286,7 +286,7 @@
 			}
 			info += '</div></div></div>';
 		}
-		
+
 		if (res.grants && res.grants.length) {
 			info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1"><div class="well" style="background-color:transparent;padding:10px 15px 0px 15px;">';
 			info += '<div class="row"><div class="col-sm-12"><b>Which grants funded this research?</b></div></div>';
@@ -301,7 +301,7 @@
 			}
 			info += '</div></div></div>';
 		}
-		
+
 		if (res.provenance && res.provenance.length) {
 			info += '<div class="row" style="margin-top:30px;"><div class="col-md-10 col-md-offset-1"><div class="well" style="padding:10px 15px 0px 15px;">';
 			info += '<p><b>Processing output notes</b></p><ul>';
@@ -310,13 +310,13 @@
 			}
 			info += '</ul></div></div></div>';
 		}
-		
+
 		$(tgt).html(info);
 		if (ellipsing) {
 			$('#showellipsedauthors').bind('click',function(e) { e.preventDefault(); $('#ellipsedauthors').toggle(); });
 		}
 	}
-	
+
 	lantern.overview = function() {
 		var ov = '<p>From file ' + lantern.progress.name + '</p>';
 		ov += '<div class="row" style="margin-top:50px;"><div class="col-md-12">';
@@ -326,6 +326,7 @@
 		var identifiers = {doi:0,pmid:0,pmcid:0,title:0};
 		var publishers = {};
 		var in_core = 0;
+		var in_base = 0;
 		var in_repos = 0;
 		var epmc = {xml:0,oa:0,aam:0};
 		for ( var lr in lantern.results ) {
@@ -352,7 +353,8 @@
 				publishers[lrs.publisher] += 1;
 			}
 			if (lrs.in_core) in_core += 1;
-			if (lrs.repositories.length > 0) in_repos += 1;
+			if (lrs.in_base) in_base += 1;
+			if (lrs.repositories !== undefined && lrs.repositories.length > 0) in_repos += 1;
 			if (lrs.epmc_xml) epmc.xml += 1;
 			if (lrs.open_access) epmc.oa += 1;
 			if (lrs.aam) epmc.aam += 1;
@@ -393,6 +395,8 @@
 		stats += '<div class="col-sm-4" style="text-align:center">' + epmc.aam + '</div></div>';
 		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number in CORE</div>';
 		stats += '<div class="col-sm-4" style="text-align:center">' + in_core + '</div></div>';
+		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number in BASE</div>';
+		stats += '<div class="col-sm-4" style="text-align:center">' + in_base + '</div></div>';
 		stats += '<div class="row" style="border-top:1px solid #ccc;"><div class="col-sm-8">Number available in a public repository</div>';
 		stats += '<div class="col-sm-4" style="text-align:center">' + in_repos + '</div></div>';
 		if (JSON.stringify(licences) !== '{}') {
@@ -411,7 +415,7 @@
 		$('#overviewstats').html(stats);
 		$('.showresult').bind('click',lantern.report);
 	}
-	
+
 	lantern.report = function(e) {
 		if (e) {
 			e.preventDefault();
@@ -423,7 +427,7 @@
 			var d = new Date(lantern.progress.createdAt);
 			$('#lanterndate').html('Compiled on ' + d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear());
 			status += '<p><a id="downloadresults" href="#">Download results so far</a></p>';
-			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '">Or download your original spreadsheet</a></p>';
+			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original' + (noddy !== undefined && noddy.apikey !== undefined ? '?apikey=' + noddy.apikey : '') + '">Or download your original spreadsheet</a></p>';
 			// TODO add triggers to the share buttons
 			if (lantern.results.length === 1) {
 				lantern.result(lantern.results[0]);
@@ -436,7 +440,7 @@
 		if ($('#twittershare').length) $('#twittershare').attr('href',$('#twittershare').attr('href') + encodeURIComponent(window.location.href));
 		if ($('#mailshare').length) $('#mailshare').attr('href',$('#mailshare').attr('href') + encodeURIComponent(window.location.href));
 	}
-	
+
 	lantern.rename = function(e,name) {
 		if (e) e.preventDefault();
 		if (name === undefined) name = $('#report_name').val();
@@ -445,7 +449,7 @@
 		$('#current_report_name').html(name);
 		$('#lantern_name_header').show();
 		$.ajax({
-			url: lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/rename/' + name + '?apikey='+clogin.apikey,
+			url: lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/rename/' + name + (noddy !== undefined && noddy.apikey !== undefined ? '?apikey='+noddy.apikey : ''),
 			method: 'GET'
 		});
 	}
@@ -456,50 +460,50 @@
 		if (window.location.host.indexOf('compliance.') !== -1 || window.location.host.indexOf('wellcome.') !== -1) {
 			$('.uploader').hide();
 			$('#poller').show();
-			var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
+			var progress = !data.progress ? 0 : data.progress;
 			var pc = (Math.floor(progress * 10))/10;
 			var status = '<p>Job ';
-			status += data.data && data.data.name ? data.data.name : '#' + data.data._id;
+			status += data.name ? data.name : '#' + data._id;
 			status += '</p>';
-			if (data.data && data.data.new === true) status += '<p>Your job is new, and is still being loaded into the system. For large jobs this may take a couple of minutes.</p>';
+			if (data.new === true) status += '<p>Your job is new, and is still being loaded into the system. For large jobs this may take a couple of minutes.</p>';
 			status += '<p>Your job is ' + pc + '% complete.</p>';
-			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey + '" class="btn btn-default btn-block">Download your results</a></p>';
-			status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original?apikey=' + clogin.apikey + '" style="font-weight:normal;">or download your original spreadsheet</a></p>';
-			if (data.data.progress !== 100) setTimeout(lantern.poll,10000);
+			status += '<p><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&' + (noddy !== undefined && noddy.apikey !== undefined ? 'apikey=' + noddy.apikey : '') + '" class="btn btn-default btn-block">Download your results</a></p>';
+			status += '<p style="text-align:center;padding-top:10px;"><a href="' + lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/original' + (noddy !== undefined && noddy.apikey !== undefined ? '?apikey=' + noddy.apikey : '') + '" style="font-weight:normal;">or download your original spreadsheet</a></p>';
+			if (data.progress !== 100) setTimeout(lantern.poll,10000);
 			$('#pollinfo').html(status);
 		} else {
 			if (lantern.debug) console.log('poll returned');
-			lantern.progress = data.data;
-			var progress = !data.data || !data.data.progress ? 0 : data.data.progress;
+			lantern.progress = data;
+			var progress = !data.progress ? 0 : data.progress;
 			var pc = (Math.floor(progress * 10))/10;
-			if (data.data.progress !== 100) {
+			if (data.progress !== 100) {
 				document.title = pc + '% ' + (document.title.indexOf('% ') !== -1 ? document.title.split('% ')[1] : document.title);
 				$('#lanternpercent').html(pc + '%');
 				if ($('#lanternreview').length !== 1) {
 					var pollmsg = '<p>Report ';
-					if (data.data && data.data.name) pollmsg += 'generating from file ' + data.data.name + '<br>Report ';
-					pollmsg += 'ID <a href="/#' + data.data._id + '">#' + data.data._id + '</a></p>';
-					if (data.data && data.data.createdAt) {
-						var dc = new Date(data.data.createdAt);
+					if (data.name) pollmsg += 'generating from file ' + data.name + '<br>Report ';
+					pollmsg += 'ID <a href="/#' + data._id + '">#' + data._id + '</a></p>';
+					if (data.createdAt) {
+						var d = new Date(data.createdAt);
 						pollmsg += '<p>Report created on ' + d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear() + '</p>';
 					}
 					$('#lanternmsg').html(pollmsg);
 				} else if ( !$('#lanternid').length ) {
 					$('#procbegin').remove();
-					$('#lanternmsg').append('<p id="lanternid">Report ID #' + data.data._id + '</p>');
+					$('#lanternmsg').append('<p id="lanternid">Report ID #' + data._id + '</p>');
 				}
 				var status = '';
-				if (data.data && data.data.new === true) status += '<p>Your report is new, and is still being loaded into the system. For large reports this may take a couple of minutes.</p>';
+				if (data.new === true) status += '<p>Your report is new, and is still being loaded into the system. For large reports this may take a couple of minutes.</p>';
 				$('#lanternpoll').html(status);
 				setTimeout(lantern.poll,10000);
 			} else {
 				if (document.title.indexOf('% ') !== -1) document.title = document.title.split('% ')[1];
 				$('.lanternprogress').hide();
 				$.ajax({
-					url: lantern.apibaseurl + '/service/lantern/' + data.data._id + '/results?apikey='+clogin.apikey,
+					url: lantern.apibaseurl + '/service/lantern/' + data._id + '/results'+(noddy !== undefined && noddy.apikey !== undefined ? '?apikey=' + noddy.apikey : ''),
 					method: 'GET',
 					success: function(data) {
-						lantern.results = data.data;
+						lantern.results = data;
 						$('#lanternmsg').html('');
 						$('#lanternpoll').html('');
 						lantern.report();
@@ -507,7 +511,7 @@
 				});
 			}
 			var download = function(e) {
-				var hr = lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&apikey=' + clogin.apikey;
+				var hr = lantern.apibaseurl + '/service/lantern/' + lantern.hash + '/results?format=csv&' + (noddy !== undefined && noddy.apikey !== undefined ? 'apikey=' + noddy.apikey : '');
 				for ( var d in _download_fields ) hr += '&' + d + '=' + _download_fields[d];
 				$(this).attr('href',hr);
 			}
@@ -517,13 +521,13 @@
 				$('#lantern_name_header').hide();
 				$('#report_rename').show();
 			}
-			if (data.data.report) {
-				$('#current_report_name').html(data.data.report);
-				document.title = data.data.report;
-				$('#report_name').val(data.data.report);
+			if (data.report) {
+				$('#current_report_name').html(data.report);
+				document.title = data.report;
+				$('#report_name').val(data.report);
 			}
 			setTimeout(function() {
-				if (clogin.user && clogin.user.email === data.data.email) {
+				if (noddy && noddy.user && noddy.user.email === data.email) {
 					$('#lantern_rename').bind('click',show_rename);
 					$('#save_name').bind('click',lantern.rename);
 				} else {
@@ -532,7 +536,7 @@
 			},2000);
 		}
 	}
-	
+
 	lantern.poll = function(hash) {
 		if (hash === undefined) {
 			lantern.hash = window.location.hash.replace('#','');
@@ -540,24 +544,24 @@
 		}
 		if ( hash ) {
 			$.ajax({
-				url: lantern.apibaseurl + '/service/lantern/' + hash + '/progress?apikey='+clogin.apikey,
+				url: lantern.apibaseurl + '/service/lantern/' + hash + '/progress'+(noddy !== undefined && noddy.apikey !== undefined ? '?apikey=' + noddy.apikey : ''),
 				method: 'GET',
 				success: lantern.polling,
 				error: lantern.error
-			});		
+			});
 		}
 	}
-		
-  lantern.success = function(data) {
-    if (lantern.debug) console.log(data);
+
+  lantern.success = function(job) {
+    if (lantern.debug) console.log(job);
 		try {
-			window.history.pushState('#' + data.data.job, "", '#' + data.data.job);
+			window.history.pushState('#' + job._id, "", '#' + job._id);
 		} catch (err) {}
 		document.title = 'Lantern open access report';
-		lantern.hash = data.data.job;
-		lantern.poll(data.data.job);
+		lantern.hash = job._id;
+		lantern.poll(job._id);
   }
-  
+
   window.addEventListener('popstate',function(e) {
   	if (lantern.debug) console.log(e.state)
   	if (e.state === null) {
@@ -576,7 +580,7 @@
 			lantern.poll(lantern.hash);
   	}
   });
-  
+
 	lantern.submit = function(e) {
 		if (e) e.preventDefault();
 		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 ) {
@@ -600,7 +604,7 @@
 			var payload = {list:lantern.identifiers,name:lantern.filename};
 			try { payload.email = $('#email').val(); } catch(err) {} // wellcome
 			$.ajax({
-				url: lantern.apibaseurl + '/service/lantern?apikey='+clogin.apikey,
+				url: lantern.apibaseurl + '/service/lantern'+(noddy !== undefined && noddy.apikey !== undefined ? '?apikey=' + noddy.apikey : ''),
 				method: 'POST',
 				data: JSON.stringify(payload),
 				dataType: 'JSON',
@@ -610,7 +614,7 @@
 			});
 		}
   }
-	
+
 	lantern.fields = function() {
 		var fields = ['PMCID', 'PMID', 'DOI', 'Publisher', 'Journal title', 'ISSN', 'Article title', 'Publication Date', 'Electronic Publication Date', 'Author(s)', 'In CORE?', 'Repositories', 'Repository URLs', 'Repository fulltext URLs', 'Repository OAI IDs', 'Fulltext in EPMC?', 'XML Fulltext?', 'Author Manuscript?', 'Ahead of Print?', 'Open Access?', 'Licence', 'Licence source', 'Journal Type', 'Correct Article Confidence', 'Preprint Embargo', 'Preprint Self-archiving Policy', 'Postprint Embargo', 'Postprint Self-archiving Policy', 'Publishers Copy Embargo', 'Publishers Copy Self-archiving Policy', 'Compliance Processing Output', 'Provenance', 'Grants'];
 		var opts = '<p style="color:white;"><br><br>';
@@ -622,8 +626,8 @@
 		opts += '</p>';
 		$('#options').html(opts);
 		try{
-			for ( var c in clogin.user.account.service.lantern.profile.fields) {
-				if (clogin.user.account.service.lantern.profile.fields[c] === false) $('[name="'+c+'"]').removeAttr('checked');
+			for ( var c in noddy.user.account.service.lantern.profile.fields) {
+				if (noddy.user.account.service.lantern.profile.fields[c] === false) $('[name="'+c+'"]').removeAttr('checked');
 			}
 		} catch(err) {}
 		var dls = function(e) {
@@ -636,7 +640,7 @@
 				var fld = {};
 				fld[which] = checked;
 				$.ajax({
-					url: lantern.apibaseurl + '/service/lantern/fields/' + clogin.user.email + '?apikey='+clogin.apikey,
+					url: lantern.apibaseurl + '/service/lantern/fields/' + (noddy !== undefined && noddy.user !== undefined && noddy.user.email !== undefined ? noddy.user.email : '') + (noddy !== undefined && noddy.apikey !== undefined ? '?apikey='+noddy.apikey : ''),
 					method: 'POST',
 					data: JSON.stringify(fld),
 					dataType: 'JSON',
@@ -646,7 +650,7 @@
 		}
 		$('.dl_opts').bind('change',dls);
 	}
-  
+
 	lantern.startup = function() {
 	  $('input[type=file]').on('change', lantern.upload);
 	  $('#lanternsubmit').bind('click',lantern.submit);

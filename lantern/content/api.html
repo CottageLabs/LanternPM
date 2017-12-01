@@ -1,7 +1,7 @@
-<extrahead>
+<head>
     <title>Lantern | API Documentation</title>
     <link href='/static/docpage.css' rel='stylesheet' type='text/css'>
-</extrahead>
+</head>
 
 <div id="topstrap">
 	<div class="container">
@@ -129,7 +129,6 @@ Content-Type: application/json; charset=UTF-8
 
 <pre>
 {
-    "status": "success",
     "data": {
         "max": 3000,
         "job": "&lt;your job id - you will need this in other API requests&gt;",
@@ -166,7 +165,6 @@ GET /:job?apikey=&lt;api key&gt;
 
 <pre>
 {
-    "status": "success",
     "data": {
         "list": [
             {
@@ -197,7 +195,6 @@ GET /:job/progress?apikey=&lt;api key&gt;
 
 <pre>
 {
-    "status": "success",
     "data": {
         "progress": 0,
         "_id": "&lt;your job id&gt;",
@@ -222,7 +219,6 @@ GET /:job/todo?apikey=&lt;api key&gt;
 
 <pre>
 {
-    "status": "success",
     "data": [
         {
             "process": "&lt;per-identifier process id&gt;",
@@ -250,7 +246,6 @@ GET /:job/results?apikey=&lt;api key&gt;&format=&lt;json|csv&gt;
 
 <pre>
 {
-    "status": "success",
     "data": [
         {
             "_id": "&lt;your job id&gt;",
@@ -359,7 +354,6 @@ GET /jobs/:email?apikey=&lt;api key&gt;
 
 <pre>
 {
-    "status": "success",
     "data": {
         "total": 14,
         "jobs": [
@@ -392,7 +386,6 @@ GET /quota/:email?apikey=&lt;api key&gt;
 
 <pre>
 {
-    "status": "success",
     "data": {
         "email": "&lt;your email&gt;",
 

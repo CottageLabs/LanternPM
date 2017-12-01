@@ -21,7 +21,7 @@ server {
     try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
   }
   location /static {
-    try_files $uri /serve/$uri =404;
+    try_files /serve/$uri $uri =404;
     expires 30d;
   }
 }
@@ -41,7 +41,7 @@ server {
     try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
   }
   location /static {
-    try_files $uri /serve/$uri =404;
+    try_files /serve/$uri $uri =404;
     expires 30d;
   }
 }
@@ -62,7 +62,7 @@ server {
     try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
   }
   location /static {
-    try_files $uri /serve/$uri =404;
+    try_files /serve/$uri $uri =404;
     expires 30d;
   }
 }
@@ -79,7 +79,7 @@ server {
     try_files /serve/$uri.html /serve/$uri/index.html /404.html =404;
   }
   location /static {
-    try_files $uri /serve/$uri =404;
+    try_files /serve/$uri $uri =404;
     expires 30d;
   }
 }

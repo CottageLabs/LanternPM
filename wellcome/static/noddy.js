@@ -1,0 +1,1 @@
+../../lantern/static/noddy.js

@@ -1,0 +1,17 @@
+{
+  "bundle": [
+    "https://fonts.googleapis.com/css?family=Corben",
+    "https://fonts.googleapis.com/css?family=Raleway:500",
+    "https://use.fontawesome.com/5aecd91b73.js",
+    "./static/noddy.js",
+    "./static/jquery-1.10.2.min.js",
+    "./static/dropfile.js",
+    "./static/lantern.js",
+    "./static/bootstrap.min.css",
+    "./static/lantern.css",
+    "./static/theme.css"
+  ],
+  "api": "https://api.cottagelabs.com",
+  "service": "lantern",
+  "debug": false
+}

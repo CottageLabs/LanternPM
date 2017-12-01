@@ -17,10 +17,10 @@
 				<p style="text-align:right;margin-top:15px;">
 					Shining a light on open access
 				</p>
-				<p class="notcloggedin" style="display:none;text-align:right;margin-top:-5px;">
+				<p class="nottin" style="display:none;text-align:right;margin-top:-5px;">
 					<a class="showlogin" href="#">Login</a> or <a class="showlogin" href="#">sign up</a>
 				</p>
-				<a data-toggle="dropdown" href="#" role="button" class="pull-right cloggedin accnav" style="margin-top:-5px;">
+				<a data-toggle="dropdown" href="#" role="button" class="pull-right noddin accnav" style="margin-top:-5px;">
 					Account <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right">
@@ -28,29 +28,29 @@
 					<!--
 					<li><a href="/account#settings">Settings</a></li>
 					-->
-					<li><a id="cloginLogout" href="#">Logout</a></li>
+					<li><a id="noddyLogout" href="#">Logout</a></li>
 				</ul>
-				<div id="cloginArea" style="display:none;margin-top:10px;">
-					<div id="cloginEmailArea">
+				<div id="noddyArea" style="display:none;margin-top:10px;">
+					<div class="noddyLogin">
 						<div style="float:left;">
 							Login with 
-			    	        <a id="cloginOauthGoogle" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/ggl.png"> Google</a>
-				            <a id="cloginOauthFacebook" class="btn btn-default" href="#"><img style="height:20px;" src="https://static.cottagelabs.com/facebook.png"> Facebook</a>
-							 or 
+							<a id="noddyOauthGoogle" class="btn btn-default" href="#"><img style="height:20px;" src="/static/ggl.png"> Google</a>
+							<a id="noddyOauthFacebook" class="btn btn-default" href="#"><img style="height:20px;" src="/static/facebook.png"> Facebook</a>
+							or 
 						</div>
 						<div style="float:right;">
 							<div class="input-group" style="max-width:280px;">
-								<input type="text" id="cloginEmail" class="form-control" placeholder="Enter your email address">
+								<input type="text" id="noddyEmail" class="form-control" placeholder="Enter your email address">
 								<div class="input-group-btn">
-									<a id="cloginSubmit" class="btn btn-primary" href="#">Login / sign up</a>
+									<a id="noddyLogin" class="btn btn-primary" href="#">Login / sign up</a>
 								</div>
 							</div>
-				        </div>
 				    </div>
-					<div id="cloginTokenArea" style="display:none;">
-						<input type="text" class="form-control" id="cloginToken" placeholder="Check your email, enter your login code - or just click the link in the email">
+				  </div>
+					<div class="noddyToken" style="display:none;">
+						<input type="text" class="form-control" id="noddyToken" placeholder="Check your email, enter your login code - or just click the link in the email">
 					</div>
-					<div id="cloginMessages" style="margin-top:5px;"></div>
+					<div class="noddyMessage" style="margin-top:5px;"></div>
 				</div>
 			</div>
 		</div>
