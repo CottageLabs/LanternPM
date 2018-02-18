@@ -169,12 +169,11 @@ var dereference = function(bundlefile) {
         ncontent += refparts[c];
       } else {
         var quote = refparts[c].indexOf('"') === 0 ? '"' : (refparts[c].indexOf("'") === 0 ? "'" : '');
-        var refurl = refparts[c].replace(quote, '').split(quote + ')')[0].split('?')[0].split('#')[0];
+        var refurl = refparts[c].replace(quote, '').split(quote + ')')[0];
         var remainder = refparts[c].split(refurl)[1];
         var filename = refurl.split('/').pop();
         if (refurl.indexOf('http') !== 0) {
           var pieces = refurl.split('/');
-          // it came from a remote URL, need to get what it refers from there
           var sourceparts = retrieved[bundlefile] !== undefined ? retrieved[bundlefile].split('/') : bundlefile.replace('./serve/static','').replace('./static','').split('/');
           sourceparts.pop();
           var tgt = '';
@@ -187,19 +186,19 @@ var dereference = function(bundlefile) {
           if (retrieved[bundlefile] !== undefined) {
             refurl = sourceparts.join('/') + tgt;
             if (request === undefined) request = require('sync-request');
-            fs.writeFileSync('./serve/static/' + filename, request('GET', refurl).getBody());
+            fs.writeFileSync('./serve/static/' + filename.split('?')[0].split('#')[0], request('GET', refurl).getBody());
           } else {
             filename = sourceparts.join('/') + tgt;
           }
-          ncontent += 'url(' + quote + ('/static/' + filename).replace('//','/') + remainder;
+          ncontent += 'url(' + quote + ('/static/' + filename.replace('static/','')).replace('//','/') + remainder;
         } else {
-          fs.writeFileSync('./serve/static/' + refurl.split('/').pop(), request('GET', refurl).getBody());
+          fs.writeFileSync('./serve/static/' + refurl.split('/').pop().split('?')[0].split('#')[0], request('GET', refurl).getBody());
           ncontent += 'url(' + quote + '/static/' + refurl.split('/').pop() + remainder;
           //ncontent += 'url(' + quote + refurl + remainder;
         }
       }
     }
-    fs.writeFileSync(bundlefile.replace('./static','./serve/static'),ncontent);
+    fs.writeFileSync(bundlefile.replace('./static','./serve/static').split('?')[0].split('#')[0],ncontent);
     return true;
   } else {
     return false;
@@ -219,6 +218,14 @@ var render = function(err,results) {
       if (coffee === undefined) coffee = require('coffeescript');
       newcontent = coffee.compile(fs.readFileSync(results[sr]).toString());
     }
+    if (newcontent === undefined) {
+      try {
+        var oldcontent = fs.readFileSync(results[sr]).toString();
+        if (oldcontent.indexOf('{{') !== -1 && oldcontent.indexOf('}}') !== -1) newcontent = oldcontent;
+      } catch(err) {
+        console.log('Failed to read content of ' + results[sr] + ' for render');
+      }
+    }
     if (newcontent !== undefined) {
       var fl = results[sr].replace('./static', './serve/static').replace('.coffee', '.js').replace('.scss', '.css');
       var dcp = fl.replace('./serve/static/', '').split('/');
@@ -226,6 +233,15 @@ var render = function(err,results) {
       for (var i = 0; i < dcp.length - 1; i++) {
         dc += '/' + dcp[i];
         if (!fs.existsSync(dc)) fs.mkdirSync(dc);
+      }
+      if (newcontent.indexOf('{{') !== -1 && newcontent.indexOf('}}') !== -1 && fl.indexOf('.') !== -1 && ['css','html','md','markdown','js','coffee'].indexOf(fl.split('.')[1].toLowerCase()) !== -1) {
+        try {
+          var nc = handlebars.compile(newcontent);
+          newcontent = nc(vars);
+          console.log('Render did handlerbars compile for ' + fl);
+        } catch(err) {
+          console.log('Failed to compile handlebars for ' + fl)
+        }
       }
       fs.writeFileSync(fl, newcontent);
     }
@@ -278,7 +294,7 @@ if (args.bundle && typeof bundle === 'object') {
   if (js.length) {
     var uglify = require("uglify-js");
     uglyjs = uglify.minify(js);
-    jshash = crypto.createHash('md5').update(uglyjs.code).digest("hex");
+    jshash = 'bundled_' + crypto.createHash('md5').update(uglyjs.code).digest("hex");
     fs.writeFileSync('./serve/static/' + jshash + '.min.js', uglyjs.code);
   }
   if (css.length) {
@@ -286,14 +302,14 @@ if (args.bundle && typeof bundle === 'object') {
     // if not retrieved, change what it refers because it will be called from /static/bundle.css instead of where it did exist
     var uglifycss = require('uglifycss');
     uglycss = uglifycss.processFiles(css);
-    csshash = crypto.createHash('md5').update(uglycss).digest("hex");
+    csshash = 'bundled_' + crypto.createHash('md5').update(uglycss).digest("hex");
     fs.writeFileSync('./serve/static/' + csshash + '.min.css', uglycss);
   }
 }
 if (!args.dev && !args.bundle && jshash === undefined && csshash === undefined) {
   fs.readdirSync('./serve/static/').forEach(function(file, index) {
-    if (file.indexOf('.min.js') !== -1 && jshash === undefined) jshash = file.replace('.min.js', '');
-    if (file.indexOf('.min.css') !== -1 && csshash === undefined) csshash = file.replace('.min.css', '');
+    if (file.indexOf('bundled_') === 0 && file.indexOf('.min.js') !== -1 && jshash === undefined) jshash = file.replace('.min.js', '');
+    if (file.indexOf('bundled_') === 0 && file.indexOf('.min.css') !== -1 && csshash === undefined) csshash = file.replace('.min.css', '');
   });
 }
 
@@ -397,9 +413,11 @@ walk('./content', function(err, results) {
 
       var marked;
       if (fl.indexOf('.md') !== -1) {
+        console.log('Rendering markdown for file ' + fl);
         marked = require('marked');
         content = marked(content);
       } else if (content.indexOf('<markdown>') !== -1) {
+        console.log('Rendering markdown within file ' + fl);
         marked = require('marked');
         var nc = '';
         var cp = content.split('<markdown>');
@@ -446,7 +464,7 @@ walk('./content', function(err, results) {
   console.log(results);
 
   // if we know the service and the api, try updating the reloader unless that option is disabled
-  if (vars !== undefined && vars.service && vars.api) {
+  if (args.reload && vars !== undefined && vars.service && vars.api) {
     try {
       if (request === undefined) request = require('sync-request');
       request('POST', vars.api + '/reload/' + vars.service);

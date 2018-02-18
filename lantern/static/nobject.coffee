@@ -60,6 +60,7 @@
     this.populate() if opts.populate ?= true
     this.poll() if this._poll
   this.watch()
+  $(this._element).on('click','.nobject.checker',(e) -> e.preventDefault(); $(this).find('input').prop('checked',!$(this).find('input').is(':checked')).trigger('change'); )
   if this._debug
     console.log 'Nobject is configured', obj, opts
   return
@@ -73,7 +74,7 @@ nobject.prototype.update = (dotkey,val,populate) ->
   this.populate(dotkey, val) if populate isnt false
   if this._auto
     $(this._element + ' [nobject="' + dotkey + '"]').addClass('has-success')
-    setTimeout (() -> $('[nobject="' + dotkey + '"]').removeClass('has-success') ), 200
+    $(this._element + ' [nobject="' + dotkey + '"]').parent().addClass('has-success') if $(this._element + ' [nobject="' + dotkey + '"]').parent('.checker').length
     this.save()
 
 nobject.prototype.retrieve = (display,populate,poll) ->
@@ -118,7 +119,7 @@ nobject.prototype.keys = (keys) ->
     console.log('Nobject looking for keys in ' + this._element) if this._debug
     this._keys = []
     ths = this
-    $(this._element + ' .nobject').each(() -> ths._keys.push $(this).attr('nobject'))
+    $(this._element + ' .nobject').each(() -> ths._keys.push($(this).attr('nobject')) if $(this).attr('nobject')?)
     # else should build a full key list out of the entire object?
     console.log('Nobject set keys', this._keys) if this._debug
   return this._keys
@@ -129,13 +130,17 @@ nobject.prototype.populate = (keys,val) ->
   keys = [keys] if typeof keys is 'string'
   for k in keys
     val ?= dot this._object, k
-    console.log('Nobject populating loop', k, val) if this._debug
+    console.log('Nobject populating loop', k, val, typeof val) if this._debug
     # TODO has to depend on the type of value to be displayed, and into what type of element
     # and what if no vals? Does that mean it should be blank, or that it should not be changed from whatever it is???
     # what about mandatory vals?
     if val?
       if $(this._element + ' [nobject="' + k + '"]').is('select')
         $(this._element + ' [nobject="' + k + '"]').val(val)
+      else if $(this._element + ' [nobject="' + k + '"]').is(':checkbox') and val
+        $(this._element + ' [nobject="' + k + '"]').attr('checked','checked')
+      else if val and $(this._element + ' [nobject="' + k + '"][value="' + val + '"]').length and $(this._element + ' [nobject="' + k + '"][value="' + val + '"]').is(':radio')
+        $(this._element + ' [nobject="' + k + '"][value="' + val + '"]').attr('selected','selected')
       else
         $(this._element + ' [nobject="' + k + '"]').html(val).val(val)
     val = undefined # just a handy way to pass in one val to populate then throw it away after the first loop
@@ -149,7 +154,8 @@ nobject.prototype.display = (obj,keys,element) ->
     display = '<div class="nobjectMessage" style="margin-top:5px;"></div>'
     for k in this.keys()
       val = dot this._object, k
-      display += '<p><textarea class="nobject form-control" nobject="' + k + '" placeholder="' + k.replace('profile','').replace('service','').replace(/\./g,'') + '">' + val + '</textarea></p>'
+      val = '' if not val?
+      display += '<p><textarea class="nobject form-control" nobject="' + k + '" placeholder="' + k.replace('profile','').replace('service','').split('.').pop() + '">' + val + '</textarea></p>'
       # TODO need to know how to display different kinds of value - checkbox, radio. And for data types, lists, bools
       # and a way to add things like suggestion dropdowns and calendar displays on certain fields
     $(this._element).html display
@@ -211,6 +217,7 @@ nobject.prototype.save = (content,url,apikey) ->
           data: JSON.stringify content ?= (if ths._changes isnt false then chng else ths._object)
           success: (data) ->
             console.log('Nobject saved', data) if this._debug
+            $(ths._element + ' .has-success').removeClass('has-success')
             ths._saving = false
             ths.poll() if ths?._poll
             # if backend accepts, leave edit mode, confirm to user
@@ -218,6 +225,7 @@ nobject.prototype.save = (content,url,apikey) ->
             ths?.after(data) if typeof ths.after is 'function'
           error: (data) ->
             console.log('Nobject save error', data) if this._debug
+            $(ths._element + ' .has-success').removeClass('has-success').addClass('has-error')
             ths._saving = false
             ths.poll() if ths?._poll
             # inform the user of a problem saving changes to the backend, and leave edit mode

@@ -325,7 +325,7 @@ noddy.oauthLogin = function() {
   if (noddy.debug) console.log(noddy.oauth);
   var opts = {
     type:'POST',
-    url: noddy.api + '/login',
+    url: noddy.api + '/accounts/login',
     cache:false,
     processData:false,
     contentType: 'application/json',
@@ -336,12 +336,13 @@ noddy.oauthLogin = function() {
     },
     error: function(data) {
       noddy.oauth = undefined;
-      noddyn.user.login = 'error';
+      noddy.user.login = 'error';
       noddy.failureCallback(data,'oauth');
     }
   }
   var data = {
     oauth: noddy.oauth,
+    service: noddy.service,
     location: window.location.protocol + '//' + window.location.hostname
   }
   if (window.location.pathname !== '/') data.location += window.location.pathname;
@@ -357,6 +358,7 @@ noddy.afterLogin = function() {
 noddy.loginSuccess = function(data) {
   if (noddy.debug) console.log('Login successful');
   noddy.user.login = 'success';
+
   var progress = noddy.getCookie('noddyprogress');
   if (progress) {
     clearInterval(progress.interval);
@@ -379,6 +381,14 @@ noddy.loginSuccess = function(data) {
   noddy.apikey = data.apikey;
   noddy.user.account = data.account;
   if (noddy.user.email === undefined) noddy.user.email = noddy.user.account.email;
+
+  //data.cookies = ['http://localhost:3000/api/accounts/cutter?test=1234'];
+  if (data.cookies) {
+    for ( var dc in data.cookies ) {
+      $('body').append('<iframe class="noddy_cookie_cutter" style="display:none;" src="' + data.cookies[dc] + '&apikey=' + noddy.apikey + '"></iframe>');
+    }
+    setTimeout(function() { $('.noddy_cookie_cutter').remove(); },3000);
+  }
 
   var cookie = data.account;
   cookie.timestamp = data.settings.timestamp;
@@ -504,6 +514,7 @@ noddy.login = function(e) {
       email: noddy.user.email,
       token: $('#noddyToken').val(),
       hash: noddy.user.hash,
+      service: noddy.service,
       url: window.location.protocol + '//' + window.location.hostname
     }
     noddy.user.token = data.token;
