@@ -53,6 +53,19 @@ jQuery(document).ready(function() {
 
 	$('.showlogin').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().hide(); $('#noddyLogin').html($(this).html()); $('#noddyArea').toggle(); $('#noddyEmail').focus(); });
 
+  var passed = function() {
+    var id;
+    if (window.location.href.indexOf('doi=') !== -1) id = decodeURIComponent(window.location.href.split('doi=')[1].split('&')[0]);
+    if (window.location.href.indexOf('pmid=') !== -1) id = decodeURIComponent(window.location.href.split('pmid=')[1].split('&')[0]);
+    if (window.location.href.indexOf('pmc=') !== -1) id = decodeURIComponent(window.location.href.split('pmc=')[1].split('&')[0]);
+    if (window.location.href.indexOf('pmcid=') !== -1) id = decodeURIComponent(window.location.href.split('pmcid=')[1].split('&')[0]);
+    if (id) {
+      $('#lanternident').val(id);
+      try { if ('pushState' in window.history) { window.history.pushState("", "passed", window.location.href.split('?')[0]); } } catch(err) {}
+      setTimeout(find,500);
+    }
+  }
+
 	var ready = function() {
 		if ( window.location.pathname === '/' && (!window.location.hash || window.location.hash.replace('#','').length !== 17) ) {
 			$('.lanternprogress').hide();
@@ -60,6 +73,7 @@ jQuery(document).ready(function() {
 		}
 		$('#noddyArea').hide();
 		$('#blurb').hide();
+		passed();
 	}
 
   var nologin = function() {
@@ -73,6 +87,7 @@ jQuery(document).ready(function() {
 			$('.nologin').show();
 		}
 		$('#signupprompt').show();
+		passed();
 	}
 
 	noddy.init({
