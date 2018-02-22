@@ -223,6 +223,16 @@ jQuery(document).ready(function() {
 	});
 	$('#find').bind('click',find);
 
+  var id;
+  if (window.location.href.indexOf('doi=') !== -1) id = decodeURIComponent(window.location.href.split('doi=')[1].split('&')[0]);
+  if (window.location.href.indexOf('pmid=') !== -1) id = decodeURIComponent(window.location.href.split('pmid=')[1].split('&')[0]);
+  if (window.location.href.indexOf('pmc=') !== -1) id = decodeURIComponent(window.location.href.split('pmc=')[1].split('&')[0]);
+  if (window.location.href.indexOf('pmcid=') !== -1) id = decodeURIComponent(window.location.href.split('pmcid=')[1].split('&')[0]);
+  if (id) {
+    $('#lanternident').val(id);
+    find();
+  }
+
 });
 
 </script>
