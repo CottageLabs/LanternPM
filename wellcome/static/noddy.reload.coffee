@@ -1,1 +1,0 @@
-../../lantern/static/noddy.reload.coffee
