@@ -1,0 +1,228 @@
+
+<div class="container-fluid lanternsubmit" style="max-width:1000px;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1 style="text-align:center;margin-top:50px;font-size:4em;">
+				<a style="color:#555;" href="/">LANTERN</a>
+			</h1>
+			<p style="text-align:center;margin-top:-20px;margin-bottom:80px;padding-left:100px;">by <a href="https://cottagelabs.com">Cottage Labs</a></p>
+			<div class="input-group lanterninput" style="display:none;">
+				<textarea id="lanternident" class="form-control" style="min-height:40px;height:40px;font-size:1.1em;" placeholder="Enter a DOI, PubMed ID, or PubMedCentral ID"></textarea>
+				<div class="input-group-btn">
+					<button class="btn btn-primary" href="#" id="find" style="min-height:40px;height:40px;font-size:1.1em;padding:7px 10px 5px 10px;"><i class="glyphicon glyphicon-search"></i></button>
+				</div>
+			</div>
+			<form style="height:0px;width:0px;overflow:hidden;"><input type="file" id="fileupload" class="form-control"></form>
+			<p class="noddin" style="margin-top:3px;color:#999;margin-left:12px;">
+				You can enter multiple identifiers separated by a comma, or <a id="startupload" href="#">upload a list</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid lanternprogress" style="max-width:1000px;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" style="margin-top:50px;">
+			<p class="lanternloading" style="text-align:center;">
+				<img src='data:image/svg+xml;utf8,<svg width="198px" height="198px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="uil-spin"><rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect><g transform="translate(50 50)"><g transform="rotate(0) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(45) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.12s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.12s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(90) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.25s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.25s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(135) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.37s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.37s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(180) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.5s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.5s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(225) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.62s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.62s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(270) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.75s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.75s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(315) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#333333"><animate attributeName="opacity" from="1" to="0.1" begin="0.87s" dur="1s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.87s" dur="1s" repeatCount="indefinite"></animateTransform></circle></g></g></svg>'>
+			</p>
+			<p id="lanternpercent" style="text-align:center;margin-top:-122px;margin-bottom:150px;"></p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" style="max-width:1000px;">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2" id="lanternmsg">
+		</div>
+		<div class="col-md-8 col-md-offset-2" id="lanternpoll">
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" style="max-width:1000px;display:none;" id="blurb">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<p style="text-align:center;margin-top:50px;">
+				Is it open access? Lantern gives you a quick way to report on
+				institutional, funder and government policies, or fulfil your research goals.
+				<a href="/about">Read more</a> or <a href="/feedback">get help</a>.
+			</p>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid lanternsubmit" style="max-width:1000px;display:none;">
+	<div class="row noddin" style="margin-top:50px;margin-bottom:100px;">
+		<div class="col-md-8 col-md-offset-2">
+			<p>
+				Lantern gives you a quick way to report on institutional, funder and government mandates, or fulfil your research goals.
+			</p>
+			<p>
+				Read the <a href="/docs">documentation</a>, which will tell you about the <a href="/docs#format">file upload format</a>,
+				or give us <a href="/feedback">feedback</a>.
+			</p>
+			<p id="getcustom">
+				Do you want your own custom branded version of Lantern for your organisation?
+				<br><a href="/organisations">Learn more</a>.
+			</p>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid" style="max-width:1000px;display:none;" id="lanternreport">
+	<div class="row">
+		<div class="reportcolumn col-md-10 col-md-offset-1">
+			<div class="row">
+				<div class="col-md-8">
+          <div class="input-group" id="report_rename" style="display:none;margin-top:13px;margin-bottom:8px;">
+						<input type="text" class="form-control" id="report_name" value="Open access report">
+	          <div class="input-group-btn"><a class="btn btn-info" id="save_name" alt="save" title="save" href="#">save</a></div>
+  	      </div>
+					<h3 id="lantern_name_header">
+						<span id="current_report_name">Open access report</span> <small><a id="lantern_rename" href="#">(rename)</a></small>
+					</h3>
+					<p id="lanterndate"></p>
+				</div>
+				<div class="col-md-4" style="padding-top:15px;">
+					<p>
+						<a id="downloadresults" alt="Download this report" title="Download this report" href="#"><i style="vertical-align:-5%;" class="fa fa-download fa-2x"></i></a>
+						<a target="_blank" alt="Share to Facebook" title="Share to Facebook" id="facebookshare" href="https://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook-square fa-2x"></i></a>
+						<a target="_blank" alt="Share to Twitter" title="Share to Twitter" id="twittershare" href="https://twitter.com/intent/tweet?text="><i class="fa fa-twitter-square fa-2x"></i></a>
+						<a target="_blank" alt="Share via email" title="Share via email" id="mailshare" href="mailto:?body="><i class="fa fa-envelope-square fa-2x"></i></a>
+						<!--
+						<a href="#"><i class="fa fa-share-alt-square fa-2x"></i></a>
+						<a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
+						<a href="#"><i class="fa fa-google-plus-square fa-2x"></i></a>
+						-->
+					</p>
+					<!--
+					<p>
+						<a id="downloadresults" href="#">Download</a> | Re-run
+					</p>
+					-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="lanternoverview"></div>
+
+	<div id="lanternresult"></div>
+
+	<div class="row" style="margin-top:30px;">
+		<div class="col-md-10 col-md-offset-1">
+			<p style="text-align:center;">
+				<a href="#" id="doyouneedhelp">Do you need help understanding this report?</a>
+			</p>
+		</div>
+		<div class="col-md-10 col-md-offset-1" style="display:none;" id="youneedhelp">
+			<div class="well" style="min-height:150px;">
+				<p>
+					You can take a look at our <a href="/docs">documentation page</a>, and if that isn't enough,
+					please <a href="/feedback">get in contact</a> and we'll be glad to help!
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="container-fluid" style="max-width:1000px;display:none;" id="lanternresults">
+
+	<div class="row" style="margin-top:50px;">
+		<div class="col-md-6" style="text-align:center;">
+			<button href="#" class="btn btn-primary btn-block">Download the report</button>
+			<a href="" id="customise">customise your download <span class="caret"></span></a>
+		</div>
+		<div class="col-md-6" style="text-align:center;">
+			<button href="#" class="btn btn-primary btn-block">Rerun the report</button>
+			<span style="color:#888;">creates a fresh report using the same identifiers</span>
+		</div>
+	</div>
+
+</div>
+
+
+<div class="section-odd nottin" id="signupprompt" style="display:none;margin-top:200px;padding-bottom:200px;">
+	<div class="container-fluid" style="max-width:1000px;">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2" id="signup">
+				<h3 id="signupheader">
+					Sign up for more features.
+				</h3>
+				<ul>
+					<li>Bulk upload article identifiers</li>
+					<li>Download your results as a spreadsheet</li>
+					<li>Publish and share your results</li>
+					<li>Get email updates on long-running requests</li>
+					<li>Access your previous requests</li>
+					<li>...<a href="/about">find out more</a></li>
+				</ul>
+
+				<div class="input-group" style="margin-bottom: 40px">
+					<input type="text" id="startlogin" class="form-control" placeholder="Enter your email address">
+					<div class="input-group-btn">
+						<button class="btn btn-primary" href="#" id="startsignup">Sign up</button>
+					</div>
+				</div>
+
+				<p>
+					Do you want your own custom branded version of Lantern for your organisation?
+					<a href="/organisations">Learn more</a>.
+				</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+jQuery(document).ready(function() {
+
+	$('#startsignup').bind('click',function(e) { e.preventDefault(); $('.showlogin').parent().parent().hide(); $('#noddyEmail').val($('#startlogin').val()); $('#noddyArea').show(); $('#noddyLogin').html('sign up').trigger('click'); $('html, body').animate({ scrollTop: 0 }, 'fast'); });
+
+	$('#customise').bind('click',function(e) { e.preventDefault(); alert('will show the tickboxes for what fields they want to download'); });
+	$('#rename').bind('click',function(e) { e.preventDefault(); alert('will rename report for user to share nicely'); });
+
+	$('#startupload').bind('click',function(e) { e.preventDefault(); $('#header').show(); $('#fileupload').trigger('click'); });
+	$('#doyouneedhelp').bind('click',function(e) { e.preventDefault(); $('#youneedhelp').toggle(); });
+
+	var results = function(e) {
+		$('#signup').removeClass('col-md-offset-2');
+		$('#signupheader').css('margin-top','100px').prepend('Want to download this report?<br>');
+		$('#load').hide();
+		if (false) { // if a singular job
+			$('#result').show();
+		} else {
+			$('#results').show();
+		}
+	}
+
+	find = function(e) {
+		if (e) e.preventDefault();
+		$('#inappropriate').remove();
+		if ( $('#lanternident').val() && $('#lanternident').val().length > 0 && ( $('#lanternident').val().indexOf('10.') !== -1 || $('#lanternident').val().toLowerCase().indexOf('pmc') !== -1 || !isNaN(parseInt($('#lanternident').val().trim())) ) ) {
+			$('#header').show();
+			$('#blurb').hide();
+			$('html,body').scrollTop(0);
+			lantern.submit();
+		} else {
+			$('#lanternident').parent().after('<p class="alert alert-info" id="inappropriate">Sorry, that doesn\'t seem to be a DOI, PubMed ID or PMC ID. Please alter it and try again.</p>');
+		}
+	}
+	$('#lanternident').bind('keydown',function(e) {
+		if (e && e.keyCode === 13) {
+			e.preventDefault();
+			find();
+		}
+	});
+	$('#find').bind('click',find);
+
+});
+
+</script>
