@@ -155,8 +155,8 @@ API.add 'service/lantern/jobs/:email',
         results.push job
       return {total:results.length, jobs: results}
 
-API.add 'service/lantern/processes', get: () -> return count: job_process.count 'service:lantern'
-API.add 'service/lantern/processing', get: () -> return count: job_processing.count 'service:lantern'
+API.add 'service/lantern/processes', get: () -> return count: job_process.count undefined, 'service:lantern'
+API.add 'service/lantern/processing', get: () -> return count: job_processing.count undefined, 'service:lantern'
 API.add 'service/lantern/processing/reload',
   get:
     roleRequired: 'lantern.admin'

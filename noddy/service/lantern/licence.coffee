@@ -40,7 +40,7 @@ API.service.lantern.licence = (url,resolve=false,content,start,end) ->
       resolved = if typeof tr.redirect is 'string' then tr.redirect else (if tr.url then tr.url else url)
     else
       resolved = API.http.resolve url
-  content ?= API.http.phantom resolved
+  content ?= API.http.puppeteer resolved
   content = undefined if typeof content is 'number'
 
   lic = {}

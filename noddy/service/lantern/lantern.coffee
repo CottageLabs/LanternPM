@@ -3,13 +3,13 @@
 API.service.lantern.status = () ->
   return
     processes:
-      total: job_process.count('service:lantern')
-      running: job_processing.count('service:lantern')
+      total: job_process.count(undefined,'service:lantern')
+      running: job_processing.count(undefined,'service:lantern')
     jobs:
-      total: job_job.count('service:lantern')
-      done: job_job.count('service:lantern AND done:true')
-    results: job_result.count('service:lantern')
-    users: Users.count({"roles.lantern":"*"})
+      total: job_job.count(undefined,'service:lantern')
+      done: job_job.count(undefined,'service:lantern AND done:true')
+    results: job_result.count(undefined,'service:lantern')
+    users: Users.count(undefined,{"roles.lantern":"*"})
 
 API.service.lantern.job = (job) ->
   for i of job.processes
