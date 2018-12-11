@@ -110,7 +110,6 @@ API.add 'service/lantern/:job/results',
           'Content-type': 'text/csv; charset=UTF-8'
           'Content-Encoding': 'UTF-8'
         this.response.end csv
-        this.done()
       else
         return API.job.results this.urlParams.job
 
@@ -132,7 +131,6 @@ API.add 'service/lantern/:job/original',
         'Content-type': 'text/csv; charset=UTF-8'
         'Content-Encoding': 'UTF-8'
       this.response.end ret
-      this.done()
 
 API.add 'service/lantern/jobs',
   get:
