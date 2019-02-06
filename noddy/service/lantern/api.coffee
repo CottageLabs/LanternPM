@@ -12,13 +12,14 @@ API.add 'service/lantern',
         if this.userId
           j.user = this.userId
           j.email = this.user.emails[0].address
+        j.email ?= this.queryParams.email
+        j.wellcome = this.queryParams.wellcome?
+        try j.refresh = parseInt(this.queryParams.refresh) if this.queryParams.refresh?
         j._id = job_job.insert j
         j.processes = []
         j.processes.push({doi:this.queryParams.doi}) if this.queryParams.doi
         j.processes.push({pmid:this.queryParams.pmid}) if this.queryParams.pmid
         j.processes.push({pmcid:this.queryParams.pmcid}) if this.queryParams.pmcid
-        try j.refresh = parseInt(this.queryParams.refresh) if this.queryParams.refresh?
-        j.wellcome = this.queryParams.wellcome
         Meteor.setTimeout (() -> API.service.lantern.job(j)), 5
         return j
       else
@@ -53,10 +54,10 @@ API.add 'service/lantern/process',
 
 API.add 'service/lantern/:job',
   get:
-    roleRequired: 'lantern.user'
+    authOptional: true
     action: () ->
       job = job_job.get this.urlParams.job
-      return 401 if not API.job.allowed job, this.user
+      return 401 if not job.wellcome and not API.job.allowed job, this.user
       if job
         p = API.job.progress this.urlParams.job
         job.progress = p ? 0
@@ -115,16 +116,21 @@ API.add 'service/lantern/:job/results',
 
 API.add 'service/lantern/:job/original',
   get:
-    roleRequired: 'lantern.user'
+    authOptional: true
     action: () ->
       job = job_job.get this.urlParams.job
-      return 401 if not API.job.allowed job, this.user
+      return 401 if not job.wellcome and not API.job.allowed job, this.user
       fl = []
       for jb in job.processes
-        delete jb.process
-        # TODO actually now needs to read the input args, not the process
-        fl.push jb
-      ret = API.convert.json2csv undefined, undefined, fl
+        try
+          args = JSON.parse jb.args
+          delete args.refresh
+          delete args.wellcome
+          fl.push args
+        catch
+          delete jb.process
+          fl.push jb
+      ret = API.convert.json2csv fl
       name = if job.name then job.name.split('.')[0].replace(/ /g,'_') else 'original'
       this.response.writeHead 200,
         'Content-disposition': "attachment; filename="+name+"_original.csv"

@@ -129,11 +129,6 @@
     "long_name": "Deluxe Compliance",
     "description": "Does the result of the analysis live up to the requirements of Wellcome's Deluxe Compliance criteria?  These criteria are: <ul><li>IF full-text is in Europe PMC AND it is an author manuscript THEN compliance = TRUE</li><li>IF full-text is in Europe PMC AND the licence in Europe PMC is CC BY or CC0 AND the article is in the open access subset THEN compliance = TRUE</li></ul>"
   },
-  "score": {
-    "short_name": "Lantern Score",
-    "long_name": "Lantern Score (Experimental)",
-    "description": "An experimental attempt to score an article with a value between 0 and 100, 100 being the most \"open\" that an article could be."
-  },
   "provenance": {
     "short_name": "Provenance",
     "long_name": "What actions did we take on this identifier",

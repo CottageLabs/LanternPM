@@ -44,11 +44,11 @@ API.service.lantern.job = (job) ->
     text += 'it on your behalf, so this is just to keep you informed about what\'s happening with your account; '
     text += 'you don\'t need to do anything else.\n\n'
     text += 'You\'ll get another email when your job has completed.\n\n'
-    text += 'The Lantern Team\n\nP.S This is an automated email, please do not reply to it.'
+    text += 'The Lantern ' + (if job.wellcome then '(Wellcome Compliance) ' else '') + 'Team\n\nP.S This is an automated email, please do not reply to it.'
     API.mail.send
       from: 'Lantern <lantern@cottagelabs.com>'
       to:job.email
-      subject:'Lantern: job ' + (job.name ? job._id) + ' submitted successfully'
+      subject: (if job.wellcome then 'Wellcome Compliance:' else 'Lantern:') + ' job ' + (job.name ? job._id) + ' submitted successfully'
       text:text
   return job
 
@@ -67,11 +67,11 @@ API.service.lantern.complete = (job) ->
     text += '\n\nIf you didn\'t submit the original request yourself, it probably means '
     text += 'that another service was running it on your behalf, so this is just to keep you '
     text += 'informed about what\'s happening with your account; you don\'t need to do anything else.'
-    text += '\n\nThe Lantern Team\n\nP.S This is an automated email, please do not reply to it.'
+    text += '\n\nThe Lantern ' + (if job.wellcome then '(Wellcome Compliance) ' else '') + 'Team\n\nP.S This is an automated email, please do not reply to it.'
     API.mail.send
       from: 'Lantern <lantern@cottagelabs.com>'
       to:job.email
-      subject:'Lantern: job ' + (job.name ? job._id) + ' completed successfully'
+      subject: (if job.wellcome then 'Wellcome Compliance:' else 'Lantern:') + ' job ' + (job.name ? job._id) + ' completed successfully'
       text:text
 
 API.service.lantern.compliance = (result) ->
@@ -163,7 +163,7 @@ API.service.lantern.csv = (jobid,ignorefields=[]) ->
       fieldconfig.push (fieldnames.pi?.short_name ? 'pi').split(' ')[0] + ' ' + gc
     gc++
   fieldconfig.push(fieldnames.provenance?.short_name ? 'provenance') if 'provenance' not in ignorefields
-  return API.convert.json2csv {fields:fieldconfig, defaultValue:'Unknown'}, undefined, results
+  return API.convert.json2csv results, {fields:fieldconfig, defaultValue:'Unknown'}
 
 
 

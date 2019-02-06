@@ -204,11 +204,6 @@
     "long_name": "Compliance Wellcome Deluxe",
     "description": "Whether or not this article is compliant with the Wellcome Trust deluxe compliance policy. We can add compliance definitions upon request."
   },
-  "score": {
-    "short_name": "Lantern Score",
-    "long_name": "Lantern Score (Experimental)",
-    "description": "An experimental attempt to score an article with a value between 0 and 100, 100 being the most \"open\" that an article could be."
-  },
   "provenance": {
     "short_name": "Provenance",
     "long_name": "What actions did we take on this identifier",

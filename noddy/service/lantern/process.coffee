@@ -74,7 +74,7 @@ API.service.lantern.process = (proc) ->
     repositories: [] # where CORE or BASE says it is. Should be list of objects
     grants:[] # a list of grants, probably from eupmc for now
     confidence: 0 # 1 if matched on ID, 0.9 if title to 1 result, 0.7 if title to multiple results, 0 if unknown article
-    score: 0
+    #score: 0
     provenance: []
 
   # search eupmc by (in order) pmcid, pmid, doi, title
@@ -420,6 +420,6 @@ API.service.lantern.process = (proc) ->
     result.publisher_licence = 'non-standard-licence'
 
   result = API.service.lantern.compliance result
-  result.score = API.service.lantern.score result
+  #result.score = API.service.lantern.score result
 
   return result
