@@ -340,44 +340,51 @@ API.service.lantern.process = (proc) ->
 
   if result.issn
     doaj = API.use.doaj.journals.issn result.issn
-    if doaj.status isnt 'error'
+    if doaj?
       result.pure_oa = true
       result.provenance.push 'Confirmed journal is listed in DOAJ'
-      result.publisher ?= doaj.bibjson.publisher
-      result.journal_title ?= doaj.bibjson.title
+      result.publisher ?= doaj.bibjson?.publisher
+      result.journal_title ?= doaj.bibjson?.title
     else
       result.provenance.push 'Could not find journal in DOAJ'
 
     romeo = API.use.sherpa.romeo.search {issn:result.issn}
     if not romeo.status?
-      try journal = romeo.journals[0].journal[0]
-      try publisher = romeo.publishers[0].publisher[0]
       if not result.journal_title
-        if journal?.jtitle? and journal.jtitle.length > 0
-          result.journal_title = journal.jtitle[0]
+        if romeo.journal?.jtitle?
+          result.journal_title = romeo.journal.jtitle
           result.provenance.push 'Added journal title from Sherpa Romeo'
         else
           result.provenance.push 'Tried, but could not add journal title from Sherpa Romeo.'
       if not result.publisher
-        if publisher?.name? and publisher.name.length > 0
-          result.publisher = publisher.name[0]
+        if romeo.publisher?.name?
+          result.publisher = romeo.publisher.name
           result.provenance.push 'Added publisher from Sherpa Romeo'
         else
           result.provenance.push 'Tried, but could not add publisher from Sherpa Romeo.'
-      result.romeo_colour = publisher?.romeocolour[0]
+      result.romeo_colour = romeo.colour
       try
         for k in ['preprint','postprint','publisher_copy']
           main = if k.indexOf('publisher_copy') is -1 then k + 's' else 'pdfversion'
           stub = k.replace('print','').replace('publisher_copy','pdf')
-          if publisher?[main]?
-            if publisher[main][0][stub+'restrictions']?
-              for p in publisher[main][0][stub+'restrictions']
-                if p?
-                  ps = if typeof p is 'object' then (p[stub+'restriction'] ? '') else p
-                  if ps? and typeof ps is 'string' and ps.replace(/<.*?>/g,'') isnt ''
-                    if result[k+'_embargo'] is 'unknown' then result[k+'_embargo'] = '' else result[k+'_embargo'] += ','
-                    result[k+'_embargo'] += ps.replace(/<.*?>/g,'')
-            result[k+'_self_archiving'] = publisher[main][0][stub+'archiving'][0] if not _.isEmpty(publisher[main]) and typeof publisher[main][0] is 'object' and publisher[main][0][stub+'archiving'] and not _.isEmpty(publisher[main][0][stub+'archiving']) and publisher[main][0][stub+'archiving'][0] isnt ''
+          if romeo.publisher?[main]? and typeof romeo.publisher.main is 'object'
+            if romeo.publisher[main][stub+'restrictions']?
+              if result[k+'_embargo'] is 'unknown' then result[k+'_embargo'] = '' else result[k+'_embargo'] += ','
+              for p in romeo.publisher[main][stub+'restrictions']
+                result[k+'_embargo'] += p
+            result[k+'_self_archiving'] = romeo.publisher[main][stub+'archiving'] if romeo.publisher[main][stub+'archiving']
+        #for k in ['preprint','postprint','publisher_copy']
+        #  main = if k.indexOf('publisher_copy') is -1 then k + 's' else 'pdfversion'
+        #  stub = k.replace('print','').replace('publisher_copy','pdf')
+        #  if publisher?[main]?
+        #    if publisher[main][0][stub+'restrictions']?
+        #      for p in publisher[main][0][stub+'restrictions']
+        #        if p?
+        #          ps = if typeof p is 'object' then (p[stub+'restriction'] ? '') else p
+        #          if result[k+'_embargo'] is 'unknown' then result[k+'_embargo'] = '' else result[k+'_embargo'] += ','
+        #          if ps? and typeof ps is 'string' and ps.replace(/<.*?>/g,'') isnt ''
+        #            result[k+'_embargo'] += ps.replace(/<.*?>/g,'')
+        #    result[k+'_self_archiving'] = publisher[main][0][stub+'archiving'][0] if not _.isEmpty(publisher[main]) and typeof publisher[main][0] is 'object' and publisher[main][0][stub+'archiving'] and not _.isEmpty(publisher[main][0][stub+'archiving']) and publisher[main][0][stub+'archiving'][0] isnt ''
         result.provenance.push 'Added embargo and archiving data from Sherpa Romeo'
       catch err
         API.log msg: 'Error processing Sherpa Romeo embargo and archiving data', error: err
