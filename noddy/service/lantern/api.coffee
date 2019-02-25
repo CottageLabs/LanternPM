@@ -37,7 +37,7 @@ API.add 'service/lantern',
         j.email = this.request.body.email
         j.refresh = 1 if not j.refresh?
       processes = if this.request.body.list then this.request.body.list else this.request.body
-      if not this.userId and processes.length > 1
+      if not this.userId and not j.wellcome and processes.length > 1
         return 401
       else
         j._id = job_job.insert j # quick create to respond to user

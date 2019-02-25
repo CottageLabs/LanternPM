@@ -559,7 +559,7 @@
 		} catch (err) {}
 		document.title = 'Lantern open access report';
 		lantern.hash = job._id;
-		lantern.poll(job._id);
+		setTimeout(function() {lantern.poll(lantern.hash); },10000);
   }
 
   window.addEventListener('popstate',function(e) {

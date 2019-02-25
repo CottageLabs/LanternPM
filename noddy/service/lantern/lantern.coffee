@@ -89,6 +89,7 @@ API.service.lantern.score = (result) -> return 0 # TODO calculate a lantern "ope
 
 API.service.lantern.csv = (jobid,ignorefields=[]) ->
   fieldnames = {}
+  # TODO this config will only read lantern fields configs, but if this is a wellcome job, it should perhaps still be reading the old wellcome fields configs.
   try fieldnames = if typeof API.settings.service.lantern.fieldnames is 'object' then API.settings.service.lantern.fieldnames else JSON.parse(HTTP.call('GET',API.settings.service.lantern.fieldnames).content)
   fields = API.settings.service.lantern?.fields
   grantcount = 0
@@ -117,13 +118,13 @@ API.service.lantern.csv = (jobid,ignorefields=[]) ->
               if rr.name
                 result[printname] += '\r\n' if result[printname]
                 if fname is 'repositories'
-                  result[printname] += rr.name
+                  result[printname] += rr.name ? ''
                 else if fname is 'repository_urls'
-                  result[printname] += rr.url
+                  result[printname] += rr.url ? ''
                 else if fname is 'repository_fulltext_urls'
-                  result[printname] += rr.fulltexts.join()
+                  result[printname] += if rr.fulltexts? then rr.fulltexts.join() else ''
                 else if fname is 'repository_oai_ids'
-                  result[printname] += rr.oai
+                  result[printname] += rr.oai ? ''
         else if fname is 'pmcid' and res.pmcid
           res.pmcid = 'PMC' + res.pmcid if res.pmcid.toLowerCase().indexOf('pmc') isnt 0
           result[printname] = res.pmcid
@@ -137,14 +138,16 @@ API.service.lantern.csv = (jobid,ignorefields=[]) ->
           result[printname] = res[fname]
     if 'grant' not in ignorefields or 'agency' not in ignorefields or 'pi' not in ignorefields
       if res.grants?
+        rgc = 0
         for grnt in res.grants
-          grantcount += 1
+          rgc += 1
           if 'grant' not in ignorefields
-            result[(fieldnames.grant?.short_name ? 'grant').split(' ')[0] + ' ' + grantcount] = grnt.grantId
+            result[(fieldnames.grant?.short_name ? 'grant').split(' ')[0] + ' ' + rgc] = grnt.grantId ? ''
           if 'agency' not in ignorefields
-            result[(fieldnames.agency?.short_name ? 'agency').split(' ')[0] + ' ' + grantcount] = grnt.agency
+            result[(fieldnames.agency?.short_name ? 'agency').split(' ')[0] + ' ' + rgc] = grnt.agency ? ''
           if 'pi' not in ignorefields
-            result[(fieldnames.pi?.short_name ? 'pi').split(' ')[0] + ' ' + grantcount] = grnt.PI ? 'Unknown'
+            result[(fieldnames.pi?.short_name ? 'pi').split(' ')[0] + ' ' + rgc] = grnt.PI ? (if grnt.grantId or grnt.agency then 'Unknown' else '')
+        grantcount = rgc if rgc > grantcount
     if 'provenance' not in ignorefields
       tpn = fieldnames['provenance']?.short_name ? 'provenance'
       result[tpn] = ''
@@ -163,7 +166,7 @@ API.service.lantern.csv = (jobid,ignorefields=[]) ->
       fieldconfig.push (fieldnames.pi?.short_name ? 'pi').split(' ')[0] + ' ' + gc
     gc++
   fieldconfig.push(fieldnames.provenance?.short_name ? 'provenance') if 'provenance' not in ignorefields
-  return API.convert.json2csv results, {fields:fieldconfig, defaultValue:'Unknown'}
+  return API.convert.json2csv results, {fields:fieldconfig, defaultValue:''}
 
 
 
