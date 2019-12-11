@@ -365,26 +365,13 @@ API.service.lantern.process = (proc) ->
       result.romeo_colour = romeo.colour
       try
         for k in ['preprint','postprint','publisher_copy']
-          main = if k.indexOf('publisher_copy') is -1 then k + 's' else 'pdfversion'
+          main = if k is 'publisher_copy' then 'pdfversion' else k + 's'
           stub = k.replace('print','').replace('publisher_copy','pdf')
-          if romeo.publisher?[main]? and typeof romeo.publisher.main is 'object'
-            if romeo.publisher[main][stub+'restrictions']?
+          if romeo.publisher?[main]? and typeof romeo.publisher[main] is 'object'
+            if romeo.publisher[main][stub+'restrictions']? and romeo.publisher[main][stub+'restrictions'].length
               if result[k+'_embargo'] is 'unknown' then result[k+'_embargo'] = '' else result[k+'_embargo'] += ','
-              for p in romeo.publisher[main][stub+'restrictions']
-                result[k+'_embargo'] += p
+              result[k+'_embargo'] += p for p in romeo.publisher[main][stub+'restrictions']
             result[k+'_self_archiving'] = romeo.publisher[main][stub+'archiving'] if romeo.publisher[main][stub+'archiving']
-        #for k in ['preprint','postprint','publisher_copy']
-        #  main = if k.indexOf('publisher_copy') is -1 then k + 's' else 'pdfversion'
-        #  stub = k.replace('print','').replace('publisher_copy','pdf')
-        #  if publisher?[main]?
-        #    if publisher[main][0][stub+'restrictions']?
-        #      for p in publisher[main][0][stub+'restrictions']
-        #        if p?
-        #          ps = if typeof p is 'object' then (p[stub+'restriction'] ? '') else p
-        #          if result[k+'_embargo'] is 'unknown' then result[k+'_embargo'] = '' else result[k+'_embargo'] += ','
-        #          if ps? and typeof ps is 'string' and ps.replace(/<.*?>/g,'') isnt ''
-        #            result[k+'_embargo'] += ps.replace(/<.*?>/g,'')
-        #    result[k+'_self_archiving'] = publisher[main][0][stub+'archiving'][0] if not _.isEmpty(publisher[main]) and typeof publisher[main][0] is 'object' and publisher[main][0][stub+'archiving'] and not _.isEmpty(publisher[main][0][stub+'archiving']) and publisher[main][0][stub+'archiving'][0] isnt ''
         result.provenance.push 'Added embargo and archiving data from Sherpa Romeo'
       catch err
         API.log msg: 'Error processing Sherpa Romeo embargo and archiving data', error: err

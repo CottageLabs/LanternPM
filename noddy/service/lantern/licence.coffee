@@ -3,10 +3,10 @@
 import fs from 'fs'
 
 API.add 'service/lantern/licence',
-  get: () -> return if this.queryParams.url then API.academic.licence(this.queryParams.url) else data: 'Find the licence of a URL'
-  post: () -> return API.academic.licence this.request.body.url
+  get: () -> return if this.queryParams.url then API.service.lantern.licence(this.queryParams.url) else data: 'Find the licence of a URL'
+  post: () -> return API.service.lantern.licence this.request.body.url
 
-API.add 'service/lantern/licences', get: () -> return API.academic.licences()
+API.add 'service/lantern/licences', get: () -> return API.service.lantern.licences()
 
 API.service.lantern.licences = () ->
   # licences originally derived from http://licenses.opendefinition.org/licenses/groups/all.json

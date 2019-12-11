@@ -83,9 +83,7 @@
 				if (hl.length > 0) hl += ',';
 				hl += hlines[h];
 				if ( hl.split(wrap).length % 2 !== 0 ) {
-					hl = hl.replace(wrapreplace,'').replace(/(^\s*)|(\s*$)/g,''); // strip whitespace leading and ending header names
-					//hl = hl.toLowerCase().replace(/ /g,'_').replace(/[^a-z0-9_]/g,'');; // could do additional header cleaning here
-					headers.push(hl);
+					headers.push(hl.toLowerCase().replace(wrapreplace,'').replace(/[^a-z0-9_ ]/g,'').replace(/(^\s*)|(\s*$)/g,'')); // strip whitespace leading and ending header names, and messy characters
 					hl = '';
 				}
 			}
@@ -110,7 +108,7 @@
 				if (obj.doi || obj.DOI) lantern.dois += 1;
 				if (obj.pmcid || obj.PMCID) lantern.pmcids += 1;
 				if (obj.pmid || obj.PMID) lantern.pmids += 1;
-				if (obj.title || obj['Article title'] || obj['Article Title']) lantern.titles += 1;
+				if (obj.title || obj['Article title'] || obj['Article Title'] || obj['article title']) lantern.titles += 1;
 				if (lengths) lantern.identifiers.push(obj);
 			}
 			lantern.review();

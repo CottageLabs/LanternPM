@@ -34,7 +34,7 @@ API.service.lantern.test._examples = {
     "eissn": "1758-2946",
     "publication_date": "2011-01-01T00:00:00Z",
     "electronic_publication_date": "2011-10-14T00:00:00Z",
-    "publisher": "Springer Nature",
+    "publisher": "Springer Science and Business Media LLC",
     "publisher_licence": "not applicable",
     "licence": "cc-by",
     "epmc_licence": "cc-by",
