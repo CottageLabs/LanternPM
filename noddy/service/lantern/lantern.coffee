@@ -79,12 +79,12 @@ API.service.lantern.complete = (job) ->
 API.service.lantern.compliance = (result) ->
   result.compliance_wellcome_standard = false
   result.compliance_wellcome_deluxe = false
-  epmc_compliance_lic = if result.epmc_licence then result.epmc_licence.toLowerCase().replace(/ /g,'') else ''
-  epmc_lics = epmc_compliance_lic in ['cc-by','cc0','cc-zero']
+  epmc_compliance_lic = if result.epmc_licence then result.epmc_licence.toLowerCase().replace(/ /g,'').replace(/-/g,'') else ''
+  epmc_lics = epmc_compliance_lic in ['ccby','cc0','cczero']
   result.compliance_wellcome_standard = true if result.in_epmc and (result.aam or epmc_lics)
   result.compliance_wellcome_deluxe = true if result.in_epmc and result.aam
   result.compliance_wellcome_deluxe = true if result.in_epmc and epmc_lics and result.open_access
-  # add any new compliance standards calculations here - can call them out to separat function if desired, though they have no other use yet
+  # add any new compliance standards calculations here - can call them out to separate function if desired, though they have no other use yet
   return result
 
 API.service.lantern.score = (result) -> return 0 # TODO calculate a lantern "open" score for this article

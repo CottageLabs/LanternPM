@@ -7,7 +7,7 @@ API.add 'service/lantern',
   get:
     authOptional: true
     action: () ->
-      if this.queryParams.doi or this.queryParams.pmid or this.queryParams.pmc
+      if this.queryParams.doi or this.queryParams.pmid or this.queryParams.pmc or this.queryParams.pmcid
         j = {new:true,service:'lantern'}
         if this.userId
           j.user = this.userId
@@ -19,7 +19,7 @@ API.add 'service/lantern',
         j.processes = []
         j.processes.push({doi:this.queryParams.doi}) if this.queryParams.doi
         j.processes.push({pmid:this.queryParams.pmid}) if this.queryParams.pmid
-        j.processes.push({pmcid:this.queryParams.pmcid}) if this.queryParams.pmcid
+        j.processes.push({pmcid:this.queryParams.pmcid ? this.queryParams.pmc}) if this.queryParams.pmcid or this.queryParams.pmc
         Meteor.setTimeout (() -> API.service.lantern.job(j)), 5
         return j
       else

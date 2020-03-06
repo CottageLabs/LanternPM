@@ -120,10 +120,12 @@ API.service.lantern.process = (proc) ->
       result.provenance.push 'Added article title from EUPMC'
     if eupmc.inEPMC is 'Y'
       result.in_epmc = true
-      result.provenance.push 'Confirmed is in EUPMC'
+      result.provenance.push 'Confirmed fulltext is in EUPMC'
     if eupmc.isOpenAccess is 'Y'
       result.open_access = true
       result.provenance.push 'Confirmed is open access from EUPMC'
+    else
+      result.provenance.push 'This article is not open access according to EUPMC, but since 6th March 2020 we take this to mean only that the publisher did not indicate to EUPMC that it can be included in their Open Access subset - it may well still be an OA article.'
     if eupmc.journalInfo?.journal
       if eupmc.journalInfo.journal.title
         result.journal_title = eupmc.journalInfo.journal.title
@@ -156,14 +158,18 @@ API.service.lantern.process = (proc) ->
         result_invalid_date_of_electronic_publication = eupmc.electronicPublicationDate
         result.provenance.push 'Could not add invalid electronic publication date from EUPMC (' + result_invalid_date_of_electronic_publication + ')'
 
-    xml = API.use.europepmc.xml(result.pmcid) if result.pmcid and result.open_access and result.in_epmc
-    if xml is 404
-      result.provenance.push 'Not found in EUPMC when trying to fetch full text XML.'
-    else if typeof xml is 'string' and xml.indexOf('<') is 0
-      result.epmc_xml = true
-      result.provenance.push 'Confirmed fulltext XML is available from EUPMC'
-    else if xml?
-      result.provenance.push 'Encountered an error while retrieving the EUPMC full text XML. One possible reason is EUPMC being temporarily unavailable.'
+    if result.pmcid # removed need for being open_access or in_epmc (as according to epmc)
+      result.provenance.push 'Checking if XML is available from EUPMC (since 6th March 2020 this is always done for any article we have a PMCID for, regardless of other EUPMC API values).'
+      xml = API.use.europepmc.xml result.pmcid
+      if xml is 404
+        fofxml = 'Not found in EUPMC when trying to fetch full text XML.'
+        fofxml += ' (We do this for any item we have a PMCID for since 6th March 2020, even if EUPMC indicates not in their open access category and/or fulltext not in EUPMC.'
+        result.provenance.push fofxml
+      else if typeof xml is 'string' and xml.indexOf('<') is 0
+        result.epmc_xml = true
+        result.provenance.push 'Confirmed fulltext XML is available from EUPMC'
+      else if xml?
+        result.provenance.push 'Encountered an error while retrieving the EUPMC full text XML. One possible reason is EUPMC being temporarily unavailable.'
 
     lic = API.use.europepmc.licence result.pmcid, eupmc, xml, (not proc.wellcome and API.settings.service.lantern.epmc_ui_only_wellcome)
     if lic isnt false
@@ -176,6 +182,8 @@ API.service.lantern.process = (proc) ->
         extrainfo += ' If licence statements contain URLs we will try to find those in addition to '
         extrainfo += 'searching for the statement\'s text. The match in this case was: \'' + lic.match.replace(/<.*?>/gi,'') + '\' .'
       result.provenance.push 'Added EPMC licence (' + result.epmc_licence + ') from ' + lic.source + '.' + extrainfo
+    else
+      result.provenance.push 'Could not find licence via EUPMC'
 
     if eupmc.authorList?.author
       result.authors = eupmc.authorList.author
@@ -339,13 +347,15 @@ API.service.lantern.process = (proc) ->
     result.provenance.push msg
 
   if result.issn
-    doaj = API.use.doaj.journals.issn result.issn
-    if doaj?
-      result.pure_oa = true
-      result.provenance.push 'Confirmed journal is listed in DOAJ'
-      result.publisher ?= doaj.bibjson?.publisher
-      result.journal_title ?= doaj.bibjson?.title
-    else
+    for diss in result.issn.split ','
+      doaj = API.use.doaj.journals.issn diss
+      if doaj?
+        result.pure_oa = true
+        result.provenance.push 'Confirmed journal is listed in DOAJ'
+        result.publisher ?= doaj.bibjson?.publisher
+        result.journal_title ?= doaj.bibjson?.title
+        break
+    if result.pure_oa isnt true
       result.provenance.push 'Could not find journal in DOAJ'
 
     romeo = API.use.sherpa.romeo.search {issn:result.issn}
